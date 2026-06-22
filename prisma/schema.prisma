@@ -1,0 +1,185 @@
+// Soapfactory database schema — SQLite (dev) / Postgres (prod-ready)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  wooId     Int?       @unique          // original WooCommerce id (for parent mapping)
+  name      String
+  slug      String     @unique
+  parentId  String?
+  parent    Category?  @relation("Subcategories", fields: [parentId], references: [id])
+  children  Category[] @relation("Subcategories")
+  products  Product[]  @relation("ProductCategories")
+  createdAt DateTime   @default(now())
+}
+
+model Product {
+  id               String      @id @default(cuid())
+  sku              String?     @unique
+  name             String
+  slug             String      @unique
+  price            Float
+  currency         String      @default("EUR")
+  onSale           Boolean     @default(false)
+  inStock          Boolean     @default(true)
+  stockQty         Int?        // null = untracked (use inStock flag); a number = tracked stock that auto-decrements
+  shortDescription String?
+  description       String?
+  weight           String?
+  images           String      @default("[]") // JSON-encoded array of image URLs
+  featured         Boolean     @default(false)
+  categories       Category[]  @relation("ProductCategories")
+  orderItems       OrderItem[]
+  reviews          Review[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  authorName String
+  rating     Int      // 1–5
+  comment    String?
+  approved   Boolean  @default(false) // admin moderates before it shows publicly
+  createdAt  DateTime @default(now())
+}
+
+model User {
+  id           String    @id @default(cuid())
+  wpId         Int?      @unique          // original WordPress user id
+  email        String    @unique
+  name         String?
+  passwordHash String                     // WordPress hash ($P$/$wp$) or our bcrypt
+  hashType     String    @default("bcrypt") // "phpass" | "wp" | "bcrypt"
+  role         String    @default("user")   // "user" | "admin"
+  phone        String?
+  address      String?
+  city         String?
+  postcode     String?
+  country      String?
+  createdAt    DateTime  @default(now())
+  orders       Order[]
+  sessions     Session[]
+}
+
+// Auth.js-compatible session store
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires      DateTime
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id])
+  status          String      @default("new") // new|processing|shipped|delivered|cancelled
+  customerName    String
+  email           String
+  phone           String
+  city            String
+  postcode        String?
+  address         String
+  notes           String?
+  subtotal        Float
+  shipping        Float       @default(0)
+  total           Float
+  paymentMethod   String      @default("cod")     // cod | stripe
+  paymentStatus   String      @default("pending") // pending | paid | failed
+  stripeSessionId String?
+  // ── Shipping / courier ──────────────────────────────────────────────
+  courier         String?     // "econt" | "speedy"
+  deliveryType    String?     // "office" | "address"
+  officeCode      String?     // courier office id (when delivering to an office)
+  officeName      String?     // human-readable office label, e.g. "Econt София Витоша"
+  trackingNumber  String?     // courier shipment number once a label is created
+  labelUrl        String?     // URL/Reference of the generated shipping label (PDF)
+  confirmationSentAt DateTime? // when the confirmation email was sent (prevents duplicates)
+  discountCode    String?     // promo code applied (if any)
+  discountAmount  Float       @default(0) // discount value in EUR applied to this order
+  source          String?     // attribution: where the customer came from (e.g. "Facebook (реклама)")
+  utmCampaign     String?     // ad campaign name, if tagged
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  name      String
+  price     Float
+  quantity  Int
+}
+
+// Promo / discount codes
+model Discount {
+  id          String    @id @default(cuid())
+  code        String    @unique          // stored uppercase, e.g. WELCOME10
+  type        String    @default("percent") // "percent" | "fixed"
+  value       Float                       // 10 = 10% (percent) or 10 € (fixed)
+  active      Boolean   @default(true)
+  minSubtotal Float?                      // minimum order subtotal to qualify
+  maxUses     Int?                        // total allowed uses (null = unlimited)
+  usedCount   Int       @default(0)
+  expiresAt   DateTime?                   // optional expiry
+  createdAt   DateTime  @default(now())
+}
+
+// Blog posts ("Полезно")
+model Post {
+  id          String   @id @default(cuid())
+  wpId        Int?     @unique          // original WordPress post id (for migration)
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String                    // HTML body
+  coverImage  String?
+  published   Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Password reset tokens (1-hour TTL, single-use)
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+}
+
+// Newsletter subscribers
+model NewsletterSubscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  subscribedAt DateTime @default(now())
+}
+
+// Lightweight first-party analytics (no 3rd-party tracker)
+model PageView {
+  id          String   @id @default(cuid())
+  path        String
+  referrer    String?
+  sessionId   String?  // anonymous visitor id (cookie)
+  utmSource   String?  // e.g. facebook, instagram, tiktok, google
+  utmMedium   String?  // e.g. cpc, paid, social, email
+  utmCampaign String?  // e.g. spring_sale
+  createdAt   DateTime @default(now())
+}

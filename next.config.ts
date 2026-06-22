@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  turbopack: {
+    root: "C:\\Users\\krist\\Desktop\\soapfactory-web",
+  },
 };
 
 export default nextConfig;

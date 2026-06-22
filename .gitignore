@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sensitive / local data
+/data/users.csv
+/data/*.csv
+/prisma/dev.db
+/prisma/*.db
+.env
+.env*.local
+
+# Database backups (contain customer data — keep private)
+/backups/
+
+# Uploaded images (runtime content)
+/public/uploads/

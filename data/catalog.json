@@ -1,0 +1,1276 @@
+[
+ {
+  "sku": "100",
+  "name": "Слънчев сапун",
+  "slug": "%d1%81%d0%bb%d1%8a%d0%bd%d1%87%d0%b5%d0%b2-%d1%81%d0%b0%d0%bf%d1%83%d0%bd",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "С аромат на невен и лимонова трева! Тоалетен сапун с интензивно овлажняващо и тонизиращо действие, благодарение на изключителните свойства на невена и куркумата. Подходящ при акне, кожни раздразнения ",
+  "description": "СЪСТАВКИ : Кокосово масло*, карите*, вода**, натриева основа**(осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, етерично масло от лимонова трева**, невен**, куркума*. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Cymbopogon Schoenanthus Oil**, Calendula Officinalis Flower**, Curcuma Longa Root Powder*, Citral, Geraniol, Limonene, Linalool. * Биосертифицирани съставки ** Натурални съставки Нето : 110 гр. +/- 5%",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/slanchev-naturalen-sapun-lice-i-tqlo-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/slanchev-naturalen-sapun-lice-i-tqlo-1.jpg"
+  ]
+ },
+ {
+  "sku": "101",
+  "name": "Билков сапун",
+  "slug": "%d0%b1%d0%b8%d0%bb%d0%ba%d0%be%d0%b2-%d1%81%d0%b0%d0%bf%d1%83%d0%bd",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Фин и ароматен тоалетен сапун, който ще възстанови уморената и раздразнена кожа. Лечебните и ароматни билки омекотяват и въздействат благотворно, а специалната комбинация на съставните масла гарантира",
+  "description": "[vc_row equal_height= yes content_placement= top woodmart_css_id= 664c804dd5a0b responsive_spacing= eyJwYXJhbV90eXBlIjoid29vZG1hcnRfcmVzcG9uc2l2ZV9zcGFjaW5nIiwic2VsZWN0b3JfaWQiOiI2NjRjODA0ZGQ1YTBiIiwic2hvcnRjb2RlIjoidmNfcm93IiwiZGF0YSI6eyJ0YWJsZXQiOnt9LCJtb2JpbGUiOnt9fX0= mobile_bg_img_hidden= no tablet_bg_img_hidden= no woodmart_parallax= 0 woodmart_gradient_switch= no woodmart_box_shadow= no wd_z_index= no woodmart_disable_overflow= 0 row_reverse_mobile= 0 row_reverse_tablet= 0 ][vc_column][vc_separator color= custom border_width= 2 accent_color= #8f2d56 wd_hide_on_desktop= no wd_hide_on_tab",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bilkov-sapun-naturalen-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bilkov-sapun-naturalen-1.jpg"
+  ]
+ },
+ {
+  "sku": "102",
+  "name": "Сапун Лавандула",
+  "slug": "%d1%81%d0%b0%d0%bf%d1%83%d0%bd-%d0%bb%d0%b0%d0%b2%d0%b0%d0%bd%d0%b4%d1%83%d0%bb%d0%b0-%d0%b8-%d0%bc%d0%b0%d0%ba",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Интензивно овлажняващ и подхранващ тоалетен сапун с естественото антибактериално действие на лавандулата. Добавените макови семена и лавандулови цветчета са натурален нежен ексфолиант. Обогатен с баде",
+  "description": "СЪСТАВКИ Кокосово масло*, карите*, вода**, натриева основа**(осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, етер. масла от лавандула*, овесени ядки* INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Lavandula Angustifolia Oil*, Avena Sativa Kernel (Oat) Flour*, Linalool. * Биосертифицирани съставки ** Натурални съставки Нето: 110 гр. +/- 5%",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-lavandula-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-lavandula-1.jpg"
+  ]
+ },
+ {
+  "sku": "103",
+  "name": "Сапун Сандалово дърво",
+  "slug": "%d0%b7%d0%be%d1%80%d0%b0-%d1%81%d0%b0%d0%bd%d0%b4%d0%b0%d0%bb%d0%be%d0%b2%d0%be-%d0%b4%d1%8a%d1%80%d0%b2%d0%be",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Дълбоко хидратиращ и подхранващ тоалетен сапун с топъл, кадифен и чувствен аромат. Обогатен с етерично масло от индийско сандалово дърво, известно със своите успокояващи и антисептични свойства. Подхо",
+  "description": "Маслото от индийско сандаловото дърво е добре познато още от дълбока древност. Благодарение на своето успокояващо и тонизиращо действие, които бързо премахват умората и напрежението, то и до днес се използва при медитация и процедури за релаксация. Има мощно антисептично и спазмолитично действие, хидратира кожата, подпомага паметта и спомага за проясняване на ума. Някога са сравнявали ползите му за здравето с магични сили. Етеричното масло от сандалово дърво се извлича чрез парна дестилация на дървесина на Сандалови дървета, които растат в южните части на Индия и са на възраст между 40 и 80 го",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-sandalovo-darvo-lice-i-tqlo-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-sandalovo-darvo-lice-i-tqlo-1.jpg"
+  ]
+ },
+ {
+  "sku": "104",
+  "name": "Сапун Портокал и Kанела",
+  "slug": "%d1%81%d0%b0%d0%bf%d1%83%d0%bd-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb-%d0%b8-%d0%ba%d0%b0%d0%bd%d0%b5%d0%bb%d0%b0",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Тоалетен сапун портокал и канела с интензивно овлажняващо, подхранващо и тонизиращо действие. Добавената канела е мек естествен ексфолиант, който деликатно почиства и омекотява. Канелата е с лек загря",
+  "description": "СЪСТАВКИ : Кокосово масло*, карите*, вода**, натриева основа**(осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, етерични масла от портокал** и канела**, куркума*, канела*. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Cinnamomum Zeylanicum Bark Oil**, Citrus Aurantium Dulcis (Orange) Peel Oil**, Cinnamomum Zeylanicum Bark Powder*, Curcuma Longa Root Powder*, Eugenol, Cinnamal, Linalool, Limonene. * Биосертифицирани съставки **",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-portokal-kanela-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-portokal-kanela-1.jpg"
+  ]
+ },
+ {
+  "sku": "105",
+  "name": "Сапун Иланг-Иланг",
+  "slug": "%d0%b1%d1%80%d0%b8%d0%b7-%d0%b8%d0%bb%d0%b0%d0%bd%d0%b3-%d0%b8%d0%bb%d0%b0%d0%bd%d0%b3",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Копринено нежен и деликатно хидратиращ сапун с балансиращия ефект на иланг-иланг, карите и бадемово масло. Този сапун е със сладък и чувствен аромат. Нарекохме го „Бриз“, защото казват, че когато в Ин",
+  "description": "СЪСТАВКИ: кокосово масло*, карите*, вода**, натриева основа** (осапунващ агент не присъства в карйния продукт), слънчогледово масло*, рициново масло*, зехтин*, френска розова глина**, етерично масло от иланг-иланг**. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Cananga Odorata Flower Oil**, Montmorillonite**, Illite**, Iso Eugenol, Linalool * Биосертифицирани съставки ** Натурални съставки Нето: 110 гр. +/- 5%",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-ilang-ilang-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-ilang-ilang-1.jpg"
+  ]
+ },
+ {
+  "sku": "106",
+  "name": "Сапун Бебчо",
+  "slug": "%d1%81%d0%b0%d0%bf%d1%83%d0%bd-%d0%b1%d0%b5%d0%b1%d1%87%d0%be",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Тоалетен сапун с невен и масло от карите – чиста и здравословна грижа вашето дете от първия му ден. Омекотява, подхранва и хидратира. Обогатен с масло от маслина за овлажнена и здрава кожата. Невенът ",
+  "description": "СЪСТАВКИ: Кокосово масло*, карите*, вода**, натриева основа**(осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, невен**. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Calendula Officinalis Flower** * Биосертифицирани съставки ** Натурални съставки Нето: 110 гр. +/- 5%",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-bebcho-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-bebcho-1.jpg"
+  ]
+ },
+ {
+  "sku": "107",
+  "name": "Сапун Цветен",
+  "slug": "%d1%86%d0%b2%d0%b5%d1%82%d0%b5%d0%bd-%d1%81%d0%b0%d0%bf%d1%83%d0%bd-%d0%bf%d0%b0%d1%87%d1%83%d0%bb%d0%b8-%d0%b8%d0%bb%d0%b0%d0%bd%d0%b3-%d0%b8%d0%bb%d0%b0%d0%bd%d0%b3",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Интензивно овлажняващ и подхранващ тоалетен сапун с нежно балансиращо действие. Обогатен със зехтин и карите за мека и здрава кожа. Сапунът е със съблазнителен и чувствен цветен аромат, благодарение н",
+  "description": "СЪСТАВКИ: Кокосово масло*, карите*, вода**, натриева основа**(осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, етер. масла от иланг-иланг**, пачули** и лимонова трева**, невен**, коприва*. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Pogostemon Cablin Leaf Oil**, Cananga Odorata Flower Oil**, Cymbopogon Schoenanthus Oil**, Urtica Dioica Leaf Powder*, Calendula Officinalis Flower**, Iso Eugenol, Linalool, Citral, Geraniol, Lim",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-cveten-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-cveten-1.jpg"
+  ]
+ },
+ {
+  "sku": "108",
+  "name": "Сапун Морков",
+  "slug": "%d0%b4%d0%b6%d0%b8%d0%bd%d0%b4%d0%b6%d0%b8%d1%84%d0%b8%d0%bb-%d0%b8-%d0%bc%d0%be%d1%80%d0%ba%d0%be%d0%b2%d0%b8",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Сапун за лице и тяло с моркови и карамфил. Овлажнява и подхранва кожата. Обогатен със зехтин и масло от карите. Подходящ за всеки тип кожа. Продуктът е COSMOS NATURAL сертифициран от Ecocert Greenlife",
+  "description": "СЪСТАВКИ : Кокосово масло*, карите*, сок от моркови**, вода**, натриева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, етерично масло от карамфил**. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Daucus Carota Sativa Root Juice*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Eugenia Caryophyllata Flower Oil**. * Биосертифицирани съставки ** Натурални съставки Нето: 110 гр. +/- 5%",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-morkov-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-sapun-morkov-1.jpg"
+  ]
+ },
+ {
+  "sku": "110",
+  "name": "Сапун Детокс",
+  "slug": "sapun-detoks-s-aktiven-vaglen",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био сапуни",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Натурален сапун за лице и тяло с активен въглен от бамбук. Създаден специално за нежно почистване в дълбочина на мазната и склонна към акне кожа. Съдържа ефективен комплекс от етерични масла с успокоя",
+  "description": "СЪСТАВКИ: Кокосово масло*, карите*, вода**, натриева основа**(осапунващ агент не присъства в крайния продукт), слънчогледово масло*, рициново масло*, зехтин*, активен въглен**, етер. масла от розмарин*, бор** и евкалипт**. INCI: Cocos Nucifera Oil*, Butyrospermum Parkii Butter*, Aqua**, Sodium Hydroxide**, Helianthus Annuus Seed Oil*, Ricinus Communis Seed Oil*, Olea Europaea Fruit Oil*, Charcoal Powder**, Pinus Sylvestris Leaf Oil**, Eucalyptus Globulus Leaf Oil**, Rosmarinus Officinalis Leaf Oil*, Limonene. * Биосертифицирани съставки ** Натурални съставки Нето: 110 гр. +/- 5%",
+  "weight": "0.15",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-sapun-detox-s-aktiven-vaglen-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-sapun-detox-s-aktiven-vaglen-1.jpg"
+  ]
+ },
+ {
+  "sku": "131",
+  "name": "BIO Sunny Shampoo for more volume",
+  "slug": "bio-sunny-shampoo",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Hair care",
+   "Shampoos"
+  ],
+  "shortDescription": "Gentle and aromatic universal care for all hair types. After use, the hair is voluminous, vibrant and shiny. Perfect for everyday use, it leaves hair vibrant, full of body, and beautifully shiny. Perf",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ]INGREDIENTS/INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Citrus Aurantium Bergamia Fruit Oil**, Citrus Aurantium Dulcis Peel Oil**, Cymbopogon Schoenanthus Oil**, Citral, Limonene, Linalool. * Organic certified ingredients ** Natural ingredients[/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/био-шампоан-косопад.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/slanchev-bio-shampoan-za-kosa-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/slanchev-bio-shampoan-za-kosa-1.jpg"
+  ]
+ },
+ {
+  "sku": "132",
+  "name": "BIO Herbal Shampoo for a healthy scalp",
+  "slug": "bio-herbal-shampoo-for-a-healthy-scalp",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Hair care",
+   "Shampoos"
+  ],
+  "shortDescription": "A nourishing blend of lavender, rosemary, tea tree, and geranium essential oils, this shampoo revitalizes hair and balances the scalp. The combined effects of castor oil and olive oil work together to",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] INGREDIENTS/INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Pelargonium Graveolens Oil**, Rosmarinus Officinalis Leaf Oil*, Melaleuca Alternifolia Leaf Oil**, Citronellol, Linalool, Geraniol. * Organic certified ingredients ** Natural ingredients[/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Био-шампоан-билков-шампоан-косопад.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-bilkov-shampoan-za-kosa-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-bilkov-shampoan-za-kosa-1.jpg"
+  ]
+ },
+ {
+  "sku": "134",
+  "name": "БИО Цветен шампоан за блясък и мекота",
+  "slug": "%d1%86%d0%b2%d0%b5%d1%82%d0%b5%d0%bd-%d1%88%d0%b0%d0%bc%d0%bf%d0%be%d0%b0%d0%bd",
+  "price": 12.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": false,
+  "categories": [
+   "Грижа за косата",
+   "Шампоани"
+  ],
+  "shortDescription": "Нарекохме го ЦВЕТЕН заради благотворното въздействие на цветята – билки. Съдържа масла от розмарин, гераниум и лавандула. Добавихме и нотка от пачули за балансиран и разкошен аромат. Този мек и делика",
+  "description": "СЪСТАВКИ: Вода**, кокосово масло*, рициново масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, зехтин*, глицерин**, натриев цитрат**, етер. масла от лавандула*, гераниум**, розмарин* и пачули**. INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Pelargonium Graveolens Oil**, Rosmarinus Officinalis Leaf Oil*, Pogostemon Cablin Oil**, Citronellol, Linalool, Geraniol. * Биосертифицирани съставки ** Натурал",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/био-шампоан-суха-коса.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoan-cveten-za-boqdisana-kosa-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoan-cveten-za-boqdisana-kosa-1.jpg"
+  ]
+ },
+ {
+  "sku": "137",
+  "name": "Happyhair шампоан за нормална, изтощена и/или цъфтяща коса",
+  "slug": "happyhair-shampoan-za-normalna-iztoshtena-i-ili-tsaftyashta-kosa",
+  "price": 7.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "ЧЕРЕН ПЕТЪК",
+   "Шампоани"
+  ],
+  "shortDescription": "Интензивно овлажняващ и възстановяващ шампоан за обемна, гладка и подхранена коса. Насладете се на жизнена, мека и красива коса, без цъфтящи и заплетени крайчета. Формулиран със специален коктейл от а",
+  "description": "Ingredients/INCI: Ingredients/INCI: Aqua, Coco-Glucoside, Sodium Coco-Sulfate, Aloe Barbadensis Leaf Juice, Lauroyl /Myristoyl Methyl Glucamide, Sodium Benzoate, Potassium Sorbate, Sunfloweroyl Methylglucamide, Citric Acid, Undaria Pinnatifida Extract, Coco-Betaine, Aroma, Guar Hydroxypropyltrimonium Chloride, Hydrolyzed Keratin.",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Happy-Hair-Шампоан-с-кератин-и-водорасли.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/revitalizirasht-bio-shampoan-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/revitalizirasht-bio-shampoan-1.jpg"
+  ]
+ },
+ {
+  "sku": "138",
+  "name": "Happyhair шампоан при мазна коса и скалп",
+  "slug": "happyhair-shampoan-pri-mazna-kosa-i-skalp",
+  "price": 7.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "ЧЕРЕН ПЕТЪК",
+   "Шампоани"
+  ],
+  "shortDescription": "Открийте перфектния контрол на бързото омазняване на косата и скалпа! Тази експертна формула хидратира и подхранва, осигурява продължителен обем и блясък, без заплетени и накъсани крайчета. Насладете ",
+  "description": "Ingredients/INCI: Aqua, Coco-Glucoside, Sodium Coco-Sulfate, Undaria Pinnatifida Extract, Sodium Benzoate, Potassium Sorbate, Sunfloweroyl Methylglucamide, Lauroyl /Myristoyl Methyl Glucamide, Citric Acid, Coco-Betaine, Aroma, Glycerin, Vitis Vinifera Fruit Extract, Zingiber Officinale Root Extract, Boswellia Serrata Resin Extract, Zinc PCA, Guar Hydroxypropyltrimonium Chloride.",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Шампоан-за-мазна-коса.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/hidratirasht-shampoan-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/hidratirasht-shampoan-1.jpg"
+  ]
+ },
+ {
+  "sku": "139",
+  "name": "Happyhair шампоан за суха, боядисана и увредена коса",
+  "slug": "happyhair-shampoan-za-suha-boyadisana-i-uvredena-kosa",
+  "price": 7.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "ЧЕРЕН ПЕТЪК",
+   "Шампоани"
+  ],
+  "shortDescription": "Незабавна хидратация и осезаемо по-мека, гладка и подхранена коса! Шампоанът запечатва влагата в косъма, осигурява блясък, мекота и еластичност. Обогатен с мощен комплекс за поддържане на цвета. Улесн",
+  "description": "Ingredients/INCI: Aqua, Coco-Glucoside, Sodium Coco-Sulfate, Aloe Barbadensis Leaf Juice, Sunfloweroyl Methylglucamide, Lauroyl /Myristoyl Methyl Glucamide, Sodium Benzoate, Potassium Sorbate, Citric Acid, Coco-Betaine, Tartaric Acid, Pyrus Malus (Apple) Fruit Extract, Citrus Limon Fruit Extract, Vitis Vinifera (Grape) Skin Extract, Triticum Vulgare (Wheat) Bran Extract, Aroma, Guar Hydroxypropyltrimonium Chloride, Hydrolyzed Keratin",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2025/01/шампоан-за-много-суха-коса.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/regenerirasht-shampoan-za-kosa-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/regenerirasht-shampoan-za-kosa-1.jpg"
+  ]
+ },
+ {
+  "sku": "140",
+  "name": "Happyhair стимулиращ шампоан при косопад",
+  "slug": "happyhair-stimulirasht-shampoan-pri-kosopad",
+  "price": 7.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "ЧЕРЕН ПЕТЪК",
+   "Шампоани"
+  ],
+  "shortDescription": "Заредете косата с кофеин, грахови пептиди и микронутриенти! Овладейте косопада с мощната комбинация от активни съставки, които стимулират космените фоликули и насърчават естествения растеж на косата. ",
+  "description": "Ingredients/INCI: Aqua, Coco-glucoside, Sodium coco-sulfate, Undaria Pinnatifida Extract, Sunfloweroyl methylglucamide, Lauroyl /Myristoyl Methyl Glucamide, Sodium Benzoate, Potassium Sorbate, Citric Acid, Coco-Betaine, Pisum Sativum (Pea) Peptide, Urtica Dioica Leaf Extract, Glycyrrhiza Glabra Root Extract, Quercus Robur Bark Extract, Saccharomyces Ferment Lysate Filtrate, Aroma, Caffeine, Guar hydroxypropyltrimonium chloride, Hydrolyzed Keratin. Какво да очаквате от Happyhair стимулиращ шампоан при косопад? Намаляване на косопада. Забележимо по-бърз растеж на косата. По-гъста и здрава коса. ",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/шампоан-против-косопад-кофеин-кератин.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/shampoan-pri-kosopad-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/shampoan-pri-kosopad-2.jpg"
+  ]
+ },
+ {
+  "sku": "141",
+  "name": "​ORGANIC Herbal Shower Gel",
+  "slug": "organic-herbal-shower-gel",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Bio shower gels",
+   "Body care"
+  ],
+  "shortDescription": "The Herbal Shower Gel contains a blend of the purest healing herbs, enriched with essential oils of Lavender, Rosemary, Tea Tree, and Geranium. This soothing formula hydrates and refreshes the skin, l",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] INGREDIENTS/INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Pelargonium Graveolens Oil**, Rosmarinus Officinalis Leaf Oil*, Melaleuca Alternifolia Leaf Oil**, Citronellol, Linalool, Geraniol. * Certified organic ingredients ** Natural ingredients[/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.33",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bilkov-dush-gel-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bilkov-dush-gel-1.jpg"
+  ]
+ },
+ {
+  "sku": "142",
+  "name": "БИО Душ гел Зора сандалово дърво",
+  "slug": "%d0%b7%d0%be%d1%80%d0%b0-%d1%81%d0%b0%d0%bd%d0%b4%d0%b0%d0%bb%d0%be%d0%b2%d0%be-%d0%b4%d1%8a%d1%80%d0%b2%d0%be-2",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": false,
+  "categories": [
+   "Био душ гелове",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Ароматен и подхранващ душ-гел с меко измивно действие. Добавихме етерично масло от индийско сандалово дърво за чувствено и свежо начало на деня! Обогатен с рициново масло за мека и нежна кожа. Подходя",
+  "description": "СЪСТАВКИ: Вода, кокосово масло*, рициново масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, зехтин*, глицерин**, натриев цитрат**, етер. масла от лавандула*, индийско сандалово дърво** и бергамот** INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Amyris Balsamifera Bark Oil**, Citrus aurantium bergamia fruit oil**, Limonene, Linalool. * Биосертифицирани съставки ** Натурални съставки Нето: 220 мл.",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/dush-gel-zora-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/dush-gel-zora-1.jpg"
+  ]
+ },
+ {
+  "sku": "143",
+  "name": "BIO Shower Gel Citrus",
+  "slug": "bio-shower-gel-citrus",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Bio shower gels",
+   "Body care"
+  ],
+  "shortDescription": "Our Citrus Shower Gel offers a rich, nourishing cleanse with the invigorating freshness of citrus essential oils. It moisturizes and tones the skin, leaving it refreshed and energized. Suitable for al",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ]INGREDIENTS/INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Citrus aurantium bergamia fruit oil**, Citrus aurantium dulcis Peel Oil**, Cymbopogon schoenanthus Oil**, Limonene, Linalool. * Certified organic ingredients ** Natural ingredients[/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.33",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/citrus-dush-gel-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/citrus-dush-gel-1.jpg"
+  ]
+ },
+ {
+  "sku": "151",
+  "name": "БИО Слънчево шампоаново блокче",
+  "slug": "%d0%bd%d0%b5%d0%b2%d0%b5%d0%bd-%d0%b8-%d0%b1%d0%b0%d0%b4%d0%b5%d0%bc%d0%be%d0%b2%d0%be-%d0%bc%d0%b0%d1%81%d0%bb%d0%be",
+  "price": 4.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоанови блокчета"
+  ],
+  "shortDescription": "Богат на невен, рициново масло и зехтин, за нежна и възстановяваща грижа. Този мек шампоан подхранва, хидратира и балансира скалпа. Възвръща блясъка и обема на косата. При продължителна употреба спома",
+  "description": "Начин на употреба : Нанесете директно върху мокра коса и изплакнете обилно с вода. Може да се ползва и като тоалетен сапун за лице и тяло. СЪСТАВКИ: Кокосово масло*, вода**, зехтин*, рициново масло*, натриева основа** (осапунващ агент не присъства в крайния продукт), карите*, етерично масло от лимонова трева**, невен**. INCI: Cocos Nucifera Oil*, Aqua**, Olea Europaea Fruit Oil*, Ricinus Communis Seed Oil*, Sodium Hydroxide**, Butyrospermum Parkii Butter*, Cymbopogon Schoenanthus Oil**, Calendula Officinalis Flower**, Citral, Geraniol, Limonene, Linalool. * Биосертифицирани съставки ** Натурал",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-slanchevo-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-slanchevo-1.jpg"
+  ]
+ },
+ {
+  "sku": "153",
+  "name": "БИО Шампоаново блокче Витаминт",
+  "slug": "%d1%88%d0%b0%d0%bc%d0%bf%d0%be%d0%b0%d0%bd%d0%be%d0%b2%d0%be-%d0%b1%d0%bb%d0%be%d0%ba%d1%87%d0%b5-%d0%ba%d0%be%d0%bf%d1%80%d0%b8%d0%b2%d0%b0-%d0%b8-%d0%bc%d0%b5%d0%bd%d1%82%d0%b0",
+  "price": 4.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоанови блокчета"
+  ],
+  "shortDescription": "В това ароматно блокче шампоан доминират рициновото масло и копривата. Избрахме ги заради благотворното им въздействие върху косата и скалпа. Добавихме и чудодеен Розмарин и обогатихме допълнително с ",
+  "description": "Начин на употреба : Нанесете директно върху мокра коса и изплакнете обилно с вода. Може да се ползва и като тоалетен сапун за лице и тяло. СЪСТАВКИ: Кокосово масло*, вода**, зехтин*, рициново масло*, натриева основа** (осапунващ агент не присъства в крайния продукт), карите*, етер. масла от мента** и розмарин**, коприва*. INCI: Cocos Nucifera Oil*, Aqua**, Olea Europaea Fruit Oil*, Ricinus Communis Seed Oil*, Sodium Hydroxide**, Butyrospermum Parkii Butter*, Mentha Arvensis Leaf Oil**, Rosmarinus Officinalis Leaf Oil*, Urtica Dioica Leaf Powder*, Limonene. * Биосертифицирани съставки ** Натура",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-vitamint-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-vitamint-1.jpg"
+  ]
+ },
+ {
+  "sku": "155",
+  "name": "БИО Шампоаново блокче Алое",
+  "slug": "%d1%88%d0%b0%d0%bc%d0%bf%d0%be%d0%b0%d0%bd%d0%be%d0%b2%d0%be-%d0%b1%d0%bb%d0%be%d0%ba%d1%87%d0%b5-%d0%b0%d0%bb%d0%be%d0%b5",
+  "price": 4.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоанови блокчета"
+  ],
+  "shortDescription": "В това ароматно блокче шампоан събрахме силата на уникалното алое вера и кокосовия орех. Избрахме ги заради благотворното им въздействие върху косата и скалпа. Добавихме чудодейното Тулси и обогатихме",
+  "description": "Начин на употреба : Нанесете директно върху мокра коса и изплакнете обилно с вода. Може да се ползва и като тоалетен сапун за лице и тяло. СЪСТАВКИ: Кокосово масло*, вода**, зехтин*, рициново масло*, натриева основа** (осапунващ агент не присъства в крайния продукт), карите*, зелена глина*, етер. масла от гераниум**, иланг-иланг** и бергамот**, алое вера на прах**. INCI : Cocos Nucifera Oil*, Aqua**, Olea Europaea Fuit Oil*, Ricinus Communis Seed Oil*, Sodium Hydroxide**, Butyrospermum Parkii Butter*, Montmorillonite**, Pelargonium Graveolens Oil**, Cananga Odorata Flower Oil**, Citrus Auranti",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-aloe-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-aloe-1.jpg"
+  ]
+ },
+ {
+  "sku": "158",
+  "name": "БИО Шампоаново блокче Детокс",
+  "slug": "%d1%88%d0%b0%d0%bc%d0%bf%d0%be%d0%b0%d0%bd%d0%be%d0%b2%d0%be-%d0%b1%d0%bb%d0%be%d0%ba%d1%87%d0%b5-%d0%b4%d0%b5%d1%82%d0%be%d0%ba%d1%81",
+  "price": 4.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоанови блокчета"
+  ],
+  "shortDescription": "Готови ли сте за Детокс? В нашия нов шампоан Детокс вложихме силата на активния бамбуков въглен и лечебните етерични масла. Създаден от ценни органични масла, Детокс подхранва, хидратира и балансира с",
+  "description": "Начин на употреба : Нанесете директно върху мокра коса и изплакнете обилно с вода. Може да се ползва и като тоалетен сапун за лице и тяло. СЪСТАВКИ: Кокосово масло*, вода**, зехтин*, рициново масло*, натриева основа** (осапунващ агент не присъства в крайния продукт), карите*, активен въглен на прах**, етер. масла от бор**, розмарин* и евкалипт**. INCI: Cocos Nucifera Oil*, Aqua**, Olea Europaea fruit Oil*, Ricinus Communis seed Oil*, Sodium Hydroxide**, Butyrospermum Parkii Butter*, Charcoal Powder**, Pinus Sylvestris Leaf Oil **, Rosmarinus Officinalis Leaf Oil*, Eucalyptus Globulus Leaf Oil*",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-detox-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-shampoanovo-blokche-detox-1.jpg"
+  ]
+ },
+ {
+  "sku": "161",
+  "name": "БИО FACE WASH ИЛАНГ ИЛАНГ за нормална кожа",
+  "slug": "face-wash-%d0%b8%d0%bb%d0%b0%d0%bd%d0%b3-%d0%b8%d0%bb%d0%b0%d0%bd%d0%b3",
+  "price": 5.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": false,
+  "categories": [
+   "Грижа за лицето",
+   "Почистващи"
+  ],
+  "shortDescription": "Лек 100% натурален почистващ гел за лице, обогатен с бадемово масло за допълнителна хидратация и подхранване на кожата. Деликатно почиства и овлажнява кожата на лицето. Има мек тонизиращ и балансиращ ",
+  "description": "СЪСТАВКИ: Вода, маслиново масло, слънчогледово масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), рициново масло*, глицерин**, натриев цитрат**, етерични масла от лавандула*, гераниум** и иланг-иланг**. INCI: Aqua**, Olea Europaea Fruit Oil*, Helianthus Annuus Seed Oil*, Potassium Hydroxide (Saponifier Not Present In Final Product)**, Ricinus Communis Seed Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Pelargonium Graveolens Oil**, Cananga Odorata Flower Oil**, Citronellol, Linalool, Geraniol. * Биосертифицирани съставки ** Натурални съставки Нето: 120",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/ФейсИланг-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Face-Wash-butilka-3-scaled.jpg"
+  ]
+ },
+ {
+  "sku": "162",
+  "name": "БИО Face wash Чаено дърво за проблемна кожа",
+  "slug": "%d1%87%d0%b0%d0%b5%d0%bd%d0%be-%d0%b4%d1%8a%d1%80%d0%b2%d0%be-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb-%d0%b8-%d0%bc%d0%b5%d0%bd%d1%82%d0%b0",
+  "price": 5.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за лицето",
+   "Почистващи"
+  ],
+  "shortDescription": "Лек 100% натурален почистващ гел за лице с меко измивно и антисептично действие. При редовна употреба има значителен успокояващ и възстановяващ ефект на кожата. Ефективен в борбата с акне, екземи и ко",
+  "description": "СЪСТАВКИ: Вода, маслиново масло*, слънчогледово масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), рициново масло*, глицерин**, натриев цитрат**, етер. масла от бергамот**, чаено дърво** и мента**. INCI: Aqua**, Olea Europaea Fruit Oil*, Helianthus Annuus Seed Oil*, Potassium Hydroxide (Saponifier Not Present In Final Product)**, Ricinus Communis Seed Oil*, Glycerin**, Sodium Citrate**, Citrus Aurantium Bergamia Fruit Oil**, Melaleuca Alternifolia Leaf Oil**, Mentha Arvensis Leaf Oil**, Limonene, Linalool. * Биосертифицирани съставки ** Натурални съставки Нето: 120 мл.",
+  "weight": "0.18",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/03/ФейсЧаено-scaled-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/03/Face-Wash-butilka-1-scaled.jpg"
+  ]
+ },
+ {
+  "sku": "163",
+  "name": "Захарен ексфолиант Портокал",
+  "slug": "%d0%b7%d0%b0%d1%85%d0%b0%d1%80%d0%b5%d0%bd-%d1%81%d0%ba%d1%80%d0%b0%d0%b1-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb",
+  "price": 6.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Захарни ексфолианти"
+  ],
+  "shortDescription": "Този уникален скраб с портокалово масло и розмарин ще накара кожата ви да блести и ухае на лято. Розмаринът успокоява чувствителните и раздразнени участъци, а подхранващите масла от коноп, маслина и л",
+  "description": "Съставки/INCI: Sucrose*(органична тръстикова захар), Helianthus Annuus Seed (слънчогледово масло) Oil*, Rosmarinus Officinalis Leaf (розмарин) Powder, Cannabis Sativa Seed (конопено масло) Oil*, Olea Europaea Fruit (маслиново масло) Oil*, Linum Usitatissimum Seed (ленено масло) Oil*, Citrus Aurantium Dulcis (масло от портокал) Peel Oil *, Tocopherol (вит. Е), Limonene. *Съставки от органично земеделие; **Съставки с натурален произход",
+  "weight": "0.28",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/zaharen-eksfoliant-za-tyalo-portokal.jpg"
+  ]
+ },
+ {
+  "sku": "164",
+  "name": "Захарен ексфолиант Кафе",
+  "slug": "%d0%b7%d0%b0%d1%85%d0%b0%d1%80%d0%b5%d0%bd-%d1%81%d0%ba%d1%80%d0%b0%d0%b1-%d0%ba%d0%b0%d1%84%d0%b5",
+  "price": 6.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Захарни ексфолианти"
+  ],
+  "shortDescription": "Хидратиращ ексфолиант с кафе и ванилия за гладка, тонизирана и кадифена кожа. Кафето е добър помощник в борбата с целулита, загрява и стимулира кръвообращението на кожата. Захарните кристали нежно отс",
+  "description": "Съставки/INCI: Sucrose*(органична тръстикова захар), Helianthus Annuus Seed (слънчогледово масло) Oil*, Coffea Arabica Seed (кафе) Powder, Olea Europaea Fruit (маслиново масло) Oil*, Linum Usitatissimum Seed (ленено масло) Oil*, Vitis Vinifera Seed (масло от гроздови семки) Oil*, Vanilla Planifolia Seed Powder (ванилов екстракт) Extract*, Tocopherol (вит. Е). *Съставки от органично земеделие; **Съставки с натурален произход",
+  "weight": "0.28",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/zaharen-eksfoliant-za-tyalo-kafe.jpg"
+  ]
+ },
+ {
+  "sku": "166",
+  "name": "БИО балсам за устни ПОРТОКАЛ",
+  "slug": "%d0%b1%d0%b8%d0%be-%d0%b1%d0%b0%d0%bb%d1%81%d0%b0%d0%bc%d0%b8-%d0%b7%d0%b0-%d1%83%d1%81%d1%82%d0%bd%d0%b8-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb-2",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био балсами за устни",
+   "Грижа за лицето"
+  ],
+  "shortDescription": "Интензивно хидратира, подхранва, възстановява и защитава вашите устни. Незабавно облекчение при сухи или напукани устни, вследствие на влиянието на агресивни климатични фактори или изсушаващи медикаме",
+  "description": "Ingredients/Съставки : Butyrospermum Parkii (Карите) Butter*, Theobroma Cacao Seed (Какао) Butter*, Prunus Armeniaca Kernel (Кайсия) Oil*, Copernicia Cerifera (Карнауба) Wax**, Punica Granatum Seed (Нар) Oil*, Helianthus Annuus Seed (Слънчоглед) Oil, Tocopherol (Вит. Е)**, Citrus Aurantium Dulcis (Портокал) Oil**, Limonene * Биосертифицирани съставки ** Натурални съставки",
+  "weight": "0.01",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-balsam-za-ustni-portokal.jpg"
+  ]
+ },
+ {
+  "sku": "167",
+  "name": "БИО балсам за устни портокал и канела",
+  "slug": "%d0%b1%d0%b8%d0%be-%d0%b1%d0%b0%d0%bb%d1%81%d0%b0%d0%bc%d0%b8-%d0%b7%d0%b0-%d1%83%d1%81%d1%82%d0%bd%d0%b8-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb-%d0%b8-%d0%ba%d0%b0%d0%bd%d0%b5%d0%bb%d0%b0",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био балсами за устни",
+   "Грижа за лицето"
+  ],
+  "shortDescription": "БИО балсамът за устни ПОРТОКАЛ И КАНЕЛА подхранва и тонизира сухата и напукана лигавица на устните. Неговата силно подхранваща активна съставка масло от шеа, овлажнява и омекотява напуканите устни. Въ",
+  "description": "Ingredients/съставки : Butyrospermum Parkii (Карите) Butter*, Theobroma Cacao Seed (Какао) Butter*, Prunus Armeniaca Kernel (Кайсия) Oil*, Copernicia Cerifera (Карнауба) Wax**, Punica Granatum Seed (Нар) Oil*, Helianthus Annuus Seed (Слънчоглед) Oil, Tocopherol (Вит. Е)**,Citrus Aurantium Dulcis (Портокал) Oil**, Cinnamomum Zeylanicum Leaf (Канела) Oil**, Limonene, Eugenol. * Биосертифицирани съставки ** Натурални съставки",
+  "weight": "0.01",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-balsam-za-ustni-portokal-kanela.jpg"
+  ]
+ },
+ {
+  "sku": "168",
+  "name": "БИО балсам за устни БИЛКОВ",
+  "slug": "%d0%b1%d0%b8%d0%be-%d0%b1%d0%b0%d0%bb%d1%81%d0%b0%d0%bc%d0%b8-%d0%b7%d0%b0-%d1%83%d1%81%d1%82%d0%bd%d0%b8-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био балсами за устни",
+   "Грижа за лицето"
+  ],
+  "shortDescription": "Осигурява ежедневен комфорт и защита. Овлажнява, подхранва и предпазва устните от вредните външни влияния. Възстановява сухата, напукана и увредена кожа на устните. Силно подхранващите активни съставк",
+  "description": "Ingredients/съставки : Butyrospermum Parkii (Карите)Butter*, Theobroma Cacao Seed (Какао)Butter*, Prunus Armeniaca Kernel (Кайсия) Oil*, Copernicia Cerifera (Карнауба)Wax**, Punica Granatum Seed (Нар) Oil*, Helianthus Annuus Seed (Слънчоглед) Oil, Tocopherol (Вит. Е)**,Lavandula Angustifolia (Лавандула) Oil*, Rosmarinus Of ficinalis Leaf (Розмарин) Oil*, Linalool * Биосертифицирани съставки ** Натурални съставки",
+  "weight": "0.01",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/balsam-za-ustni-bilkov.jpg"
+  ]
+ },
+ {
+  "sku": "170",
+  "name": "Захарен ексфолиант Кокос",
+  "slug": "%d0%b7%d0%b0%d1%85%d0%b0%d1%80%d0%b5%d0%bd-%d0%b5%d0%ba%d1%81%d1%84%d0%be%d0%bb%d0%b8%d0%b0%d0%bd%d1%82-%d0%ba%d0%be%d0%ba%d0%be%d1%81",
+  "price": 6.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Захарни ексфолианти"
+  ],
+  "shortDescription": "Хидратиращ ексфолиант за тяло, с ароматен кокос и масло от ванилия. След него кожата е чиста, гладка и нежно кадифена. Премахва мъртвите клетки от епидермиса и почиства порите в дълбочина. Обогатен с ",
+  "description": "Съставки/INCI: Sucrose*(органична тръстикова захар), Helianthus Annuus Seed (слънчогледово масло) Oil*, Cocos Nucifera (кокосови стърготини) Fruit Powder*, Olea Europaea Fruit (маслиново масло) Oil*, Linum Usitatissimum Seed (ленено масло) Oil*, Prunus Armeniaca Kernel (кайсиево масло) Oil*, Vanilla Planifolia Seed Powder (ванилов екстракт) Extract*, Tocopherol (вит. Е). *Съставки от органично земеделие; **Съставки с натурален произход",
+  "weight": "0.28",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/zaharen-eksfoliant-za-tyalo-kokos.jpg"
+  ]
+ },
+ {
+  "sku": "171",
+  "name": "БИО БАЛСАМ ЗА УСТНИ ВАНИЛИЯ И КАКАО",
+  "slug": "%d0%b1%d0%b8%d0%be-%d0%b1%d0%b0%d0%bb%d1%81%d0%b0%d0%bc-%d0%b7%d0%b0-%d1%83%d1%81%d1%82%d0%bd%d0%b8-%d0%b2%d0%b0%d0%bd%d0%b8%d0%bb%d0%b8%d1%8f-%d0%b8-%d0%ba%d0%b0%d0%ba%d0%b0%d0%be",
+  "price": 3.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био балсами за устни",
+   "Грижа за лицето"
+  ],
+  "shortDescription": "Интензивна хидратация, подхранване и защита за вашите устни. Незабавно облекчение при сухота или напукване. Подхранващите съставки масла от какао, кокос и карите овлажняват, омекотяват и тонизират. Не",
+  "description": "Ingredients/СЪСТАВКИ : Butyrospermum Parkii (Карите) Butter*, Theobroma Cacao Seed (Какао) Butter*, Prunus Armeniaca Kernel (Кайсия) Oil*, Copernicia Cerifera (Карнауба) Wax**, Punica Granatum Seed (Нар) Oil*, Helianthus Annuus Seed (Слънчоглед) Oil, Vanilla Planifolia Seed Powder (Ванилия) Extract*, Tocopherol (Вит. Е)** * Биосертифицирани съставки ** Натурални съставки",
+  "weight": "0.01",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/bio-balsam-za-ustni-vaniliya-kakao.jpg"
+  ]
+ },
+ {
+  "sku": "174",
+  "name": "Део стик Слънчев",
+  "slug": "%d0%b4%d0%b5%d0%be-%d1%81%d1%82%d0%b8%d0%ba-%d1%81%d0%bb%d1%8a%d0%bd%d1%87%d0%b5%d0%b2",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за тялото",
+   "Део стикове"
+  ],
+  "shortDescription": "Свежест, Която Продължава! Открийте свежестта с този 100% натурален дезодорант, създаден, да неутрализира миризмата и поддържа свежестта ви през целия ден! Насладете се на 24+ часова защита, с уханиет",
+  "description": "Позволете на кожата си да диша и се насладете на свежест без компромиси, с нашата уникална комбинация от съставки, вдъхновени от природата: Морски магнези й** (магнезиев хидроксид) добит от водите на Мъртво море ефективно неутрализира миризмата през целия ден. Не се абсорбира от кожата и действа локално, само на повърхността ѝ. Кокосово масло* – подхранва и тонизира, подобрява защитата и хидратацията на кожата. Нишесте от тапиока * надеждно абсорбира влагата. Изсветлява и изравнява тенът на тъмната кожа под мишниците. Масло от слънчоглед* богато на витамин Е, укрепващ естествената защитна кожн",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2025/08/Део-стик-Слънчев.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/deo-stick-slanchev-1.jpg"
+  ]
+ },
+ {
+  "sku": "175",
+  "name": "Део стик Ванилия и лайм",
+  "slug": "%d0%b4%d0%b5%d0%be-%d1%81%d1%82%d0%b8%d0%ba-%d0%b2%d0%b0%d0%bd%d0%b8%d0%bb%d0%b8%d1%8f-%d0%b8-%d0%bb%d0%b0%d0%b9%d0%bc",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за тялото",
+   "Део стикове"
+  ],
+  "shortDescription": "Свежест, Която Продължава! Открийте свежестта с този 100% натурален дезодорант, създаден, да неутрализира миризмата и поддържа свежестта ви през целия ден! Насладете се на 24+ часова защита, с екзотич",
+  "description": "Позволете на кожата си да диша и се насладете на свежест без компромиси, с нашата уникална комбинация от съставки, вдъхновени от природата: Морски магнези й** (магнезиев хидроксид) добит от водите на Мъртво море ефективно неутрализира миризмата през целия ден. Не се абсорбира от кожата и действа локално, само на повърхността ѝ. Кокосово масло* – подхранва и тонизира, подобрява защитата и хидратацията на кожата. Нишесте от тапиока * надеждно абсорбира влагата. Изсветлява и изравнява тенът на тъмната кожа под мишниците. Масло от слънчоглед* богато на витамин Е, укрепващ естествената защитна кожн",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2025/08/Део-стик-Ванилия-и-Лайм-.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/deo-stik-vanilia-laim-1-1.jpg"
+  ]
+ },
+ {
+  "sku": "178",
+  "name": "COENZYME Q10 Powerful Skin Recharge",
+  "slug": "coenzyme-q10-powerful-skin-recharge-2",
+  "price": 19.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "BLACK FRIDAY",
+   "Creams",
+   "Facial care",
+   "Velvet Series"
+  ],
+  "shortDescription": "Velvet COENZYME Q10 cream is a powerhouse of rejuvenation. Coenzyme Q10, an antioxidant naturally present in the skin, helps restore energy to tired cells, boosting collagen production and preventing ",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] Ingredients/INCI: Aqua, Butyro Spermum Parkii Butter*, Cetearyl Olivate, Sorbitan Olivate, Oenothera Biennis Oil*, Brassica Oleracea Italica Seed Oil*, Glycerin, Caprylic/Capric Triglycerides, Cetearyl Alcohol, Macadamia Integrifolia Seed Oil*, Brassica Campestris Seed Oil*, Opuntia Ficus-Indica Flower Extract, Camelina Sativa Seed Oil*, Carthamus Tinctorius Seed Oil*, Benzyl Alcohol, Spilanthes Acmella Flower/Leaf /Stem Extract*, Astragalus Membranaceus Root Extract, Ubiquinone, Almond/Borage/ Linseed/Olive Acids/Gl",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Coenzyme-Q10-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Q-10-крем-за-лице.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/CoenzymeQ10Box-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "179",
+  "name": "HYALURON Deep Moisturizing Cream",
+  "slug": "hyaluron-intense-hydration-2",
+  "price": 19.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "BLACK FRIDAY",
+   "Creams",
+   "Facial care",
+   "Velvet Series"
+  ],
+  "shortDescription": "Our HYALURON Deep Moisturizing Cream combines short-chain hyaluronic acid with bio-extracts to deliver immediate hydration, restore elasticity, and improve the skin barrier function. This ultra-hydrat",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] INGREDIENTS/INCI: Aqua, Butyro Spermum Parkii Butter*, Simmondsia Chinensis Seed Oil*, Cetearyl Olivate, Sorbitan Olivate, Vitis Vinifera Seed Oil*, Prunus Armeniaca Kernel Oil*, Glycerin, Caprylic/Capric Triglycerides, Cetearyl Alcohol, Opuntia Ficus-Indica Stem Extract, Hydrolyzed Wheat Bran*, Benzyl Alcohol, Brassica Campestris Seed Oil*, Opuntia Ficus-Indica Flower Extract, Camelina Sativa Seed Oil*, Almond/Borage/Linseed/Olive Acids/Glycerides, Borago Officinalis Extract*, Ubiquinone, Sodium Hyaluronate, Xanthan",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/HyaluronCreme-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Хиалурон-крем-за-лице.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/HyaluronCremeBox-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "180",
+  "name": "Ревитализиращ нощен крем за околоочния контур",
+  "slug": "%d1%80%d0%b5%d0%b2%d0%b8%d1%82%d0%b0%d0%bb%d0%b8%d0%b7%d0%b8%d1%80%d0%b0%d1%89-%d0%ba%d1%80%d0%b5%d0%bc-%d0%b7%d0%b0-%d0%be%d0%ba%d0%be%d0%bb%d0%be%d0%be%d1%87%d0%bd%d0%b0-%d0%bb%d0%b8%d0%bd%d0%b8",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за лицето",
+   "Кремове"
+  ],
+  "shortDescription": "Търсите ли начин да се отървете от тъмните кръговете и бръчиците, около очите? Нощният крем ADVANCED NIGTH REPAIR изглажда и възстановява кожата докато спите. Съдържа ценни хипер масла, подходящи за с",
+  "description": "Съставки/ INCI: Butyro spermum parkii*, Argania spinosa kernel oil*, Calophyllum inophyllum seed oil*, Macadamia integrifolia seed oil*, Rosa canina fruit oil, Tocoheryl Acetate, Citrus aurantium flower oil, linalool**, Limonene** *Био сертифицирани съставки ** естествено присъстващи в етерично масло Нето: 15 мл. Начин на употреба: Използвайте вечер, преди лягане, върху добре почистена и влажна кожа. Вземете малко количество от крема и го разнесете с леки масажни движения в областта около очите. Съхранявайте в оригинална опаковката на сухо и проветриво място при стайна температура.",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Revitalizing1-scaled.jpg"
+  ]
+ },
+ {
+  "sku": "181",
+  "name": "Подхранващ нощен крем за околоочния контур",
+  "slug": "%d0%bf%d0%be%d0%b4%d1%85%d1%80%d0%b0%d0%bd%d0%b2%d0%b0%d1%89-%d0%ba%d1%80%d0%b5%d0%bc-%d0%b7%d0%b0-%d0%be%d0%ba%d0%be%d0%bb%d0%be%d0%be%d1%87%d0%bd%d0%b0-%d0%bb%d0%b8%d0%bd%d0%b8%d1%8f",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за лицето",
+   "Кремове"
+  ],
+  "shortDescription": "Интензивно-подхранващ и тонизиращ нощен крем за околоочния контур, с изцяло натурални съставки. Богат на витамини и антиоксиданти, важни за поддържане на младостта и еластичността на кожата. Подхранва",
+  "description": "Съставки/INCI: Mangifera indica seed butter*, Simmondsia chinensis seed oil*, Rosa canina fruit oil, Camellia sinensis leaf oil, Chamomilla recutita flower oil, Tocopheryl Acetate, geraniol** *Био сертифицирани съставки ** естествено присъстващи в етерично масло Начин на употреба: Използвайте вечер, преди лягане, върху добре почистена и влажна кожа. Вземете малко количество от крема и го разнесете с леки масажни движения в областта около очите. Съхранявайте в оригинална опаковката на сухо и проветриво място при стайна температура.",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/P_front1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/P_main.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Main.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Nutrition_LUT-scaled.jpg"
+  ]
+ },
+ {
+  "sku": "182",
+  "name": "Део стик натурален",
+  "slug": "%d0%b4%d0%b5%d0%be-%d1%81%d1%82%d0%b8%d0%ba-%d0%bd%d0%b0%d1%82%d1%83%d1%80%d0%b0%d0%bb%d0%b5%d0%bd",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за тялото",
+   "Део стикове"
+  ],
+  "shortDescription": "100% ефективен, натурален дезодорант за незабавно неутрализиране на миризмата и поддържане на свежест през целия ден! Осигурява 24 часова защита. Абсорбира влагата без да спира изпотяването. Дезодоран",
+  "description": "INCI/Съставки: Cocos Nucifera (Кокос) Oil*, Magnesium Hydroxide(Морски магнезий) **, Helianthus Annuus Seed (Слънчоглед) Oil*, Copernicia Certifera (Карнауба) Wax**, Tapioca Starch(Тапиока) * За външна употреба, нанасяйте върху здрава кожа. Съхранявайте при температура до 26 С, далеч от достъпа на деца. Не използвайте при чувствителност към някоя от съставките.",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2025/08/Део-стик-Натурален.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/deo-stik-naturalen-1.jpg"
+  ]
+ },
+ {
+  "sku": "183",
+  "name": "Део стик лайм и бергамот",
+  "slug": "%d0%b4%d0%b5%d0%be-%d1%81%d1%82%d0%b8%d0%ba-%d0%bb%d0%b0%d0%b9%d0%bc-%d0%b8-%d0%b1%d0%b5%d1%80%d0%b3%d0%b0%d0%bc%d0%be%d1%82",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за тялото",
+   "Део стикове"
+  ],
+  "shortDescription": "100% ефективен натурален дезодорант за незабавно неутрализиране на миризмата и поддържане на свежест през целия ден! Осигурява 24+ часова защита. Абсорбира влагата без да спира изпотяването. Дезодоран",
+  "description": "INCI/Съставки: Cocos Nucifera (Кокос) Oil*, Magnesium Hydroxide**, Helianthus Annuus Seed (Слънчоглед) Oil*, Copernicia Certifera (Карнауба) Wax**, Tapioca Starch*, Citrus Aurantium Bergamia Fruit (Бергамот) Oil**, Citrus Aurantium Dulcis (Портокал) Peel Oil**, Citrus Aurantifolia (Лайм) Oil**, citral, limonene, linalool. За външна употреба, нанасяйте върху здрава кожа. Съхранявайте при температура до 26 С, далеч от достъпа на деца. Не използвайте при чувствителност към някоя от съставките.",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2025/08/Део-стик-Лайм-и-бергамот.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/naturalen-deo-stik-laim-bergamot-1.jpg"
+  ]
+ },
+ {
+  "sku": "184",
+  "name": "Део стик Сандалово дърво",
+  "slug": "%d0%b4%d0%b5%d0%be-%d1%81%d1%82%d0%b8%d0%ba-%d1%81%d0%b0%d0%bd%d0%b4%d0%b0%d0%bb%d0%be%d0%b2%d0%be-%d0%b4%d1%8a%d1%80%d0%b2%d0%be",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за тялото",
+   "Део стикове"
+  ],
+  "shortDescription": "100% ефективен натурален дезодорант за незабавно неутрализиране на миризмата и поддържане на свежест през целия ден! Осигурява 24 часова защита. Абсорбира влагата без да спира изпотяването. Дезодорант",
+  "description": "Съставки/INCI: Cocos Nucifera (Кокос) Oil*, Magnesium Hydroxide(Морски магнезия)**, Helianthus Annuus Seed (Слънчоглед) Oil*, Copernicia Certifera (Карнауба) Wax**, Tapioca Starch(Тапиока)*, Citrus aurantium bergamia fruit (Бергамот) oil**, Amyris Balsamifera Bark (Индийско сандалово дърво) Oil**, limonene, linalool За външна употреба, нанасяйте върху здрава кожа. Съхранявайте при температура до 26 С, далеч от достъпа на деца. Не използвайте при чувствителност към някоя от съставките.",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2025/08/Део-стик-Сандалово-дърво.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/deo-stik-sandalovo-darvo-1.jpg"
+  ]
+ },
+ {
+  "sku": "189",
+  "name": "BAKUCHIOL Lift Regeneration Power Cream",
+  "slug": "bakuchiol-lift-regeneration-power-2",
+  "price": 19.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "BLACK FRIDAY",
+   "Creams",
+   "Facial care",
+   "Velvet Series"
+  ],
+  "shortDescription": "The Velvet BAKUCHIOL Cream uses the power of bakuchiol – an innovative natural alternative to retinol that stimulates collagen production and enhances skin elasticity by up to 48% in just four hours. ",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] Ingrediens/INCI: Aqua, Hippophae Rhamnoides Fruit Oil, Butyro Spermum Parkii Butter*, Cetearyl Olivate, Sorbitan Olivate, Caprylic/Capric Triglycerides, Cetearyl Alcohol, Bakuchiol, Glycerin, Rosa Canina Fruit Oil, Pisum Sativum (Pea) Extract, Spilanthes Acmella Flower/Leaf /Stem Extract*, Astragalus Membranaceus Root Extract, Benzyl Alcohol, Carthamus Tinctorius Seed Oil*, Simmondsia Chinensis Seed Oil*, Almond/Borage/Linseed/Olive Acids/Glycerides, Tocopherol, Ubiquinone, Sodium Hyaluronate, Olus Oil, Xanthan Gum, ",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/BakuchiolCreme-scaled.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2025/02/Коензим-Q10-крем-за-лице.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/2-BAKUCHIOL.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/BakuchiolCremeBox-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "190",
+  "name": "BAKUCHIOL Lift Regeneration Power Serum",
+  "slug": "bakuchiol-lift-regeneration-power-serum",
+  "price": 18.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Serums",
+   "Facial care",
+   "Velvet Series"
+  ],
+  "shortDescription": "Our innnovative Velvet BAKUCHIOL Lift Regeneration Power Serum captures the anti-aging power ofBakuchiol, a plant-based alternative to retinol, With 2% Bakuchiol, this serum mimics the effects of reti",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] Ingredients/INCI: Oenothera Biennis Oil*, Linum Usitatissimum Seed Oil*, Vitis Vinifera Seed Oil, Punica Granatum (Pomegranate) Seed Oil*, Bakuchiol, Prunus Armeniaca Kernel Oil*, Squalane, Carthamus Tinctorius Seed Oil*, Spilanthes Acmella Flower/Leaf /Stem Extract*, Astragalus Membranaceus Root Extract, Ubiquinone, Tocopherol, Helianthus Annuus Seed Oil. * Certified organic ingredients[/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bakuchiol-1-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/BakuchiolBox-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bakuchiol-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "192",
+  "name": "VITAMIN C Advanced Rejuvenation Serum",
+  "slug": "%d1%81%d0%b5%d1%80%d1%83%d0%bc-%d0%b7%d0%b0-%d0%bb%d0%b8%d1%86%d0%b5-%d1%81-%d0%b2%d0%b8%d1%82%d0%b0%d0%bc%d0%b8%d0%bd-c",
+  "price": 29.95,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за лицето",
+   "Серия Velvet",
+   "Серуми",
+   "ЧЕРЕН ПЕТЪК"
+  ],
+  "shortDescription": "Озаряващ серум с витамин С 10% аскорбил глюкозид + 43% растителни екстракти, 30 ml. Експертната комбинация от активни съставки и екстракти осигурява комплексна грижа за красива, здрава и сияйна кожа. ",
+  "description": "Ключови сътавки: Аскорбил глюкозид (витамин С) 10% – стабилна и силно активна форма на витамин С, мощен антиоксидант. При проникване в кожата се превръща в чистата форма на витамин С, което го прави е нежен и щадящ. Стимулира производството на собствен колаген и подобрява еластичността на кожата. Намалява видимите признаци на стареене. Изсветлява, озарява и изравнява тена като подтиска синтеза на пигменти в кожата. Предпазва клетките от оксидативен стрес и поддържа кожата здрава. Екстракт от мастикс (бяла дъвка) – стяга, тонизира, озарява и матира кожата. Видимо намалява размера на порите. Сти",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/VitaminC-1-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/VitaminCBox-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/VitaminC-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "193",
+  "name": "NIACINAMIDE Radiance and Illuminating Power Serum",
+  "slug": "%d1%81%d0%b5%d1%80%d1%83%d0%bc-%d0%b7%d0%b0-%d0%bb%d0%b8%d1%86%d0%b5-%d0%bd%d0%b8%d0%b0%d1%86%d0%b8%d0%bd%d0%b0%d0%bc%d0%b8%d0%b4-2",
+  "price": 18.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "BLACK FRIDAY",
+   "Facial care",
+   "Serums",
+   "Velvet Series"
+  ],
+  "shortDescription": "Unclog pores and balance your skin with our Velvet NIACINAMIDE Serum. Featuring 10% Niacinamideand 1% Zinc PCA, this serum effectively controls excess oil production, minimizes the appearance of pores",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] Ingredients/INCI : Aloe Barbadensis Leaf Juice*, Niacinamid, Glycerin, Vitis Vinifera Fruit Extract, Zingiber Officinale Froot Extract, Boswellia Serrata Resin Extract, Zinc PCA, Sodium Benzoate, Potassium Sorbate, Xanthan Gum, Sodium Hydroxide. * Certified organic ingredients [/vc_column_text][/vc_column][/vc_row]",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Niacinamide-1-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/NiacinamideBox-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Niacinamide-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "194",
+  "name": "HYALURON Ultimate Hydration Serum",
+  "slug": "%d1%81%d0%b5%d1%80%d1%83%d0%bc-%d0%b7%d0%b0-%d0%bb%d0%b8%d1%86%d0%b5-%d1%81-%d1%85%d0%b8%d0%b0%d0%bb%d1%83%d1%80%d0%be%d0%bd-2",
+  "price": 18.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "BLACK FRIDAY",
+   "Facial care",
+   "Serums",
+   "Velvet Series"
+  ],
+  "shortDescription": "Packed with 1% Hyaluronic Acid and 90% plant extracts and proteins, the new Velvet HYALURON Ultimate Hydration Serum delivers immediate moisture and locks it in for long-lasting hydration. It smooths ",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] Ingredients/INCI: Aloe Barbadensis Leaf Juice*, Glycerin, Hydrolyzed Wheat Bran*, Sodium Hyaluronate, Sodium Benzoate, Arginine, Citric Acid, Potassium Sorbate, Tartaric Acid, Pyrus Malus (Apple) Fruit Extract, Citrus Limon Fruit Extract, Vitis Vinifera (Grape) Skin Extract, Triticum Vulgare (Wheat) Bran Extract, Sodium Hydroxide, Aqua. * Certified organic ingredients [/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Hyaluron-1-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/HyaluronBox-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Hyaluron-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/site-vit-C.jpg"
+  ]
+ },
+ {
+  "sku": "195",
+  "name": "БИО сертифицирана розова вода",
+  "slug": "%d0%b1%d0%b8%d0%be-%d1%81%d0%b5%d1%80%d1%82%d0%b8%d1%84%d0%b8%d1%86%d0%b8%d1%80%d0%b0%d0%bd%d0%b0-%d1%80%d0%be%d0%b7%d0%be%d0%b2%d0%b0-%d0%b2%d0%be%d0%b4%d0%b0",
+  "price": 6.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за лицето",
+   "Почистващи"
+  ],
+  "shortDescription": "Органично сертифицирана розова вода за лице, коса и тяло. Произведена от ръчно събрани цветове на роза Дамасцена, отгледани в био градините на розовата долина на България. Интензивно хидратира и тониз",
+  "description": "Съставки/INCI: Rose damascena flower water",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/RoseWater-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "196",
+  "name": "БИО Алое Вера гел",
+  "slug": "%d0%b1%d0%b8%d0%be-%d0%b0%d0%bb%d0%be%d0%b5-%d0%b2%d0%b5%d1%80%d0%b0-%d0%b3%d0%b5%d0%bb",
+  "price": 6.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Лосиони и масла"
+  ],
+  "shortDescription": "Органично сертифициран Алое Вера гел за лице, коса и тяло. Интензивно хидратира и подхранва, успокоява раздразненията и тонизира кожата. Богат на естествени активни съставки гелът от Алое ускорява въз",
+  "description": "Продукт без добавени аромати! Начин за нанасяне: Нанасяйте гела върху почистена кожа. Втрийте с леки масажиращи движения. Използвайте по всяко време. Съставки/INCI: Aloe Vera Gel*, Glycerin**, Citric Acid**, Cellulose Gum**, Aqua**, Sodium Benzoate**, Sodium Hydroxide**, Potassium Sorbate**, Xanthan Gum**, Inulin**, Cellulose**, Fructose**, Glucose**.",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/AloeVeraGel-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "197",
+  "name": "Body Oil",
+  "slug": "body-oil",
+  "price": 13.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": false,
+  "categories": [
+   "Lotions and oils"
+  ],
+  "shortDescription": "Интензивно подхранващо масло за тяло с ценни възстановяващи масла. Омекотява, тонизира и подхранва кожата. С неустоим аромат на ванилия и какао. За ежедневна употреба. За всеки тип кожа.",
+  "description": "INCI/Съставки: Butyrospermum Parkii (Карите) Butter, Mangifera Indica Seed (Манго) Butter, Theobroma Cacao Seed (Какао) Butter, Prunus Amygdalus Dulcis (Бадем) Oil, Camellia Sinensis Leaf (Камелия) Oil, Tocopheryl Acetate (Витамин Е), Vanilla Planifolia Fruit (Ванилия) Extract. Нанесете на здрава, чиста и влажна кожа. Съхранявайте далеч от достъпа на деца. Не използвайте при алергия към съставките. 60 гр.",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/maslo-za-tyalo-vaniliya-kakao.jpg"
+  ]
+ },
+ {
+  "sku": "198",
+  "name": "SOS балсам за ръце",
+  "slug": "sos-%d0%b1%d0%b0%d0%bb%d1%81%d0%b0%d0%bc-%d0%b7%d0%b0-%d1%80%d1%8a%d1%86%d0%b5",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Лосиони и масла"
+  ],
+  "shortDescription": "",
+  "description": "Възстановяващ балсам с Невен и Вечерна иглика. Съдържа ценни подхранващи масла и екстракти. Омекотява, тонизира и възстановява кожата на ръцете. С неустоим аромат на иланг-иланг и гераниум. За ежедневна употреба. За всеки тип кожа. Ingredients/Съставки: Butyrospermum Parkii(Карите) Butter, Theobroma Cacao Seed (Kакао) Butter, Cocos Nucifera (Kокос) Oil, Persea Gratissima (Авокадо) Oil, Prunus Amygdalus Dulcis (Бадем) Oil, Macadamia Ternifolia Seed (Макадамия) Oil, Cera Alba (Пчелен восък), Oenothera Biennis (Вечерна илика) Oil, Calendula Officinalis Flower (Невен) Extract, Tocoferol (Витамин Е",
+  "weight": "0.1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/sos-balsam-za-race.jpg"
+  ]
+ },
+ {
+  "sku": "199",
+  "name": "Сапунче за петна",
+  "slug": "%d1%81%d0%b0%d0%bf%d1%83%d0%bd%d1%87%d0%b5-%d0%b7%d0%b0-%d0%bf%d0%b5%d1%82%d0%bd%d0%b0",
+  "price": 1.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Почистващи"
+  ],
+  "shortDescription": "",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] Нето : 30 г Ако и вие сте от хората, които умело успяват да се окапят, дори когато ядат шоколад , ще оцените това малко вълшебно сапунче за петна ❤️ . Да, то определено върши чудеса с упоритите петна по дрехите! Ако все още не сте го открили, непременно пробвайте! Няма да ви разочарова. Прилага се бързо и лесно само в 4 стъпки: намокряш - натъркваш - изчакваш 15-20мин - переш Сапунчето не уврежда тъканите и не влияе на цветовете. Съставки: cocos nucifera oil (кокосово масло), sodium hydroxide (натриева основа: oсапун",
+  "weight": "0.05",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/03/1522D8CB-7DD9-4607-A682-730F3DF36ACD-scaled-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/03/soap-petna.jpg"
+  ]
+ },
+ {
+  "sku": "190-91",
+  "name": "BAKUCHIOL Lift Regeneration Power Serum",
+  "slug": "bakuchiol-lift-regeneration-power-serum-2",
+  "price": 18.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Серуми",
+   "Грижа за лицето",
+   "Серия Velvet"
+  ],
+  "shortDescription": "Интензивно възстановяващ серум с 2% Бакучиол, био-ретинол ефект 30ml Експертна комбинация от активни съставки с био ретинол ефект. Високата концентрация на Бакучиол стимулира естествената регенерация ",
+  "description": "Формулата е мощен коктейл от активни съставки и ценни органични масла Бакучиол ( 2% ) извлечен от листата и семената на растението бабчи, бакучиолът е растителна алтернатива на ретинола – без негативните му странични ефекти. Бакучиолът активира клетъчните структури отговорни за създаване на колаген и повишава производството му в клетките с +48% само след 4 часа. Намалява бръчките и повишава еластичността на кожата. Свива порите и намалява светлочувствителността на кожата. Подходящ дори за най-чувствителната кожа. Ключови биомолекули от акмела и астрагал подмладяват кожата, като реорганизират к",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bakuchiol-1-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/BakuchiolBox-scaled-1.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bakuchiol-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "137-140",
+  "name": "Happyhair комплект шампоани, за да се чувства косата ви обичана",
+  "slug": "feel-the-difference",
+  "price": 25.99,
+  "currency": "EUR",
+  "onSale": true,
+  "inStock": true,
+  "categories": [
+   "Промоции"
+  ],
+  "shortDescription": "1 бр. Happyhair шампоан за нормална изтощена и/или цъфтяща коса 1 бр. Happyhair шампоан при мазна коса и скалп 1 бр. Happyhair шампоан за суха, боядисана и увредена коса 1 бр. Happyhair стимулиращ шам",
+  "description": "1 бр. Happyhair шампоан за нормална изтощена и/или цъфтяща коса 1 бр. Happyhair шампоан при мазна коса и скалп 1 бр. Happyhair шампоан за суха, боядисана и увредена коса 1 бр. Happyhair стимулиращ шампоан при косопад",
+  "weight": "1",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Happyhair-4pack.webp"
+  ]
+ },
+ {
+  "sku": "8d1f1aac0dd8",
+  "name": "БИО Сапуни комплект 4+1 подарък",
+  "slug": "%d1%81%d0%b0%d0%bf%d1%83%d0%bd%d0%b8-%d0%bf%d1%80%d0%be%d0%bc%d0%be",
+  "price": 15.99,
+  "currency": "EUR",
+  "onSale": true,
+  "inStock": true,
+  "categories": [
+   "Промоции"
+  ],
+  "shortDescription": "1 бр. Слънчев сапун 1 бр. Сапун Сандалово дърво 1 бр. Сапун Лавандула 1 бр. Сапун Детокс 1 бр. Цветен сапун подарък",
+  "description": ".",
+  "weight": "0.75",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/41-shaps.png"
+  ]
+ },
+ {
+  "sku": "199_EN",
+  "name": "Stain Remover Soap",
+  "slug": "stain-remover-soap",
+  "price": 1.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Cleaners"
+  ],
+  "shortDescription": "If you are one of those people who skillfully manages to get dirty, even when eating chocolate, you will appreciate this little magic stain soap. Yes, it definitely works wonders with stubborn stains ",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ][/vc_column_text][/vc_column][/vc_row]",
+  "weight": "0.05",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/03/1522D8CB-7DD9-4607-A682-730F3DF36ACD-scaled-2.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/03/soap-petna.jpg"
+  ]
+ },
+ {
+  "sku": "189-1",
+  "name": "BAKUCHIOL Lift Regeneration Power Cream",
+  "slug": "bakuchiol-lift-regeneration-power",
+  "price": 19.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Кремове",
+   "Грижа за лицето",
+   "Серия Velvet"
+  ],
+  "shortDescription": "Интензивно регенериращ крем с 2% Бакучиол, био-ретинол ефект Нашата мощна иновативна формула, стимулира производството на колаген в кожата и предефинира контура на лицето. Бакучиол е съставка от ново ",
+  "description": "BAKUCHIOL Lift Regeneration Power съчетава в себе си високоефективен коктейл, от базирани на клинични изследвания, натурални активни съставки и ботанически екстракти: • Бакучиол (2%) – извлечен от листата и семената на растението бабчи, бакучиолът е растителна алтернатива на ретинола – без негативните му странични ефекти. Бакучиолът активира клетъчните структури отговорни за създаване на колаген и повишава производството му в клетките с +48% само след 4 часа. Намалява бръчките и повишава еластичността на кожата. Свива порите и намалява светлочувствителността на кожата. Подходящ дори за най-чув",
+  "weight": "0.2",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/BakuchiolCreme-scaled.jpg",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/2-BAKUCHIOL.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/BakuchiolCremeBox-scaled-1.jpg"
+  ]
+ },
+ {
+  "sku": "143_BG",
+  "name": "БИО Душ гел Цитрус",
+  "slug": "%d0%b4%d1%83%d1%88-%d0%b3%d0%b5%d0%bb-%d1%86%d0%b8%d1%82%d1%80%d1%83%d1%81",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био душ гелове",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Богат и подхранващ душ гел с етерични масла от цитрусови плодове за свежо начало на деня! Натуралните съставки освежават, овлажняват и тонизират кожата. Подходящ за всеки тип кожа. Продуктът е COSMOS ",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] СЪСТАВКИ: Вода, кокосово масло*, рициново масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, зехтин*, глицерин**, натриев цитрат**, етерични масла от бергамот**, портокал** и лимонова трева**. INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Citrus aurantium bergamia fruit oil**, Citrus aurantium dulcis Peel Oil**, Cymbopogon schoenanthus Oil**, Limonen",
+  "weight": "0.28",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/143_Front-w_-Decoration.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/143_Back.webp"
+  ]
+ },
+ {
+  "sku": "141_BG",
+  "name": "​БИО Билков душ гел",
+  "slug": "%d0%b1%d0%b8%d0%bb%d0%ba%d0%be%d0%b2-%d0%b4%d1%83%d1%88-%d0%b3%d0%b5%d0%bb",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Био душ гелове",
+   "Грижа за тялото"
+  ],
+  "shortDescription": "Нарекохме го Билков заради фантастичния букет от лечебни и ароматни билки, които съдържа. Вложихме етерични масла от лавандула, розмарин, чаено дърво и гераниум. Нежна и ароматна грижа за всеки тип ко",
+  "description": "[vc_row][vc_column][vc_column_text css= woodmart_inline= no text_larger= no ] СЪСТАВКИ: Вода, кокосово масло*, рициново масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, зехтин*, глицерин**, натриев цитрат**, етерични масла от лавандула*, гераниум**, розмарин* и чаено дърво** INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Pelargonium Graveolens Oil**, Rosmarinus Officinalis Leaf Oil*, Melaleuca Alt",
+  "weight": "0.28",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Front-w_-Decoration.png",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Back.png"
+  ]
+ },
+ {
+  "sku": "133-BG",
+  "name": "Happyhair шампоан при пърхот терапия за коса",
+  "slug": "shampoan-pri-parhot",
+  "price": 7.49,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоани"
+  ],
+  "shortDescription": "Happy hair ТЕРАПИЯ ПРИ ПЪРХОТ с Piroctone Olamine и Zink Lactate Осигурява пълен контрол на пърхота чрез елиминиране на причинителите. Премахва до 100% видимия пърхот и е ефикасен още след първата упо",
+  "description": "Съставки/INCI: Aqua, Coco-Glucoside, Sodium Coco-Sulfate, Undaria Pinnatifida Extract, , Lauroyl /Myristoyl Methyl Glucamide, Coco-Betaine, Sunfloweroyl Methylglucamide, Vitis Vinifera Fruit Extract, Zingiber Officinale Root Extract, Boswellia Serrata Resin Extract, Citric Acid, Glycerin, Sodium Benzoate, Potassium Sorbate, Zink Lactate, Piroctone Olamine, Aroma, Glyceryl Oleate. Нето: 220 мл.",
+  "weight": "0.25",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Shampoo-Purhot-Front-_2000-x-2000-px_-_2_-1.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Shampoo-Purhot-Back-2000-x-2000-px.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Shampoo-Purhot-Front-2000-x-2000-px.webp"
+  ]
+ },
+ {
+  "sku": "132-BG",
+  "name": "БИО Билков шампоан за здрав скалп",
+  "slug": "%d0%b1%d0%b8%d0%bb%d0%ba%d0%be%d0%b2-%d1%88%d0%b0%d0%bc%d0%bf%d0%be%d0%b0%d0%bd",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоани"
+  ],
+  "shortDescription": "Нарекохме го Билков заради фантастичния букет от лечебни и ароматни билки, които съдържа. Вложихме етерични масла от лавандула, розмарин, чаено дърво и гераниум. Този шампоан ще възвърне блясъка и жиз",
+  "description": "СЪСТАВКИ: Вода**, кокосово масло*, рициново масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, зехтин*, глицерин**, натриев цитрат**, етерични масла от лавандула*, розмарин* и чаено дърво** и гераниум**. INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Lavandula Angustifolia Oil*, Pelargonium Graveolens Oil**, Rosmarinus Officinalis Leaf Oil*, Melaleuca Alternifolia Leaf Oil**, Citronellol, Linalool, Geraniol. * Биосертифицирани ",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bilkov-Shampoo-2025_SoapFactory_CANVA_1000pxWEBP.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bilkov-Shampoo-2025_SoapFactory_1000WEBP.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Bilkov-Shampoo-Backside-2025_SoapFactory_1000WEBP.webp"
+  ]
+ },
+ {
+  "sku": "FS02",
+  "name": "Ексфолиант за лице Портокал",
+  "slug": "%d0%b5%d0%ba%d1%81%d1%84%d0%be%d0%bb%d0%b8%d0%b0%d0%bd%d1%82-%d0%b7%d0%b0-%d0%bb%d0%b8%d1%86%d0%b5-%d0%bf%d0%be%d1%80%d1%82%d0%be%d0%ba%d0%b0%d0%bb",
+  "price": 12.95,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": false,
+  "categories": [],
+  "shortDescription": "Ексфолиантът за лице Портокал премахва себума и отпушват поричките. Има меко антисептично действие, благодарение на вложените чисти етерични масла и билки. Добавихме течен рицинов сапун за по-лесно от",
+  "description": "Начин на употреба : Нанесете върху влажна кожа и масажирайте с нежни кръгови движения. Отстранете с хладка вода. Съставки: Бяла глина, Нийм, Алое Вера, прах от портокалови корички, рициново и бадемово масло, кайсиево масло, течен 100%-ен рицинов сапун (sodium castorate), етерично масло от портокал, витамин E. НЕТО : 150 мл.",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/03/orange-2.jpg"
+  ]
+ },
+ {
+  "sku": "131-BG",
+  "name": "БИО Слънчев шампоан за повече обем",
+  "slug": "%d1%81%d0%bb%d1%8a%d0%bd%d1%87%d0%b5%d0%b2-%d1%88%d0%b0%d0%bc%d0%bf%d0%be%d0%b0%d0%bd",
+  "price": 7.99,
+  "currency": "EUR",
+  "onSale": false,
+  "inStock": true,
+  "categories": [
+   "Грижа за косата",
+   "Шампоани"
+  ],
+  "shortDescription": "Обогатен с рициново масло едно от най-добрите природни средства за кожата и косата. След него косата е обемна, жизнена и блестяща. Балансира и подхранва скалпа, спомага в борбата с косопада. Нежна и а",
+  "description": "СЪСТАВКИ: Вода**, кокосово масло*, рициново масло*, калиева основа** (осапунващ агент не присъства в крайния продукт), слънчогледово масло*, зехтин*, глицерин**, натриев цитрат**, етерични масла от бергамот**, портокал** и лимонова трева** INCI: Aqua**, Cocos Nucifera Oil*, Ricinus Communis Seed Oil*, Potassium Hydroxide**, Helianthus Annuus Seed Oil*, Olea Europea Fruit Oil*, Glycerin**, Sodium Citrate**, Citrus Aurantium Bergamia Fruit Oil**, Citrus Aurantium Dulcis Peel Oil**, Cymbopogon Schoenanthus Oil**, Citral, Limonene, Linalool. * Биосертифицирани съставки ** Натурални съставки Нето: ",
+  "weight": "",
+  "images": [
+   "https://soapfactory.bg/wp-content/uploads/2024/04/131_Front-w_-Decoration.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Slynchev-Shampoo-2025_SoapFactory_1000WEBP.webp",
+   "https://soapfactory.bg/wp-content/uploads/2024/04/Slynchev-Shampoo-Backside-2025_SoapFactory_1000WEBP.webp"
+  ]
+ }
+]

@@ -1,0 +1,227 @@
+<!--
+  Order confirmation email — sent to the customer right after an order is placed.
+  Subject: Вашата поръчка от Сапунена работилница е получена.
+
+  Placeholders (replace before sending):
+    {{customerName}}     — Мариета
+    {{orderNumber}}       — 16111
+    {{orderDate}}         — 13.06.2026
+    {{trackOrderUrl}}     — https://www.soapfactory.bg/account/porachki (link to the customer's order history)
+    {{itemsRows}}         — pre-rendered <tr> rows, one per product (see snippet below)
+    {{subtotal}}          — 7,49 € (14.65 лв.)
+    {{shippingLabel}}      — До офис Speedy
+    {{shippingPrice}}      — 3,60 € (7.04 лв.)
+    {{paymentMethod}}      — Плащане при доставка
+    {{total}}              — 11,09 € (21.69 лв.)
+    {{deliveryName}}       — Мариета Бостанджиева
+    {{deliveryAddressLine}}— До офис Speedy[1]: ПЛОВДИВ – СКЛАД ЮГ ул. КУКЛЕНСКО ШОСЕ No 15
+    {{deliveryCity}}       — ПЛОВДИВ
+    {{deliveryCountry}}    — България
+    {{customerPhone}}      — +359897943934
+    {{customerEmail}}      — marieta@soapfactory.bg
+
+  Item row snippet (repeat for each product, drop into {{itemsRows}}):
+    <tr>
+      <td style="padding:12px 8px;border-bottom:1px solid #f5e9f0;color:#333;font-size:14px;line-height:1.5">{{name}}</td>
+      <td style="padding:12px 8px;border-bottom:1px solid #f5e9f0;color:#777;font-size:14px;text-align:center;white-space:nowrap">{{qty}}</td>
+      <td style="padding:12px 8px;border-bottom:1px solid #f5e9f0;color:#333;font-size:14px;text-align:right;white-space:nowrap">{{price}}</td>
+    </tr>
+-->
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вашата поръчка от Сапунена работилница е получена</title>
+</head>
+<body style="margin:0;padding:0;background-color:#faf6fb;font-family:Arial,Helvetica,sans-serif;">
+  <!-- Preheader (hidden preview text) -->
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+    Поръчка №{{orderNumber}} е получена и в момента се обработва. Благодарим, че пазарувате от Сапунена работилница!
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#faf6fb;padding:32px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background-color:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #f3e6f0;box-shadow:0 8px 28px rgba(185,153,224,0.18);">
+
+          <!-- Accent bar -->
+          <tr>
+            <td style="height:6px;line-height:6px;font-size:0;background-image:linear-gradient(90deg,#AEDFF7 0%,#D6C5F0 33%,#FFC9DE 66%,#AEDFF7 100%);">&nbsp;</td>
+          </tr>
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#D6C5F0;background-image:linear-gradient(135deg,#AEDFF7 0%,#D6C5F0 50%,#FFC9DE 100%);padding:36px 32px;text-align:center;">
+              <div style="font-size:22px;letter-spacing:4px;margin-bottom:10px;">
+                ☀️ 🌸 ⭐ 🌷 ✨
+              </div>
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#ffffff;margin-bottom:6px;">
+                Сапунена работилница
+              </div>
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:bold;color:#ffffff;text-shadow:0 1px 3px rgba(120,90,160,0.25);">
+                Благодарим за Вашата поръчка 💐
+              </div>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td style="padding:32px 32px 8px 32px;">
+              <p style="margin:0 0 12px 0;font-size:15px;color:#333333;line-height:1.6;">
+                Здравейте, <strong>{{customerName}}</strong>,
+              </p>
+              <p style="margin:0;font-size:15px;color:#777777;line-height:1.6;">
+                Вашата поръчка <strong style="color:#B999E0;">#{{orderNumber}}</strong> е получена и в момента се обработва.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Order meta pill -->
+          <tr>
+            <td style="padding:20px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color:#F4EEFC;border-radius:20px;padding:8px 18px;font-size:13px;color:#9B7FC7;font-weight:bold;">
+                    🌟 Поръчка №{{orderNumber}} &nbsp;·&nbsp; {{orderDate}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Track order button -->
+          <tr>
+            <td style="padding:20px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-radius:24px;background-color:#C9A2E0;background-image:linear-gradient(135deg,#F2A6C9 0%,#B999E0 100%);">
+                    <a href="{{trackOrderUrl}}" target="_blank" style="display:inline-block;padding:12px 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:24px;">
+                      Проследи поръчката →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Items table -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th align="left" style="padding:0 8px 10px 8px;border-bottom:2px solid #FFC9DE;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#B999E0;font-weight:bold;">Продукт</th>
+                    <th align="center" style="padding:0 8px 10px 8px;border-bottom:2px solid #FFC9DE;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#B999E0;font-weight:bold;white-space:nowrap;">Количество</th>
+                    <th align="right" style="padding:0 8px 10px 8px;border-bottom:2px solid #FFC9DE;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#B999E0;font-weight:bold;">Цена</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{itemsRows}}
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Totals -->
+          <tr>
+            <td style="padding:4px 32px 0 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:10px 0;font-size:14px;color:#777777;">Общо</td>
+                  <td style="padding:10px 0;font-size:14px;color:#333333;text-align:right;">{{subtotal}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;border-top:1px solid #f5e9f0;font-size:14px;color:#777777;">Доставка <span style="color:#bbb;">({{shippingLabel}})</span></td>
+                  <td style="padding:10px 0;border-top:1px solid #f5e9f0;font-size:14px;color:#333333;text-align:right;">{{shippingPrice}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;border-top:1px solid #f5e9f0;font-size:14px;color:#777777;">Начин на плащане</td>
+                  <td style="padding:10px 0;border-top:1px solid #f5e9f0;font-size:14px;text-align:right;">
+                    <span style="display:inline-block;background-color:#EAF7FD;color:#5CADD9;font-weight:bold;font-size:12px;padding:4px 12px;border-radius:12px;">{{paymentMethod}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 16px;border-top:2px solid #FFC9DE;background-color:#FFF3F8;border-radius:12px 0 0 12px;font-size:16px;color:#333333;font-weight:bold;">Общо</td>
+                  <td style="padding:14px 16px;border-top:2px solid #FFC9DE;background-color:#FFF3F8;border-radius:0 12px 12px 0;font-size:18px;color:#E8729E;font-weight:bold;text-align:right;">{{total}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Delivery / billing address -->
+          <tr>
+            <td style="padding:8px 32px 32px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#EAF7FD;border-radius:12px;">
+                <tr>
+                  <td style="padding:20px 24px;">
+                    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5CADD9;font-weight:bold;margin-bottom:10px;">
+                      🌷 Адрес за доставка
+                    </div>
+                    <p style="margin:0;font-size:14px;color:#333333;line-height:1.7;">
+                      {{deliveryName}}<br>
+                      {{deliveryAddressLine}}<br>
+                      {{deliveryCity}}, {{deliveryCountry}}<br>
+                      {{customerPhone}}<br>
+                      {{customerEmail}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Decorative divider -->
+          <tr>
+            <td style="padding:0 32px;text-align:center;font-size:18px;letter-spacing:10px;color:#e9d6ee;">
+              🌸 ⭐ 🌷 ⭐ 🌸
+            </td>
+          </tr>
+
+          <!-- What's next -->
+          <tr>
+            <td style="padding:20px 32px 32px 32px;">
+              <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#B999E0;font-weight:bold;margin-bottom:16px;text-align:center;">
+                Какво следва?
+              </div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="33%" align="center" style="padding:0 6px;">
+                    <div style="display:inline-block;width:30px;height:30px;line-height:30px;border-radius:50%;background-color:#F2A6C9;color:#ffffff;font-size:13px;font-weight:bold;text-align:center;margin-bottom:8px;">1</div>
+                    <div style="font-size:12px;color:#333333;font-weight:bold;margin-bottom:2px;">Получена</div>
+                    <div style="font-size:11px;color:#aaaaaa;line-height:1.4;">Поръчката е приета</div>
+                  </td>
+                  <td width="33%" align="center" style="padding:0 6px;">
+                    <div style="display:inline-block;width:30px;height:30px;line-height:30px;border-radius:50%;background-color:#F4EEFC;color:#B999E0;font-size:13px;font-weight:bold;text-align:center;margin-bottom:8px;">2</div>
+                    <div style="font-size:12px;color:#333333;font-weight:bold;margin-bottom:2px;">Обработка</div>
+                    <div style="font-size:11px;color:#aaaaaa;line-height:1.4;">Подготвяме поръчката</div>
+                  </td>
+                  <td width="33%" align="center" style="padding:0 6px;">
+                    <div style="display:inline-block;width:30px;height:30px;line-height:30px;border-radius:50%;background-color:#EAF7FD;color:#5CADD9;font-size:13px;font-weight:bold;text-align:center;margin-bottom:8px;">3</div>
+                    <div style="font-size:12px;color:#333333;font-weight:bold;margin-bottom:2px;">Доставка</div>
+                    <div style="font-size:11px;color:#aaaaaa;line-height:1.4;">Очаквайте пратката си</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:24px 32px;background-color:#FCF7FB;border-top:1px solid #f5e9f0;text-align:center;">
+              <p style="margin:0 0 4px 0;font-size:14px;color:#333333;">
+                Благодарим, че използвате <a href="https://soapfactory.bg" style="color:#B999E0;text-decoration:none;font-weight:bold;">soapfactory.bg</a>! 🌸
+              </p>
+              <p style="margin:0;font-size:12px;color:#bbbbbb;line-height:1.6;">
+                Сапунена работилница · гр. София, бул. Цариградско шосе 71<br>
+                info@soapfactory.bg · +359 988 930 044
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

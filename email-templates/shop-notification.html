@@ -1,0 +1,225 @@
+<!--
+  Shop notification email — sent to the team (SHOP_NOTIFY_EMAIL) right after a new order comes in.
+  Subject: 🛒 Нова поръчка №{{orderNumber}}
+
+  Placeholders (replace before sending):
+    {{customerName}}     — Катя Сърпова
+    {{orderNumber}}       — 16104
+    {{orderDate}}         — 12.06.2026
+    {{orderUrl}}          — https://www.soapfactory.bg/admin/porachki/{order.id} (full link to this order in the admin panel)
+    {{densityClass}}      — '' | 'email-compact' | 'email-tight' (auto, based on item count — shrinks print layout so large orders still fit one A4 page)
+    {{itemsRows}}         — pre-rendered <tr> rows, one per product (see snippet below)
+    {{subtotal}}          — 10,47 € (20.48 лв.)
+    {{shippingLabel}}      — До автомат BoxNow
+    {{shippingPrice}}      — 1,50 € (2.93 лв.)
+    {{paymentMethod}}      — Credit / Debit Card
+    {{total}}              — 11,97 € (23.41 лв.)
+    {{deliveryName}}       — Катя Сърпова
+    {{deliveryAddressLine}}— До автомат boxnow-locker[7698]: Бургас - АМП - ж.к. Зорница 47, Бургас - 24/7 ж.к. Зорница, блок 47
+    {{deliveryCity}}       — Бургас
+    {{customerPhone}}      — +359889453122
+    {{customerEmail}}      — katyz@abv.bg
+
+  Item row snippet (repeat for each product, drop into {{itemsRows}}):
+    <tr>
+      <td style="padding:12px 0;border-bottom:1px solid #eee;color:#333;font-size:14px;line-height:1.5">{{name}} <span style="color:#aaa;font-size:12px;">({{sku}})</span></td>
+      <td style="padding:12px 0;border-bottom:1px solid #eee;color:#777;font-size:14px;text-align:center;white-space:nowrap">{{qty}}</td>
+      <td style="padding:12px 0;border-bottom:1px solid #eee;color:#333;font-size:14px;text-align:right;white-space:nowrap">{{price}}</td>
+    </tr>
+-->
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Нова поръчка №{{orderNumber}}</title>
+<style>
+  /* Print this email on a single A4 sheet — e.g. as a packing slip. */
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background-color: #ffffff !important; }
+    table[role="presentation"][width="600"] {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .email-outer { padding: 0 !important; }
+    .email-header { background-image: none !important; background-color: #5d7a5d !important; padding: 8px 24px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .email-header div { margin-bottom: 0 !important; }
+    .email-section { padding: 6px 24px !important; }
+    .email-pill { background-color: #eef2ea !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .email-box { background-color: #f7f3ee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .email-footer { display: none !important; }
+    .email-no-print { display: none !important; }
+    .email-box, tr { page-break-inside: avoid; break-inside: avoid; }
+    .email-section table td, .email-section table th { padding-top: 5px !important; padding-bottom: 5px !important; }
+    .email-box td { padding: 12px 16px !important; }
+    .email-box p { line-height: 1.4 !important; }
+
+    /* Density tiers — applied to .email-outer based on item count, so large
+       orders shrink to keep fitting on one A4 sheet. */
+    .email-compact .email-section { padding: 3px 24px !important; }
+    .email-compact .email-header { padding: 4px 24px !important; }
+    .email-compact .email-section table td, .email-compact .email-section table th { padding-top: 2px !important; padding-bottom: 2px !important; font-size: 12px !important; }
+    .email-compact .email-box td { padding: 8px 12px !important; }
+    .email-compact .email-box p { line-height: 1.3 !important; }
+
+    .email-tight .email-section { padding: 1px 20px !important; }
+    .email-tight .email-header { padding: 2px 20px !important; }
+    .email-tight .email-header div { font-size: 12px !important; }
+    .email-tight .email-section table td, .email-tight .email-section table th { padding-top: 0 !important; padding-bottom: 0 !important; font-size: 11px !important; line-height: 1.3 !important; }
+    .email-tight .email-box td { padding: 6px 10px !important; }
+    .email-tight .email-box p { line-height: 1.2 !important; }
+    .email-tight .email-pill { padding: 4px 12px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#f7f3ee;font-family:Arial,Helvetica,sans-serif;">
+  <!-- Preheader (hidden preview text) -->
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+    Нова поръчка №{{orderNumber}} от {{customerName}} — обща сума {{total}}.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="email-outer {{densityClass}}" style="background-color:#f7f3ee;padding:32px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background-color:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e8e8e8;box-shadow:0 6px 24px rgba(93,122,93,0.10);">
+
+          <!-- Accent bar -->
+          <tr class="email-no-print">
+            <td style="height:6px;line-height:6px;font-size:0;background-color:#5d7a5d;background-image:linear-gradient(90deg,#5d7a5d 0%,#aac4aa 50%,#5d7a5d 100%);">&nbsp;</td>
+          </tr>
+
+          <!-- Header -->
+          <tr>
+            <td class="email-header" style="background-color:#5d7a5d;background-image:linear-gradient(135deg,#8aa68a 0%,#5d7a5d 100%);padding:36px 32px;text-align:center;">
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#eef2ea;margin-bottom:6px;">
+                🌿 Сапунена работилница · Админ
+              </div>
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:bold;color:#ffffff;">
+                🛒 Нова поръчка №{{orderNumber}}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Intro -->
+          <tr>
+            <td class="email-section" style="padding:32px 32px 8px 32px;">
+              <p style="margin:0;font-size:15px;color:#333333;line-height:1.6;">
+                Получихте следната поръчка от <strong>{{customerName}}</strong>:
+              </p>
+            </td>
+          </tr>
+
+          <!-- Order meta pill -->
+          <tr>
+            <td class="email-section" style="padding:20px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td class="email-pill" style="background-color:#eef2ea;border-radius:20px;padding:8px 18px;font-size:13px;color:#5d7a5d;font-weight:bold;">
+                    Поръчка №{{orderNumber}} &nbsp;·&nbsp; {{orderDate}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- View order button -->
+          <tr class="email-no-print">
+            <td class="email-section" style="padding:20px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-radius:8px;background-color:#5d7a5d;">
+                    <a href="{{orderUrl}}" target="_blank" style="display:inline-block;padding:12px 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:8px;">
+                      Виж поръчката →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Items table -->
+          <tr>
+            <td class="email-section" style="padding:24px 32px 0 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th align="left" style="padding:0 0 10px 0;border-bottom:2px solid #8aa68a;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5d7a5d;font-weight:bold;">Продукт</th>
+                    <th align="center" style="padding:0 0 10px 0;border-bottom:2px solid #8aa68a;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5d7a5d;font-weight:bold;white-space:nowrap;">Количество</th>
+                    <th align="right" style="padding:0 0 10px 0;border-bottom:2px solid #8aa68a;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5d7a5d;font-weight:bold;">Цена</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{itemsRows}}
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Totals -->
+          <tr>
+            <td class="email-section" style="padding:4px 32px 0 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:10px 0;font-size:14px;color:#777777;">Общо</td>
+                  <td style="padding:10px 0;font-size:14px;color:#333333;text-align:right;">{{subtotal}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;border-top:1px solid #eee;font-size:14px;color:#777777;">Доставка <span style="color:#999;">({{shippingLabel}})</span></td>
+                  <td style="padding:10px 0;border-top:1px solid #eee;font-size:14px;color:#333333;text-align:right;">{{shippingPrice}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;border-top:1px solid #eee;font-size:14px;color:#777777;">Начин на плащане</td>
+                  <td style="padding:10px 0;border-top:1px solid #eee;font-size:14px;text-align:right;">
+                    <span style="display:inline-block;background-color:#eef2ea;color:#5d7a5d;font-weight:bold;font-size:12px;padding:4px 12px;border-radius:12px;">{{paymentMethod}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 16px;border-top:2px solid #8aa68a;background-color:#f7faf6;border-radius:8px 0 0 8px;font-size:16px;color:#333333;font-weight:bold;">Общо</td>
+                  <td style="padding:14px 16px;border-top:2px solid #8aa68a;background-color:#f7faf6;border-radius:0 8px 8px 0;font-size:18px;color:#5d7a5d;font-weight:bold;text-align:right;">{{total}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Customer / delivery info -->
+          <tr>
+            <td class="email-section" style="padding:8px 32px 32px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="email-box" style="background-color:#f7f3ee;border-radius:10px;">
+                <tr>
+                  <td style="padding:20px 24px;">
+                    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5d7a5d;font-weight:bold;margin-bottom:10px;">
+                      Адрес за фактуриране
+                    </div>
+                    <p style="margin:0;font-size:14px;color:#333333;line-height:1.7;">
+                      {{deliveryName}}<br>
+                      {{deliveryAddressLine}}<br>
+                      {{deliveryCity}}<br>
+                      {{customerPhone}}<br>
+                      {{customerEmail}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr class="email-footer">
+            <td style="padding:24px 32px;background-color:#ffffff;border-top:1px solid #eee;text-align:center;">
+              <p style="margin:0;font-size:12px;color:#999999;line-height:1.6;">
+                Това е автоматично известие от <a href="https://soapfactory.bg" style="color:#5d7a5d;text-decoration:none;font-weight:bold;">soapfactory.bg</a><br>
+                Сапунена работилница · гр. София, бул. Цариградско шосе 71
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
