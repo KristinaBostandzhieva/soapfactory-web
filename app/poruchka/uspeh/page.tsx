@@ -28,7 +28,7 @@ export default async function PaymentSuccessPage({ searchParams }: { searchParam
         await sendOrderEmails(order.id);
         paid = true;
       }
-    } catch { /* ignore — show pending */ }
+    } catch { /* ignore â€” show pending */ }
   }
 
   return (

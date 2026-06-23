@@ -181,22 +181,22 @@ export default function OrderPage() {
             <label className="flex items-center gap-3 border rounded-md px-4 py-3 mb-3 cursor-pointer"
               style={{ borderColor: paymentMethod === 'cod' ? 'var(--primary)' : 'var(--border)' }}>
               <input type="radio" name="payment" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} style={{ accentColor: 'var(--primary)' }} />
-              <span className="text-[14px]"><strong>??????? ??????</strong> — ??????? ? ???? ??? ????????</span>
+              <span className="text-[14px]"><strong>??????? ??????</strong> â€” ??????? ? ???? ??? ????????</span>
             </label>
             <label className="flex items-center gap-3 border rounded-md px-4 py-3 cursor-pointer"
               style={{ borderColor: paymentMethod === 'stripe' ? 'var(--primary)' : 'var(--border)', opacity: stripeEnabled ? 1 : 0.55 }}>
               <input type="radio" name="payment" disabled={!stripeEnabled} checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} style={{ accentColor: 'var(--primary)' }} />
               <span className="text-[14px]">
                 <strong>??????? ? ?????</strong> (Visa / Mastercard, ???? Stripe)
-                {!stripeEnabled && <span className="text-[var(--text-muted)]"> — ?????? API ????</span>}
+                {!stripeEnabled && <span className="text-[var(--text-muted)]"> â€” ?????? API ????</span>}
               </span>
             </label>
           </div>
 
           <button type="submit" disabled={loading} className="btn-primary" style={{ padding: '14px 36px', fontSize: 14 }}>
-            {loading ? '?????????…' : paymentMethod === 'stripe' ? '????? ? ?????' : '??????? ?????????'}
+            {loading ? '?????????â€¦' : paymentMethod === 'stripe' ? '????? ? ?????' : '??????? ?????????'}
           </button>
-          <p className="text-[12px] text-[var(--text-muted)] mt-3">?? ????????? ???????? ?? ?????????? ??????? ?? Stripe — ??????? ?? ??????? ?? ??????? ???? ???? ????.</p>
+          <p className="text-[12px] text-[var(--text-muted)] mt-3">?? ????????? ???????? ?? ?????????? ??????? ?? Stripe â€” ??????? ?? ??????? ?? ??????? ???? ???? ????.</p>
         </form>
 
         {/* Summary */}
@@ -205,8 +205,8 @@ export default function OrderPage() {
           <ul className="mb-4">
             {items.map((it) => (
               <li key={it.id} className="flex justify-between text-[14px] py-2 border-b border-[var(--border)]">
-                <span className="text-[var(--text-body)]">{it.name} × {it.quantity}</span>
-                <span className="font-semibold">{(it.price * it.quantity).toFixed(2)} €</span>
+                <span className="text-[var(--text-body)]">{it.name} Ã— {it.quantity}</span>
+                <span className="font-semibold">{(it.price * it.quantity).toFixed(2)} â‚¬</span>
               </li>
             ))}
           </ul>
@@ -224,7 +224,7 @@ export default function OrderPage() {
                     className="flex-1 border border-[var(--border)] rounded px-3 py-2 text-[14px] focus:outline-none focus:border-[var(--primary)] uppercase" />
                   <button type="button" onClick={applyPromo} disabled={promoLoading}
                     className="px-4 rounded text-[13px] font-semibold border border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-colors">
-                    {promoLoading ? '…' : '???????'}
+                    {promoLoading ? 'â€¦' : '???????'}
                   </button>
                 </div>
                 {promoMsg && <p className="text-[12px] text-red-600 mt-1">{promoMsg}</p>}
@@ -232,19 +232,19 @@ export default function OrderPage() {
             )}
           </div>
 
-          <div className="flex justify-between text-[14px] py-1"><span className="text-[var(--text-body)]">???????? ????</span><span>{total.toFixed(2)} €</span></div>
+          <div className="flex justify-between text-[14px] py-1"><span className="text-[var(--text-body)]">???????? ????</span><span>{total.toFixed(2)} â‚¬</span></div>
           {discount > 0 && (
             <div className="flex justify-between text-[14px] py-1 text-green-700">
-              <span>???????? ({promo?.code})</span><span>- {discount.toFixed(2)} €</span>
+              <span>???????? ({promo?.code})</span><span>- {discount.toFixed(2)} â‚¬</span>
             </div>
           )}
           <div className="flex justify-between text-[14px] py-1">
             <span className="text-[var(--text-body)]">????????{delivery ? ` (${delivery.courier === 'boxnow' ? 'BOX NOW' : delivery.courier === 'speedy' ? '?????' : '?????'})` : ''}</span>
-            <span>{shipping === 0 ? '?????????' : `${shipping.toFixed(2)} €`}</span>
+            <span>{shipping === 0 ? '?????????' : `${shipping.toFixed(2)} â‚¬`}</span>
           </div>
           <div className="flex justify-between py-3 mt-2 border-t border-[var(--border)]">
             <span style={{ fontFamily: hf }} className="font-bold">????</span>
-            <span style={{ fontFamily: hf }} className="font-bold text-[18px] text-[var(--primary)]">{grandTotal.toFixed(2)} € <span className="text-[12px] text-[var(--text-muted)] font-normal">({lev(grandTotal)} ??.)</span></span>
+            <span style={{ fontFamily: hf }} className="font-bold text-[18px] text-[var(--primary)]">{grandTotal.toFixed(2)} â‚¬ <span className="text-[12px] text-[var(--text-muted)] font-normal">({lev(grandTotal)} ??.)</span></span>
           </div>
         </aside>
       </div>

@@ -41,7 +41,7 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 max-w-2xl">
         <div className="bg-white border border-[var(--border)] rounded-lg p-5">
           <div className="text-[13px] text-[var(--text-muted)]">??????? (??????? ???????)</div>
-          <div style={{ fontFamily: hf, fontWeight: 800, fontSize: 24, color: '#9B72C7' }}>{(revenueAgg._sum.total || 0).toFixed(2)} €</div>
+          <div style={{ fontFamily: hf, fontWeight: 800, fontSize: 24, color: '#9B72C7' }}>{(revenueAgg._sum.total || 0).toFixed(2)} â‚¬</div>
         </div>
         <div className="bg-white border border-[var(--border)] rounded-lg p-5 flex flex-col justify-between">
           <div>
@@ -61,7 +61,7 @@ export default async function AdminDashboard() {
             {lowStock.map((p) => (
               <Link key={p.id} href={`/admin/produkti/${p.id}`}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] border transition-colors hover:border-[var(--primary)] ${p.stockQty === 0 ? 'border-red-200 bg-red-50 text-red-600' : 'border-amber-200 bg-amber-50 text-amber-700'}`}>
-                {p.name} <span className="font-bold">· {p.stockQty} ??.</span>
+                {p.name} <span className="font-bold">Â· {p.stockQty} ??.</span>
               </Link>
             ))}
           </div>
@@ -82,7 +82,7 @@ export default async function AdminDashboard() {
                 <tr key={o.id} className="border-t border-[var(--border)] hover:bg-[var(--bg-light)]">
                   <td className="px-4 py-3"><Link href={`/admin/porachki/${o.id}`} className="text-[var(--primary)] font-semibold">#{orderNumber(o.id)}</Link></td>
                   <td className="px-4 py-3">{o.customerName}</td>
-                  <td className="px-4 py-3 font-semibold">{o.total.toFixed(2)} €</td>
+                  <td className="px-4 py-3 font-semibold">{o.total.toFixed(2)} â‚¬</td>
                   <td className="px-4 py-3">{orderStatusLabel(o.status)}</td>
                   <td className="px-4 py-3 text-[var(--text-muted)]">{new Date(o.createdAt).toLocaleDateString('bg-BG')}</td>
                 </tr>

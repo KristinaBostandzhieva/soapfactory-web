@@ -54,7 +54,7 @@ export default function RegisterPage() {
           <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className={inputCls} />
         </div>
         <button type="submit" disabled={loading} className="btn-primary w-full text-center" style={{ padding: '11px', fontSize: 14 }}>
-          {loading ? '?????????…' : '?????? ??????'}
+          {loading ? '?????????â€¦' : '?????? ??????'}
         </button>
         <p className="text-[13px] text-[var(--text-body)] text-center mt-5">
           ???? ???? ??????? <Link href="/vhod" className="text-[var(--primary)] font-semibold hover:underline">????</Link>
