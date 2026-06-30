@@ -22,7 +22,7 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
         position: 'fixed', inset: 0, zIndex: 1000,
         background: 'rgba(0,0,0,0.75)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20,
+        padding: '24px 28px',
         animation: 'promo-backdrop-in 0.25s ease both',
       }}
       onClick={onClose}
@@ -30,7 +30,7 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
       <div
         style={{
           position: 'relative',
-          maxWidth: 680,
+          maxWidth: 1120,
           width: '100%',
           animation: 'promo-modal-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both',
         }}
@@ -41,8 +41,8 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
           onClick={onClose}
           aria-label="Затвори"
           style={{
-            position: 'absolute', top: -14, right: -14,
-            width: 36, height: 36, borderRadius: '50%',
+            position: 'absolute', top: -16, right: -16,
+            width: 40, height: 40, borderRadius: '50%',
             background: '#fff', border: 'none',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', zIndex: 10,
@@ -52,35 +52,35 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
           <X size={17} color="#333" />
         </button>
 
-        {/* Promo image */}
-        <img
-          src="/images/promo-popup.webp"
-          alt="Промоция"
-          style={{ width: '100%', display: 'block', borderRadius: 12 }}
-        />
-
-        {/* CTA */}
-        <div style={{ textAlign: 'center', marginTop: 18 }}>
-          <Link
-            href="/kategoria/promotsii"
-            onClick={onClose}
-            style={{
-              display: 'inline-block',
-              background: '#9B72C7',
-              color: '#fff',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              fontSize: 15,
-              padding: '14px 44px',
-              borderRadius: 50,
-              textDecoration: 'none',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              boxShadow: '0 4px 18px rgba(141,85,60,0.35)',
-            }}
-          >
-            Get it Now
-          </Link>
+        {/* Promo image + overlaid CTA */}
+        <div style={{ position: 'relative' }}>
+          <img
+            src="/images/fscr-care/promo-modal.png"
+            alt="Промоция"
+            style={{ width: '100%', display: 'block', borderRadius: 12, maxHeight: '84vh', objectFit: 'contain' }}
+          />
+          <div style={{ position: 'absolute', bottom: '5%', left: 0, right: 0, textAlign: 'center' }}>
+            <Link
+              href="/kategoria/promotsii"
+              onClick={onClose}
+              style={{
+                display: 'inline-block',
+                background: '#9B72C7',
+                color: '#fff',
+                fontFamily: 'var(--font-body)',
+                fontWeight: 600,
+                fontSize: 16,
+                padding: '15px 52px',
+                borderRadius: 50,
+                textDecoration: 'none',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                boxShadow: '0 4px 18px rgba(0,0,0,0.3)',
+              }}
+            >
+              Shop
+            </Link>
+          </div>
         </div>
       </div>
     </div>

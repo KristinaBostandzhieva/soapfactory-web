@@ -23,7 +23,7 @@ export const categories: Category[] = [
   { slug: 'bio-sapuni', title: 'Био сапуни', parent: 'grizha-za-tialoto' },
   { slug: 'bio-dush-gelove', title: 'Био душ гелове', parent: 'grizha-za-tialoto' },
   { slug: 'deo-stikove', title: 'Део стикове', parent: 'grizha-za-tialoto' },
-  { slug: 'zaharni-eksfolianti', title: 'Захарни ексфолианти', parent: 'grizha-za-tialoto' },
+  { slug: 'zaharni-eksfolianti', title: 'Ексфолианти', parent: 'grizha-za-tialoto' },
   { slug: 'losioni-i-masla', title: 'Лосиони и масла', parent: 'grizha-za-tialoto' },
   { slug: 'grizha-za-litseto', title: 'Грижа за лицето', image: '/images/cat-litse.jpeg' },
   { slug: 'bio-balsami-za-ustni', title: 'Био балсами за устни', parent: 'grizha-za-litseto' },

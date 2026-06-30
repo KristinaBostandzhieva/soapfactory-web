@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import ImageUpload from '@/components/admin/ImageUpload';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 
 const hf = 'var(--font-body)';
 const label = 'block text-[13px] font-medium mb-1';
@@ -48,8 +49,7 @@ export default function PostForm({
 
         <div>
           <label className={label}>Съдържание *</label>
-          <textarea name="content" required rows={16} defaultValue={initial?.content || ''} placeholder="Напиши статията тук. Раздели абзаците с празен ред." className={`${input} font-mono text-[13px]`} />
-          <p className="text-[12px] text-[var(--text-muted)] mt-1">Раздели абзаците с празен ред. Можеш да използваш и HTML.</p>
+          <RichTextEditor name="content" defaultValue={initial?.content || ''} required />
         </div>
 
         <div>

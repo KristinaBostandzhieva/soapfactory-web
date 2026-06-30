@@ -50,9 +50,9 @@ export default function FavoriteButton({
       aria-label={active ? tr.home.removeFromFav : tr.home.addToFav}
       aria-pressed={active}
       className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center transition-colors"
-      style={{ color: active ? 'var(--primary)' : '#bbb' }}
+      style={{ color: active ? 'var(--primary)' : '#999' }}
     >
-      <Heart size={18} strokeWidth={1.5} fill={active ? 'currentColor' : 'none'} />
+      <Heart size={20} strokeWidth={1.8} fill={active ? 'currentColor' : 'none'} />
     </button>
   );
 }

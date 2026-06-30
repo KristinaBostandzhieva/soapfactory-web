@@ -11,9 +11,9 @@ interface Product {
 }
 
 const GAP          = 20;
-const NORMAL_SPEED = 0.8;   // px per frame (~48px/s at 60fps)
-const FAST_SPEED   = 2.2;   // px per frame at edges
-const EDGE_ZONE    = 0.18;  // 18% from each side triggers fast
+const NORMAL_SPEED = 0.18;  // super slow auto-scroll
+const FAST_SPEED   = 2.2;
+const EDGE_ZONE    = 0.18;
 
 export default function HomeMegaCarousel({
   newProducts,
@@ -31,14 +31,17 @@ export default function HomeMegaCarousel({
   const n    = all.length;
 
   const [isBest, setIsBest] = useState(false);
-  const outerRef     = useRef<HTMLDivElement>(null);
-  const trackRef     = useRef<HTMLDivElement>(null);
-  const posRef       = useRef(0);
-  const speedRef     = useRef(NORMAL_SPEED);
-  const rafRef       = useRef<number>(0);
-  const singleW      = useRef(0);
-  const elapsedMs    = useRef(0);
-  const lastTs       = useRef<number | null>(null);
+  const [showHint, setShowHint] = useState(true);
+  const outerRef       = useRef<HTMLDivElement>(null);
+  const trackRef       = useRef<HTMLDivElement>(null);
+  const posRef         = useRef(0);
+  const speedRef       = useRef(NORMAL_SPEED);
+  const rafRef         = useRef<number>(0);
+  const singleW        = useRef(0);
+  const elapsedMs      = useRef(0);
+  const lastTs         = useRef<number | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartPos  = useRef(0);
 
   const newDur  = newProducts.length  * (NORMAL_SPEED > 0 ? 1 : 1); // recalc in RAF
   const phasePx = {
@@ -55,6 +58,11 @@ export default function HomeMegaCarousel({
 
   // RAF loop
   useEffect(() => {
+    if (window.innerWidth >= 640) {
+      if (trackRef.current) trackRef.current.style.transform = 'none';
+      return;
+    }
+
     function tick(ts: number) {
       const dt = lastTs.current !== null ? ts - lastTs.current : 16;
       lastTs.current = ts;
@@ -100,20 +108,37 @@ export default function HomeMegaCarousel({
     speedRef.current = NORMAL_SPEED;
   }
 
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartPos.current = posRef.current;
+    speedRef.current = 0;
+    setShowHint(false);
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    if (touchStartXRef.current === null) return;
+    const delta = e.touches[0].clientX - touchStartXRef.current;
+    let newPos = touchStartPos.current + delta;
+    const sw = singleW.current;
+    if (sw > 0) {
+      while (newPos > 0) newPos -= sw;
+      while (newPos <= -sw) newPos += sw;
+    }
+    posRef.current = newPos;
+    if (trackRef.current) trackRef.current.style.transform = `translateX(${newPos}px)`;
+  }
+
+  function handleTouchEnd() {
+    touchStartXRef.current = null;
+    speedRef.current = NORMAL_SPEED;
+  }
+
   return (
-    <section className="section-pad" style={{ paddingBottom: 32 }}>
+    <section className="section-pad home-mega-products" style={{ paddingBottom: 28 }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-        <h2
-          key={String(isBest)}
-          className="section-title sf-title-fade"
-          style={{ margin: 0 }}
-        >
-          {isBest ? tr.home.sectionBestsellers : tr.home.sectionNew}
-        </h2>
-        <Link href="/shop" className="btn-primary">{tr.home.viewAll}</Link>
+      <div className="title-row">
+        <h2 className="section-title">{tr.home.sectionBestsellers}</h2>
       </div>
-      <hr className="title-underline-full" style={{ marginBottom: 24 }} />
 
       {/* Marquee */}
       <div
@@ -121,6 +146,9 @@ export default function HomeMegaCarousel({
         className="sf-carousel-outer"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <div ref={trackRef} className="sf-carousel-track">
           {loop.map((p, i) => (
@@ -138,11 +166,32 @@ export default function HomeMegaCarousel({
           to   { opacity:1; transform:translateY(0); }
         }
         .sf-carousel-outer {
+          position: relative;
           overflow: hidden;
-          margin: 0 -15px;
-          padding: 0 15px;
+          margin: 0;
+          padding: 0;
           cursor: default;
         }
+        @keyframes sf-swipe-anim {
+          0%   { opacity: 0; transform: translateX(80px) translateY(-50%); }
+          10%  { opacity: 1; transform: translateX(80px) translateY(-50%); }
+          72%  { opacity: 1; transform: translateX(-80px) translateY(-50%); }
+          83%  { opacity: 0; transform: translateX(-100px) translateY(-50%); }
+          84%  { opacity: 0; transform: translateX(90px) translateY(-50%); }
+          100% { opacity: 0; transform: translateX(90px) translateY(-50%); }
+        }
+        @media (max-width: 639px) {
+          .sf-swipe-hint {
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            z-index: 8;
+            pointer-events: none;
+            filter: drop-shadow(0 3px 8px rgba(0,0,0,0.45));
+            animation: sf-swipe-anim 3s ease-in-out 0.4s infinite;
+          }
+        }
+        @media (min-width: 640px) { .sf-swipe-hint { display: none; } }
         .sf-carousel-track {
           display: flex;
           gap: ${GAP}px;
@@ -150,8 +199,14 @@ export default function HomeMegaCarousel({
           will-change: transform;
         }
         .sf-carousel-card {
-          width: calc((100vw - 30px - 3 * ${GAP}px) / 4);
+          width: calc((min(100vw, 1800px) - 80px - 3 * ${GAP}px) / 4);
           flex-shrink: 0;
+        }
+        @media (max-width: 640px) {
+          .sf-carousel-card { width: calc((100vw - 30px) * 0.72) !important; }
+        }
+        @media (min-width: 641px) and (max-width: 1023px) {
+          .sf-carousel-card { width: calc((100vw - 36px - 1 * ${GAP}px) / 2); }
         }
       `}</style>
     </section>

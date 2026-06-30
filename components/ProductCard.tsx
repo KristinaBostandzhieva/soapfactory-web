@@ -7,7 +7,7 @@ import Stars from '@/components/Stars';
 import { eur, lev } from '@/lib/currency';
 import { useT } from '@/hooks/useT';
 
-const BESTSELLER_SLUGS = new Set(['slanchev-sapun']);
+const BESTSELLER_SLUGS = new Set<string>([]);
 
 const BACK_IMAGES: Record<string, string> = {
   'bilkov-sapun':          '/images/sapuni/bilkov-back.webp',
@@ -26,23 +26,33 @@ interface Product {
   inStock?: boolean;
   rating?: number;
   reviewCount?: number;
+  shortDescription?: string | null;
 }
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({
+  product,
+  variant = 'default',
+}: {
+  product: Product;
+  variant?: 'default' | 'bojCategory';
+}) {
   const { addItem } = useCartStore();
   const inStock = product.inStock !== false;
-  const backImage = BACK_IMAGES[product.slug];
   const tr = useT();
+  const isBojCategory = variant === 'bojCategory';
+  const isLipBalmImage = product.image?.includes('/lipbalm/');
+  const isPhotoImage = product.image?.includes('/fscr-care/') || product.image?.includes('/blog') || product.image?.includes('/deos/');
 
-  const priceLabel = product.priceMax
-    ? `${eur(product.price)} € – ${eur(product.priceMax)} €`
-    : `${eur(product.price)} €`;
+  const compareAt = product.priceMax && product.priceMax > product.price
+    ? product.priceMax
+    : product.price / 0.8;
+  const discount = Math.max(1, Math.round((1 - product.price / compareAt) * 100));
   const lvLabel = product.priceMax
     ? `${lev(product.price)} – ${lev(product.priceMax)} лв.`
     : `${lev(product.price)} лв.`;
 
   return (
-    <div className="product-card group relative flex flex-col text-left">
+    <div className={`product-card group relative flex flex-col text-left${isBojCategory ? ' product-card--boj-category' : ''}${isPhotoImage ? ' product-card--photo-image' : ''}${isLipBalmImage ? ' product-card--lipbalm-image' : ''}`}>
 
       {/* Wishlist */}
       <FavoriteButton product={product} variant="card" />
@@ -50,7 +60,7 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* Image — portrait ~7:8 */}
       <Link href={`/produkt/${product.slug}`} className="block mb-3">
         <div
-          className={`product-card-img-wrap flex items-center justify-center${backImage ? ' product-card-img-wrap--flip' : ''}`}
+          className="product-card-img-wrap flex items-center justify-center"
           style={{ aspectRatio: '7 / 8', position: 'relative' }}
         >
           {BESTSELLER_SLUGS.has(product.slug) && (
@@ -65,16 +75,7 @@ export default function ProductCard({ product }: { product: Product }) {
               ★ Бестселър
             </div>
           )}
-          {backImage ? (
-            <div className="product-card-img-flip">
-              <div className="product-card-img-flip-front">
-                <img src={product.image} alt={product.name} className="product-img w-full h-full object-cover" />
-              </div>
-              <div className="product-card-img-flip-back">
-                <img src={backImage} alt={`${product.name} — гръб`} className="product-img w-full h-full object-cover" />
-              </div>
-            </div>
-          ) : product.image ? (
+          {product.image ? (
             <img
               src={product.image}
               alt={product.name}
@@ -92,38 +93,58 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
 
+      {/* Stars — above name like BoJ */}
+      <div className="product-card-rating flex items-center gap-1 mb-1" style={{ justifyContent: 'flex-start' }}>
+        <Stars rating={product.rating ?? 0} size={12} />
+        {(product.reviewCount ?? 0) > 0 && (
+          <span className="text-[11px] text-[var(--text-muted)]">({product.reviewCount} отзива)</span>
+        )}
+      </div>
+
       {/* Title */}
       <Link href={`/produkt/${product.slug}`}>
-        <h3
-          className="text-[14px] font-extrabold text-[#333] leading-snug mb-1 hover:text-[var(--primary)] transition-colors"
-          style={{ fontFamily: 'var(--font-body)' }}
-        >
+        <h3 className="card-title text-[14px] font-semibold text-[#1a1a1a] leading-snug mb-1 hover:text-[var(--primary)] transition-colors"
+          style={{ fontFamily: 'var(--font-body)' }}>
           {product.name}
         </h3>
       </Link>
 
-      {/* Rating */}
-      {product.reviewCount ? (
-        <div className="flex items-center gap-1 mb-1">
-          <Stars rating={product.rating!} size={13} />
-          <span className="text-[12px] text-[var(--text-muted)]">({product.reviewCount})</span>
-        </div>
-      ) : null}
-
-      {/* Stock */}
-      {inStock ? (
-        <p className="text-[13px] text-[#333] flex items-center gap-1 mb-1">
-          <span className="text-[var(--primary)]">✓</span> {tr.product.instock}
+      {/* Short description — desktop */}
+      {product.shortDescription && (
+        <p className="card-desc-all text-[12px] leading-snug mb-2 line-clamp-1"
+          style={{ color: '#999', fontFamily: 'var(--font-body)' }}>
+          {product.shortDescription}
         </p>
-      ) : (
-        <p className="text-[13px] text-[var(--text-muted)] mb-1">{tr.product.outofstock}</p>
       )}
 
-      {/* Price */}
-      <p className="text-[14px] font-semibold text-[var(--primary)] mb-3">
-        {priceLabel}{' '}
-        <span className="text-[var(--text-muted)] font-normal text-[12px]">({lvLabel})</span>
-      </p>
+      {/* Mobile-only short description (different class for mobile specifics) */}
+      {product.shortDescription && (
+        <p className="card-desc-mobile text-[11px] text-[var(--text-muted)] mb-1 line-clamp-1 leading-snug">
+          {product.shortDescription}
+        </p>
+      )}
+
+      {/* Price — BoJ style: Save badge + strikethrough + current */}
+      {!isBojCategory && <div className="card-price-desktop mb-3">
+        {product.priceMax && product.priceMax > product.price ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 600, color: '#d04040' }}>
+              Спести {Math.round((1 - product.price / product.priceMax) * 100)}%
+            </span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#bbb', textDecoration: 'line-through' }}>
+              {eur(product.priceMax)} €
+            </span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: '#9B72C7' }}>
+              {eur(product.price)} €
+            </span>
+          </div>
+        ) : (
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: '#9B72C7' }}>
+            {eur(product.price)} €{' '}
+            <span style={{ fontSize: 12, color: '#bbb', fontWeight: 400 }}>({lvLabel})</span>
+          </span>
+        )}
+      </div>}
 
       {/* Add to cart — appears on hover */}
       {inStock ? (
@@ -137,9 +158,22 @@ export default function ProductCard({ product }: { product: Product }) {
               image: product.image,
             })
           }
-          className="mt-auto btn-primary text-center w-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className={`mt-auto btn-primary text-left w-full transition-opacity duration-200${isBojCategory ? ' boj-price-strip' : ''}`}
         >
-          {tr.cart.add}
+          {isBojCategory ? (
+            <>
+              <span className="boj-save">Save {discount}%</span>
+              <span className="boj-prices">
+                <span className="boj-compare">€{eur(compareAt)}</span>
+                <span className="boj-current">€{eur(product.price)}</span>
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="btn-text-full">{tr.cart.add}</span>
+              <span className="btn-text-mobile"><span>ДОБАВИ</span><span>{eur(product.price)} лв.</span></span>
+            </>
+          )}
         </button>
       ) : (
         <button

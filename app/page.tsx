@@ -1,6 +1,6 @@
 import HomeView from '@/components/HomeView';
 import type { UiProduct } from '@/lib/catalog';
-import { getFeaturedProducts, getProductsInCategory } from '@/lib/catalog';
+import { getFeaturedProducts, getProductsInCategory, getProductsBySlugs } from '@/lib/catalog';
 import { getRecentPosts } from '@/lib/blog';
 
 export const dynamic = 'force-dynamic';
@@ -16,26 +16,37 @@ const fallbackProducts: UiProduct[] = [
   { id: 'hair-1', name: 'Шампоаново блокче Детокс', slug: 'blokche-detoks', price: 8.99, image: '/images/new4.webp', images: ['/images/new4.webp'], inStock: true },
   { id: 'hair-2', name: 'Шампоаново блокче Алое', slug: 'blokche-aloe', price: 8.99, image: '/images/new2.jpg', images: ['/images/new2.jpg'], inStock: true },
   { id: 'hair-3', name: 'Шампоаново блокче Лавандула', slug: 'blokche-lavandula', price: 8.99, image: '/images/new3.jpg', images: ['/images/new3.jpg'], inStock: true },
-  { id: 'velvet-1', name: 'BAKUCHIOL Lift Regeneration Power Serum', slug: 'bakuchiol-lift-regeneration-power-serum', price: 18.99, image: '/images/fscr-care/bakuchiol-serum.png', images: ['/images/fscr-care/bakuchiol-serum.png'], inStock: true },
-  { id: 'velvet-2', name: 'BAKUCHIOL Lift Regeneration Power Cream', slug: 'bakuchiol-lift-regeneration-power-cream', price: 19.99, image: '/images/fscr-care/bakuchiol.png', images: ['/images/fscr-care/bakuchiol.png'], inStock: true },
-  { id: 'velvet-3', name: 'VITAMIN C Advanced Rejuvenation Serum', slug: 'vitamin-c-advanced-rejuvenation-serum', price: 29.95, image: '/images/fscr-care/vit c serum.png', images: ['/images/fscr-care/vit c serum.png'], inStock: true },
+  { id: 'velvet-1', name: 'BAKUCHIOL Lift Regeneration Power Serum', slug: 'bakuchiol-lift-regeneration-power-serum', price: 18.99, image: '/images/velvet/bakuchiol-serum.png', images: ['/images/velvet/bakuchiol-serum.png'], inStock: true },
+  { id: 'velvet-2', name: 'BAKUCHIOL Lift Regeneration Power Cream', slug: 'bakuchiol-lift-regeneration-power-cream', price: 19.99, image: '/images/velvet/bakuchiol-cream-square.png', images: ['/images/velvet/bakuchiol-cream-square.png'], inStock: true },
+  { id: 'velvet-3', name: 'VITAMIN C Advanced Rejuvenation Serum', slug: 'vitamin-c-advanced-rejuvenation-serum', price: 29.95, image: '/images/velvet/vit c serum.png', images: ['/images/velvet/vit c serum.png'], inStock: true },
 ];
 
 export default async function HomePage() {
+  const BESTSELLER_SLUGS = [
+    'slanchev-sapun',
+    'coconut-sugar-scrub',
+    'happyhair-stimulirasht-shampoan-pri-kosopad',
+    'face-wash-ylang-ylang',
+  ];
+
   let featured: UiProduct[];
   let soaps: UiProduct[];
   let deo: UiProduct[];
   let blocks: UiProduct[];
   let velvet: UiProduct[];
+  let scrubs: UiProduct[];
+  let homeBestsellers: UiProduct[];
   let recentPosts: Awaited<ReturnType<typeof getRecentPosts>>;
 
   try {
-    [featured, soaps, deo, blocks, velvet, recentPosts] = await Promise.all([
+    [featured, soaps, deo, blocks, velvet, scrubs, homeBestsellers, recentPosts] = await Promise.all([
       getFeaturedProducts(8),
       getProductsInCategory('bio-sapuni'),
       getProductsInCategory('deo-stikove'),
       getProductsInCategory('shampoanovi-blokcheta'),
       getProductsInCategory('seria-velvet'),
+      getProductsInCategory('zaharni-eksfolianti'),
+      getProductsBySlugs(BESTSELLER_SLUGS),
       getRecentPosts(3),
     ]);
   } catch {
@@ -44,17 +55,20 @@ export default async function HomePage() {
     deo = fallbackProducts.filter((p) => p.id.startsWith('deo-'));
     blocks = fallbackProducts.filter((p) => p.id.startsWith('hair-'));
     velvet = fallbackProducts.filter((p) => p.id.startsWith('velvet-'));
+    scrubs = [];
+    homeBestsellers = [];
     recentPosts = [];
   }
 
   return (
     <HomeView
-      newProducts={featured.slice(0, 4)}
-      bestSellers={soaps.slice(0, 4)}
-      bioSoaps={soaps.slice(4, 8)}
+      newProducts={soaps.slice(0, 5)}
+      bestSellers={homeBestsellers}
+      bioSoaps={soaps.slice(5, 10)}
+      scrubs={scrubs}
       deoSticks={deo.slice(0, 3)}
       shampooBlocks={blocks.slice(0, 4)}
-      velvetProducts={velvet.slice(0, 3)}
+      velvetProducts={velvet.filter((p) => p.sku !== '190')}
       recentPosts={recentPosts}
     />
   );

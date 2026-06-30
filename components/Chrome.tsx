@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import CookieConsent from './CookieConsent';
 import PageTracker from './PageTracker';
+import ScrollToTop from './ScrollToTop';
 
 // Hides the storefront navbar/footer on admin pages
 export default function Chrome({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,7 @@ export default function Chrome({ children }: { children: React.ReactNode }) {
       <Footer />
       <CookieConsent />
       <PageTracker />
+      <ScrollToTop />
     </>
   );
 }
