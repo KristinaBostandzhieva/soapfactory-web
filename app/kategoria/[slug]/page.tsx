@@ -53,6 +53,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       <CategoryView
         products={products}
         title={cat?.name ?? 'Продукти'}
+        titleEn={(cat as { nameEn?: string | null }).nameEn}
         categorySlug={slug}
         parentTitle={cat?.parent?.name}
         parentSlug={cat?.parent?.slug}

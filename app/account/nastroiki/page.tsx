@@ -35,12 +35,20 @@ export default function AccountSettingsPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setMsg(''); setError('');
+
+    // Accept both local (08…) and international (+359…) formats; ignore spaces/dashes.
+    const cleanedPhone = phone.replace(/[\s-]/g, '');
+    if (cleanedPhone && !/^(\+359|0)\d{6,}$/.test(cleanedPhone)) {
+      setError('Въведи валиден телефон, напр. +359... или 08...');
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch('/api/auth/update-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, address, city, postcode }),
+        body: JSON.stringify({ name, phone: cleanedPhone, address, city, postcode }),
       });
       const data = await res.json();
       if (!res.ok) { setError(data.error || 'Грешка.'); return; }
@@ -76,7 +84,7 @@ export default function AccountSettingsPage() {
           </div>
           <div className="mb-4">
             <label className="block text-[13px] mb-1">Телефон</label>
-            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="+359..." />
+            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="+359 / 08" />
           </div>
           <div className="mb-4">
             <label className="block text-[13px] mb-1">Адрес</label>

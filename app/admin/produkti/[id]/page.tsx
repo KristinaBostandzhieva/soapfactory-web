@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import ProductForm from '@/components/admin/ProductForm';
 import { updateProduct } from '@/app/admin/actions';
 import { prisma } from '@/lib/prisma';
-import { getCategoryOptions, firstImage } from '@/lib/catalog';
+import { getCategoryOptions, productImages } from '@/lib/catalog';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,11 +13,14 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
 
   const categories = await getCategoryOptions();
 
-  const imageUrl = firstImage(product.images) || '';
+  const imgs = productImages(product.images);
   const initial = {
     name: product.name, slug: product.slug, price: product.price, sku: product.sku,
     shortDescription: product.shortDescription, description: product.description, weight: product.weight,
-    inStock: product.inStock, featured: product.featured, imageUrl, categoryId: product.categories[0]?.id || '',
+    nameEn: product.nameEn, shortDescriptionEn: product.shortDescriptionEn, descriptionEn: product.descriptionEn,
+    inStock: product.inStock, featured: product.featured,
+    imageUrl: imgs[0] || '', imageUrl2: imgs[1] || '',
+    categoryId: product.categories[0]?.id || '',
     stockQty: product.stockQty,
   };
 

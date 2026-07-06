@@ -13,6 +13,7 @@ export default async function EditPostPage({ params }: { params: Promise<{ id: s
   const initial = {
     title: post.title, slug: post.slug, excerpt: post.excerpt,
     coverImage: post.coverImage, content: post.content, published: post.published,
+    titleEn: post.titleEn, excerptEn: post.excerptEn, contentEn: post.contentEn,
   };
 
   return <PostForm action={updatePost.bind(null, id)} initial={initial} heading="Редактиране на статия" />;

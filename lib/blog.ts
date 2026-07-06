@@ -2,6 +2,7 @@ import { prisma } from './prisma';
 
 const POST_LIST_SELECT = {
   id: true, title: true, slug: true, excerpt: true, coverImage: true, publishedAt: true,
+  titleEn: true, excerptEn: true,
 } as const;
 
 export async function getPublishedPosts() {

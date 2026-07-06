@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { getCurrentUser } from '@/lib/session';
+import { getCurrentUser, createSession } from '@/lib/session';
 import { prisma } from '@/lib/prisma';
 import { verifyPassword } from '@/lib/password';
 
@@ -21,10 +21,15 @@ export async function POST(req: Request) {
     if (!valid) return NextResponse.json({ error: 'Текущата парола е грешна.' }, { status: 400 });
 
     const hash = await bcrypt.hash(next, 12);
-    await prisma.user.update({
+    // Bump sessionVersion → every previously-issued token is now invalid.
+    const updated = await prisma.user.update({
       where: { id: dbUser.id },
-      data: { passwordHash: hash, hashType: 'bcrypt' },
+      data: { passwordHash: hash, hashType: 'bcrypt', sessionVersion: { increment: 1 } },
     });
+
+    // Re-issue THIS device's cookie with the new version so the user who just
+    // changed their password stays logged in; all other sessions are revoked.
+    await createSession(updated);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

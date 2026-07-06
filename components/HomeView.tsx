@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import HeroCarousel from '@/components/HeroCarousel';
 import ProductSection from '@/components/ProductSection';
@@ -66,6 +66,19 @@ export default function HomeView({
     return () => clearInterval(id);
   }, []);
 
+  // Mobile sliders (arrows scroll one card). Shared helper for the ritual
+  // category cards and the Velvet product cards.
+  const catSliderRef = useRef<HTMLDivElement>(null);
+  const velvetSliderRef = useRef<HTMLDivElement>(null);
+  const scrollRow = (ref: React.RefObject<HTMLDivElement | null>, cardSel: string, dir: number) => {
+    const el = ref.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>(cardSel);
+    el.scrollBy({ left: dir * ((card?.offsetWidth || el.clientWidth * 0.82) + 16), behavior: 'smooth' });
+  };
+  const scrollCats = (dir: number) => scrollRow(catSliderRef, '.cat-card', dir);
+  const scrollVelvet = (dir: number) => scrollRow(velvetSliderRef, '.product-card', dir);
+
   const cats = [
     { title: tr.home.catFace, label: tr.home.catFaceLabel, desc: tr.home.catFaceDesc, cta: tr.home.catFaceCta, trust: tr.home.catFaceTrust, href: CAT_HREFS[0], img: CAT_IMGS[0] },
     { title: tr.home.catBody, label: tr.home.catBodyLabel, desc: tr.home.catBodyDesc, cta: tr.home.catBodyCta, trust: tr.home.catBodyTrust, href: CAT_HREFS[1], img: CAT_IMGS[1] },
@@ -78,9 +91,9 @@ export default function HomeView({
       <section style={{ maxWidth: '100%', margin: '0 auto', padding: '20px 15px 0', display: 'grid', gridTemplateColumns: '2fr 1fr', minHeight: 760, gap: 30 }} className="hero-grid">
         <HeroCarousel />
 
-        <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden' }}>
+        <div className="hero-deo-panel" style={{ position: 'relative', borderRadius: 10, overflow: 'hidden' }}>
           <div style={{ position: 'absolute', inset: 0, borderRadius: 10, backgroundImage: 'url(/images/hero-carousel/promo-background.webp)', backgroundSize: 'cover', backgroundPosition: 'center', overflow: 'hidden', zIndex: 0 }} />
-          <div style={{ position: 'absolute', left: '50%', bottom: '9%', transform: 'translateX(-50%)', zIndex: 1, width: 'min(102%, 620px)', height: 620 }}>
+          <div className="hero-deo-product" style={{ position: 'absolute', left: '50%', bottom: '9%', transform: 'translateX(-50%)', zIndex: 1, width: 'min(102%, 620px)', height: 620 }}>
             <div className="hero-product-shadow" />
             <div className="hero-product-pop" style={{ animationDelay: '0.3s', height: '100%' }}>
               <DeostickProduct />
@@ -114,20 +127,24 @@ export default function HomeView({
           <h2 style={{ fontFamily: fd, fontWeight: 500, fontSize: 'clamp(24px, 2vw, 30px)', color: '#2e1a0e', lineHeight: 1.2 }}>{tr.home.catSectionTitle}</h2>
         </div>
 
-        <div className="cat-cards-grid">
-          {cats.map((cat) => (
-            <Link key={cat.href} href={cat.href} className="cat-card" aria-label={cat.cta}>
-              <img src={cat.img} alt={cat.title} className="cat-card-img" />
-              <div className="cat-card-overlay" />
-              <div className="cat-card-content">
-                <span className="cat-card-label">{cat.label}</span>
-                <h3 className="cat-card-title">{cat.title}</h3>
-                <p className="cat-card-desc">{cat.desc}</p>
-                <span className="cat-card-btn">{cat.cta} <span aria-hidden="true">→</span></span>
-                <span className="cat-card-trust"><span aria-hidden="true">✓</span> {cat.trust}</span>
-              </div>
-            </Link>
-          ))}
+        <div className="cat-slider">
+          <div className="cat-cards-grid" ref={catSliderRef}>
+            {cats.map((cat) => (
+              <Link key={cat.href} href={cat.href} className="cat-card" aria-label={cat.cta}>
+                <img src={cat.img} alt={cat.title} className="cat-card-img" />
+                <div className="cat-card-overlay" />
+                <div className="cat-card-content">
+                  <span className="cat-card-label">{cat.label}</span>
+                  <h3 className="cat-card-title">{cat.title}</h3>
+                  <p className="cat-card-desc">{cat.desc}</p>
+                  <span className="cat-card-btn">{cat.cta} <span aria-hidden="true">→</span></span>
+                  <span className="cat-card-trust"><span aria-hidden="true">✓</span> {cat.trust}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <button type="button" className="cat-slider-arrow left" onClick={() => scrollCats(-1)} aria-label="Предишна категория">‹</button>
+          <button type="button" className="cat-slider-arrow right" onClick={() => scrollCats(1)} aria-label="Следваща категория">›</button>
         </div>
 
         <p style={{ textAlign: 'center', marginTop: 36, fontFamily: fb, fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.04em' }}>{tr.home.catTrustLine}</p>
@@ -179,28 +196,15 @@ export default function HomeView({
             <h3 style={{ fontFamily: fd, fontWeight: 600, fontStyle: 'italic', fontSize: 22, color: 'var(--text-heading)', margin: 0 }}>Серия Velvet</h3>
             <Link href="/kategoria/seria-velvet" style={{ fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--primary)', textDecoration: 'none' }}>Виж всички →</Link>
           </div>
-          {velvetProducts.map(p => (
-            <Link
-              key={p.id}
-              href={`/produkt/${p.slug}`}
-              className="group velvet-product-row"
-              style={{
-                display: 'flex', gap: 24, alignItems: 'center',
-                textDecoration: 'none', background: '#fdfbf8',
-                border: '1px solid rgba(155, 114, 199, 0.16)', borderRadius: 18,
-                padding: 20, transition: 'box-shadow 0.25s ease, transform 0.25s ease',
-              }}
-            >
-              <div style={{ width: 200, height: 200, borderRadius: 12, background: '#fff', overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {p.image && <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 14 }} />}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <h4 style={{ fontFamily: fd, fontStyle: 'italic', fontWeight: 500, fontSize: 19, color: 'var(--text-heading)', margin: '0 0 10px', lineHeight: 1.35 }}>{p.name}</h4>
-                <p style={{ fontFamily: fb, fontSize: 17, color: 'var(--primary)', fontWeight: 700, margin: 0 }}>{p.price.toFixed(2)} €</p>
-              </div>
-              <span style={{ fontFamily: fb, fontSize: 22, color: 'var(--primary)', flexShrink: 0 }}>→</span>
-            </Link>
-          ))}
+          <div className="velvet-slider">
+            <div ref={velvetSliderRef} className="velvet-cards boj-product-grid grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-10">
+              {velvetProducts.slice(0, 6).map(p => (
+                <ProductCard key={p.id} product={p} variant="bojCategory" />
+              ))}
+            </div>
+            <button type="button" className="velvet-slider-arrow left" onClick={() => scrollVelvet(-1)} aria-label="Предишен продукт">‹</button>
+            <button type="button" className="velvet-slider-arrow right" onClick={() => scrollVelvet(1)} aria-label="Следващ продукт">›</button>
+          </div>
         </div>
 
       </section>

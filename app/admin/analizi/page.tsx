@@ -12,6 +12,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
   const a = await getAnalytics(days);
 
   const maxViews = Math.max(1, ...a.series.map((d) => d.views));
+  const maxRevenue = Math.max(1, ...a.revenueSeries.map((d) => d.revenue));
 
   const cards = [
     { label: 'Посещения', value: a.totalViews.toLocaleString('bg-BG') },
@@ -55,7 +56,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
         ) : (
           <div className="flex items-end gap-[3px] h-44">
             {a.series.map((d) => (
-              <div key={d.date} className="flex-1 flex flex-col items-center justify-end group relative" style={{ minWidth: 0 }}>
+              <div key={d.date} className="flex-1 h-full flex flex-col items-center justify-end group relative" style={{ minWidth: 0 }}>
                 <div className="w-full rounded-t" style={{ height: `${(d.views / maxViews) * 100}%`, minHeight: d.views ? 3 : 0, background: 'var(--primary)' }} />
                 <span className="absolute -top-7 hidden group-hover:block bg-[var(--text-dark)] text-white text-[11px] rounded px-2 py-1 whitespace-nowrap z-10">
                   {d.label}: {d.views} посещения, {d.visitors} посетители
@@ -68,6 +69,30 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
           <div className="flex justify-between text-[11px] text-[var(--text-muted)] mt-2">
             <span>{a.series[0]?.label}</span><span>{a.series[a.series.length - 1]?.label}</span>
           </div>
+        )}
+      </div>
+
+      {/* Revenue chart */}
+      <div className="bg-white border border-[var(--border)] rounded-lg p-5 mb-8">
+        <h3 style={{ fontFamily: hf, fontWeight: 800, fontSize: 15 }} className="mb-4">Приходи по дни</h3>
+        {a.revenue === 0 ? (
+          <p className="text-[14px] text-[var(--text-muted)] py-8 text-center">Няма приходи в избрания период.</p>
+        ) : (
+          <>
+            <div className="flex items-end gap-[3px] h-44">
+              {a.revenueSeries.map((d) => (
+                <div key={d.date} className="flex-1 h-full flex flex-col items-center justify-end group relative" style={{ minWidth: 0 }}>
+                  <div className="w-full rounded-t" style={{ height: `${(d.revenue / maxRevenue) * 100}%`, minHeight: d.revenue ? 3 : 0, background: '#8D9987' }} />
+                  <span className="absolute -top-7 hidden group-hover:block bg-[var(--text-dark)] text-white text-[11px] rounded px-2 py-1 whitespace-nowrap z-10">
+                    {d.label}: {d.revenue.toFixed(2)} €, {d.orders} поръчки
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-between text-[11px] text-[var(--text-muted)] mt-2">
+              <span>{a.revenueSeries[0]?.label}</span><span>{a.revenueSeries[a.revenueSeries.length - 1]?.label}</span>
+            </div>
+          </>
         )}
       </div>
 

@@ -18,7 +18,8 @@ export async function POST(req: Request) {
     await prisma.$transaction([
       prisma.user.update({
         where: { id: record.userId },
-        data: { passwordHash: hash, hashType: 'bcrypt' },
+        // Bump sessionVersion → revoke every existing session for this user.
+        data: { passwordHash: hash, hashType: 'bcrypt', sessionVersion: { increment: 1 } },
       }),
       prisma.passwordResetToken.update({
         where: { id: record.id },

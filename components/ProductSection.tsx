@@ -21,8 +21,8 @@ export default function ProductSection({
   const tr = useT();
   const gridClass =
     columns === 3
-      ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10'
-      : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10';
+      ? 'boj-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10'
+      : 'boj-product-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10';
 
   return (
     <section className={`section-pad home-product-section home-product-section--${columns}`}>
@@ -35,7 +35,7 @@ export default function ProductSection({
       <hr className="title-underline-full" />
       <MobileScrollCarousel className={gridClass}>
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} />
+          <ProductCard key={p.id} product={p} variant="bojCategory" />
         ))}
       </MobileScrollCarousel>
     </section>

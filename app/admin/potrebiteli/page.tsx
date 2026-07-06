@@ -1,11 +1,13 @@
 ﻿import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import Pagination from '@/components/admin/Pagination';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
+const PAGE_SIZE = 50;
 
-export default async function AdminUsers({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const { q } = await searchParams;
+export default async function AdminUsers({ searchParams }: { searchParams: Promise<{ q?: string; page?: string }> }) {
+  const { q, page: pageParam } = await searchParams;
   const where = q
     ? {
         OR: [
@@ -18,15 +20,38 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
         ],
       }
     : undefined;
-  const [total, users] = await Promise.all([
-    prisma.user.count(),
-    prisma.user.findMany({ where, orderBy: { createdAt: 'desc' }, take: 100, select: { id: true, email: true, name: true, role: true, phone: true, createdAt: true, orders: { select: { total: true } } } }),
-  ]);
+
+  const total = await prisma.user.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const page = Math.min(Math.max(1, parseInt(pageParam || '1', 10) || 1), totalPages);
+
+  // Fetch only this page of users, and let the DB do the order count + spend sum
+  // (no more pulling every order row into JS just to length/reduce it).
+  const users = await prisma.user.findMany({
+    where,
+    orderBy: { createdAt: 'desc' },
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
+    select: { id: true, email: true, name: true, role: true, phone: true, createdAt: true, _count: { select: { orders: true } } },
+  });
+
+  const spentByUser = new Map<string, number>();
+  if (users.length) {
+    const sums = await prisma.order.groupBy({
+      by: ['userId'],
+      where: { userId: { in: users.map((u) => u.id) } },
+      _sum: { total: true },
+    });
+    for (const s of sums) if (s.userId) spentByUser.set(s.userId, s._sum.total || 0);
+  }
+
+  const from = total === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
+  const to = Math.min(page * PAGE_SIZE, total);
 
   return (
     <div>
       <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }} className="mb-2">Потребители <span className="text-[var(--text-muted)] text-[18px]">({total})</span></h1>
-      <p className="text-[13px] text-[var(--text-muted)] mb-5">Показани са до 100 резултата. Използвай търсенето за конкретен потребител.</p>
+      <p className="text-[13px] text-[var(--text-muted)] mb-5">Показани {from}–{to} от {total}. Използвай търсенето за конкретен потребител.</p>
 
       <form className="mb-5">
         <input name="q" defaultValue={q || ''} placeholder="Търси по имейл, име, телефон или адрес…"
@@ -40,8 +65,8 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
           </thead>
           <tbody>
             {users.map((u) => {
-              const orderCount = u.orders.length;
-              const spent = u.orders.reduce((s, o) => s + o.total, 0);
+              const orderCount = u._count.orders;
+              const spent = spentByUser.get(u.id) || 0;
               return (
               <tr key={u.id} className="border-t border-[var(--border)] hover:bg-[var(--bg-light)]">
                 <td className="px-4 py-3">{u.email}</td>
@@ -60,6 +85,8 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
         </table>
         {users.length === 0 && <p className="text-[14px] text-[var(--text-muted)] p-6 text-center">Няма намерени потребители.</p>}
       </div>
+
+      <Pagination basePath="/admin/potrebiteli" page={page} totalPages={totalPages} params={{ q }} />
     </div>
   );
 }

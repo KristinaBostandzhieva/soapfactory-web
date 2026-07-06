@@ -3,6 +3,7 @@ import { deriveChannel } from './attribution';
 import { decodeSlug } from './seo';
 
 export interface DayStat { date: string; label: string; views: number; visitors: number; }
+export interface RevenueDayStat { date: string; label: string; orders: number; revenue: number; }
 export interface NamedCount { name: string; slug?: string; value: number; sub?: string; }
 
 export interface Analytics {
@@ -13,6 +14,7 @@ export interface Analytics {
   revenue: number;
   conversion: number; // %
   series: DayStat[];
+  revenueSeries: RevenueDayStat[];
   topProducts: NamedCount[];
   bestSellers: NamedCount[];
   topReferrers: NamedCount[];
@@ -56,6 +58,19 @@ export async function getAnalytics(days = 30): Promise<Analytics> {
       visitors: e?.visitors.size ?? 0,
     });
   }
+
+  // Daily revenue/orders series (same day buckets as the visits chart)
+  const revByDay = new Map<string, { orders: number; revenue: number }>();
+  for (const o of orders) {
+    const k = dayKey(o.createdAt);
+    const e = revByDay.get(k) ?? { orders: 0, revenue: 0 };
+    e.orders++; e.revenue += o.total;
+    revByDay.set(k, e);
+  }
+  const revenueSeries: RevenueDayStat[] = series.map((d) => {
+    const e = revByDay.get(d.date);
+    return { date: d.date, label: d.label, orders: e?.orders ?? 0, revenue: e?.revenue ?? 0 };
+  });
 
   const totalViews = views.length;
   const uniqueVisitors = new Set(views.map((v) => v.sessionId).filter(Boolean)).size;
@@ -122,5 +137,5 @@ export async function getAnalytics(days = 30): Promise<Analytics> {
     .sort((a, b) => b[1].revenue - a[1].revenue).slice(0, 8)
     .map(([name, e]) => ({ name, value: e.count, sub: `${e.revenue.toFixed(2)} €` }));
 
-  return { days, totalViews, uniqueVisitors, ordersCount, revenue, conversion, series, topProducts, bestSellers, topReferrers, trafficSources, salesBySource };
+  return { days, totalViews, uniqueVisitors, ordersCount, revenue, conversion, series, revenueSeries, topProducts, bestSellers, topReferrers, trafficSources, salesBySource };
 }

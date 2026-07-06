@@ -3,22 +3,32 @@ import { prisma } from '@/lib/prisma';
 import { firstImage } from '@/lib/catalog';
 import { Plus, Pencil } from 'lucide-react';
 import DeleteProductButton from '@/components/admin/DeleteProductButton';
+import Pagination from '@/components/admin/Pagination';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
+const PAGE_SIZE = 50;
 
-export default async function AdminProducts({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const { q } = await searchParams;
+export default async function AdminProducts({ searchParams }: { searchParams: Promise<{ q?: string; page?: string }> }) {
+  const { q, page: pageParam } = await searchParams;
+  const where = q ? { name: { contains: q } } : undefined;
+
+  const total = await prisma.product.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const page = Math.min(Math.max(1, parseInt(pageParam || '1', 10) || 1), totalPages);
+
   const products = await prisma.product.findMany({
-    where: q ? { name: { contains: q } } : undefined,
+    where,
     include: { categories: { select: { name: true } } },
     orderBy: { createdAt: 'desc' },
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
   });
 
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }}>Продукти <span className="text-[var(--text-muted)] text-[18px]">({products.length})</span></h1>
+        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }}>Продукти <span className="text-[var(--text-muted)] text-[18px]">({total})</span></h1>
         <Link href="/admin/produkti/nov" className="btn-primary inline-flex items-center gap-2"><Plus size={16} /> Нов продукт</Link>
       </div>
 
@@ -77,6 +87,8 @@ export default async function AdminProducts({ searchParams }: { searchParams: Pr
         </table>
         {products.length === 0 && <p className="text-[14px] text-[var(--text-muted)] p-6 text-center">Няма намерени продукти.</p>}
       </div>
+
+      <Pagination basePath="/admin/produkti" page={page} totalPages={totalPages} params={{ q }} />
     </div>
   );
 }

@@ -18,15 +18,15 @@ export default async function AdminDashboard() {
   ]);
 
   const cards = [
-    { label: '????????', value: products, icon: Package, href: '/admin/produkti' },
-    { label: '???????', value: orders, icon: ShoppingBag, href: '/admin/porachki' },
-    { label: '???? ???????', value: newOrders, icon: Clock, href: '/admin/porachki?status=new' },
-    { label: '???????????', value: users, icon: Users, href: '/admin/potrebiteli' },
+    { label: 'Продукти', value: products, icon: Package, href: '/admin/produkti' },
+    { label: 'Поръчки', value: orders, icon: ShoppingBag, href: '/admin/porachki' },
+    { label: 'Нови поръчки', value: newOrders, icon: Clock, href: '/admin/porachki?status=new' },
+    { label: 'Потребители', value: users, icon: Users, href: '/admin/potrebiteli' },
   ];
 
   return (
     <div>
-      <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }} className="mb-6">?????</h1>
+      <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }} className="mb-6">Табло</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {cards.map((c) => (
@@ -40,42 +40,42 @@ export default async function AdminDashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 max-w-2xl">
         <div className="bg-white border border-[var(--border)] rounded-lg p-5">
-          <div className="text-[13px] text-[var(--text-muted)]">??????? (??????? ???????)</div>
+          <div className="text-[13px] text-[var(--text-muted)]">Приходи (платени поръчки)</div>
           <div style={{ fontFamily: hf, fontWeight: 800, fontSize: 24, color: '#9B72C7' }}>{(revenueAgg._sum.total || 0).toFixed(2)} €</div>
         </div>
         <div className="bg-white border border-[var(--border)] rounded-lg p-5 flex flex-col justify-between">
           <div>
-            <div className="text-[13px] text-[var(--text-muted)] mb-1">???????? ????? ?? ???????</div>
-            <p className="text-[12px] text-[var(--text-muted)]">????? ????? ?? ?????? ???? (????????, ???????, ???????) ? ?? ?????? ?? ??????? ?????.</p>
+            <div className="text-[13px] text-[var(--text-muted)] mb-1">Резервно копие на данните</div>
+            <p className="text-[12px] text-[var(--text-muted)]">Сваля копие на всички данни (продукти, поръчки, клиенти) — пази го на сигурно място.</p>
           </div>
           <a href="/api/admin/backup" className="btn-primary mt-3 inline-block text-center w-fit" style={{ padding: '8px 18px', fontSize: 13 }}>
-            ??????? ???????? ?????
+            Изтегли резервно копие
           </a>
         </div>
       </div>
 
       {lowStock.length > 0 && (
         <div className="bg-white border border-amber-200 rounded-lg p-5 mb-8">
-          <h2 style={{ fontFamily: hf, fontWeight: 800, fontSize: 16, color: '#333' }} className="mb-3">?? ?????????? ?? ????????</h2>
+          <h2 style={{ fontFamily: hf, fontWeight: 800, fontSize: 16, color: '#333' }} className="mb-3">Продукти с ниска наличност</h2>
           <div className="flex flex-wrap gap-2">
             {lowStock.map((p) => (
               <Link key={p.id} href={`/admin/produkti/${p.id}`}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] border transition-colors hover:border-[var(--primary)] ${p.stockQty === 0 ? 'border-red-200 bg-red-50 text-red-600' : 'border-amber-200 bg-amber-50 text-amber-700'}`}>
-                {p.name} <span className="font-bold">· {p.stockQty} ??.</span>
+                {p.name} <span className="font-bold">· {p.stockQty} бр.</span>
               </Link>
             ))}
           </div>
         </div>
       )}
 
-      <h2 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333' }} className="mb-4">???????? ???????</h2>
+      <h2 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333' }} className="mb-4">Последни поръчки</h2>
       <div className="bg-white border border-[var(--border)] rounded-lg overflow-hidden">
         {recent.length === 0 ? (
-          <p className="text-[14px] text-[var(--text-muted)] p-6 text-center">??? ??? ???? ???????.</p>
+          <p className="text-[14px] text-[var(--text-muted)] p-6 text-center">Все още няма поръчки.</p>
         ) : (
           <table className="w-full text-[14px]">
             <thead className="bg-[var(--bg-light)] text-left text-[var(--text-muted)]">
-              <tr><th className="px-4 py-3">?</th><th className="px-4 py-3">??????</th><th className="px-4 py-3">????</th><th className="px-4 py-3">??????</th><th className="px-4 py-3">????</th></tr>
+              <tr><th className="px-4 py-3">№</th><th className="px-4 py-3">Клиент</th><th className="px-4 py-3">Сума</th><th className="px-4 py-3">Статус</th><th className="px-4 py-3">Дата</th></tr>
             </thead>
             <tbody>
               {recent.map((o) => (

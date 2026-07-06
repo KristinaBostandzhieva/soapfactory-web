@@ -8,14 +8,29 @@ import FavoriteButton from '@/components/FavoriteButton';
 import Stars from '@/components/Stars';
 import ReviewForm from '@/components/ReviewForm';
 import { useCartStore } from '@/store/cartStore';
+import { useT } from '@/hooks/useT';
+import { useLanguageStore } from '@/store/languageStore';
 import { type UiProduct, type ReviewItem } from '@/lib/catalog';
 import { eur, lev } from '@/lib/currency';
 
 const fd = 'var(--font-display), Georgia, serif';
 const fb = 'var(--font-body)';
 
+// "Мария Димитрова" → "Мария Д." (first name + family-name initial)
+function shortName(full: string): string {
+  const parts = full.trim().split(/\s+/);
+  if (parts.length < 2) return parts[0] || full;
+  return `${parts[0]} ${parts[parts.length - 1][0].toUpperCase()}.`;
+}
+
 export default function ProductDetail({ product, related, reviews }: { product: UiProduct; related: UiProduct[]; reviews: ReviewItem[] }) {
   const { addItem } = useCartStore();
+  const trR = useT().reviewsSection;
+  const lang = useLanguageStore((s) => s.lang);
+  // On EN, use the admin-entered English text; fall back to Bulgarian when empty.
+  const name = lang === 'en' && product.nameEn ? product.nameEn : product.name;
+  const shortDescription = lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : product.shortDescription;
+  const description = lang === 'en' && product.descriptionEn ? product.descriptionEn : product.description;
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<'desc' | 'info'>('desc');
   const allImages = product.images?.length ? product.images : (product.image ? [product.image] : []);
@@ -327,7 +342,7 @@ export default function ProductDetail({ product, related, reviews }: { product: 
           </a>
 
           {/* Name */}
-          <h1 style={{ fontFamily: fb, fontWeight: 600, fontSize: 'clamp(20px,5vw,26px)', color: '#1a1a1a', marginBottom: 6, lineHeight: 1.25 }}>{product.name}</h1>
+          <h1 style={{ fontFamily: fb, fontWeight: 600, fontSize: 'clamp(20px,5vw,26px)', color: '#1a1a1a', marginBottom: 6, lineHeight: 1.25 }}>{name}</h1>
 
           {/* Weight */}
           {product.weight && (
@@ -354,9 +369,9 @@ export default function ProductDetail({ product, related, reviews }: { product: 
           )}
 
           {/* Description — BoJ: above button, prominent; standard: below button */}
-          {isBojLayout && (product.shortDescription || product.description) && (
+          {isBojLayout && (shortDescription || description) && (
             <p style={{ fontFamily: fb, fontSize: 13.5, color: '#8B4A3A', lineHeight: 1.72, marginBottom: 22, fontStyle: 'italic' }}>
-              {product.shortDescription || product.description}
+              {shortDescription || description}
             </p>
           )}
 
@@ -429,9 +444,9 @@ export default function ProductDetail({ product, related, reviews }: { product: 
           )}
 
           {/* Standard layout: description below button */}
-          {!isBojLayout && (product.shortDescription || product.description) && (
+          {!isBojLayout && (shortDescription || description) && (
             <p style={{ fontFamily: fb, fontSize: 13, color: '#777', lineHeight: 1.7, marginBottom: 24, borderTop: '1px solid #f5f5f5', paddingTop: 14 }}>
-              {product.shortDescription || product.description}
+              {shortDescription || description}
             </p>
           )}
 
@@ -450,7 +465,7 @@ export default function ProductDetail({ product, related, reviews }: { product: 
         </div>
         {tab === 'desc' ? (
           <div style={{ fontFamily: fb, fontSize: 14, color: '#555', lineHeight: 1.75 }}>
-            <p>{product.description || product.shortDescription || 'Натурален, ръчно изработен продукт.'}</p>
+            <p>{description || shortDescription || 'Натурален, ръчно изработен продукт.'}</p>
           </div>
         ) : (
           <table style={{ fontFamily: fb, fontSize: 13, color: '#555', width: '100%', borderCollapse: 'collapse' }}>
@@ -487,41 +502,66 @@ export default function ProductDetail({ product, related, reviews }: { product: 
 
       {/* ── Reviews ── */}
       <section id="otzivi" className="product-detail-reviews" style={{ padding: '0 16px 32px' }}>
-        <h2 style={{ fontFamily: fd, fontWeight: 600, fontSize: 20, color: '#1a1a1a', marginBottom: 8 }}>Отзиви</h2>
+        <h2 style={{ fontFamily: fd, fontWeight: 600, fontSize: 24, color: '#1a1a1a', marginBottom: 10 }}>{trR.title}</h2>
         {product.reviewCount ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-            <Stars rating={product.rating!} size={15} />
-            <span style={{ fontFamily: fb, fontSize: 13, color: '#aaa' }}>{product.reviewCount} отзива</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
+            <Stars rating={product.rating!} size={17} />
+            <span style={{ fontFamily: fb, fontSize: 14, color: '#888' }}>{trR.count(product.reviewCount)}</span>
           </div>
         ) : (
-          <p style={{ fontFamily: fb, fontSize: 13, color: '#aaa', marginBottom: 20 }}>Все още няма отзиви. Бъди първият!</p>
+          <p style={{ fontFamily: fb, fontSize: 14, color: '#888', marginBottom: 24 }}>{trR.empty}</p>
         )}
-        <div style={{ display: 'grid', gap: 32 }} className="grid-cols-1 lg:grid-cols-2">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {reviews.length > 0 && (
+          <div style={{ borderTop: '1px solid #eaeaea' }}>
             {reviews.map((r) => {
-              // Parse [Тип кожа: X · Грижи: Y] prefix from comment
+              // Parse [Тип кожа: X · Грижи: Y] prefix from comment into label/value pairs
               const metaMatch = r.comment?.match(/^\[([^\]]+)\]\n?/);
-              const metaTags = metaMatch ? metaMatch[1].split(' · ') : [];
+              const metaPairs = (metaMatch ? metaMatch[1].split(' · ') : [])
+                .map((tag) => {
+                  const i = tag.indexOf(':');
+                  return i === -1 ? null : [tag.slice(0, i).trim(), tag.slice(i + 1).trim()] as [string, string];
+                })
+                .filter(Boolean) as [string, string][];
               const cleanComment = r.comment?.replace(/^\[([^\]]+)\]\n?/, '').trim();
               return (
-                <div key={r.id} style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: 16 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
-                    <Stars rating={r.rating} size={13} />
-                    <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 600, color: '#333' }}>{r.authorName}</span>
-                    <span style={{ fontFamily: fb, fontSize: 11, color: '#bbb' }}>{new Date(r.createdAt).toLocaleDateString('bg-BG')}</span>
+                <div key={r.id} className="grid grid-cols-1 sm:grid-cols-[210px_1fr] gap-4 sm:gap-8"
+                  style={{ padding: '26px 0', borderBottom: '1px solid #eaeaea' }}>
+                  {/* Reviewer card */}
+                  <div style={{ border: '1px solid #e8e2da', background: '#fdfcfa', padding: '14px 16px', height: 'fit-content' }}>
+                    <p style={{ fontFamily: fb, fontSize: 14, fontWeight: 700, color: '#2b2b2b', margin: 0 }}>{shortName(r.authorName)}</p>
+                    {r.verified && (
+                      <p style={{ fontFamily: fb, fontSize: 12, fontWeight: 600, color: '#3a3a3a', margin: '4px 0 0', display: 'flex', alignItems: 'center', gap: 5 }}>
+                        {trR.verified}
+                        <span aria-hidden="true" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 15, height: 15, borderRadius: '50%', background: '#2b2b2b', color: '#fff', fontSize: 9 }}>✓</span>
+                      </p>
+                    )}
+                    {metaPairs.length > 0 && (
+                      <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        {metaPairs.map(([label, value]) => (
+                          <div key={label}>
+                            <p style={{ fontFamily: fb, fontSize: 12, fontWeight: 700, color: '#3a3a3a', margin: 0 }}>{trR.valueMap[label] || label}</p>
+                            <p style={{ fontFamily: fb, fontSize: 12, color: '#9B72C7', margin: '2px 0 0' }}>
+                              {value.split(', ').map((v) => trR.valueMap[v] || v).join(', ')}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  {metaTags.length > 0 && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-                      {metaTags.map(tag => (
-                        <span key={tag} style={{ fontFamily: fb, fontSize: 11, background: '#f4eeff', color: '#9B72C7', padding: '3px 10px', borderRadius: 20 }}>{tag}</span>
-                      ))}
+                  {/* Review body */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                      <Stars rating={r.rating} size={17} />
+                      <span style={{ fontFamily: fb, fontSize: 13, color: '#a5a5a5', whiteSpace: 'nowrap' }}>{new Date(r.createdAt).toLocaleDateString(trR.dateLocale)}</span>
                     </div>
-                  )}
-                  {cleanComment && <p style={{ fontFamily: fb, fontSize: 13, color: '#666' }}>{cleanComment}</p>}
+                    {cleanComment && <p style={{ fontFamily: fb, fontSize: 15, color: '#4a4a4a', lineHeight: 1.7, margin: 0 }}>{cleanComment}</p>}
+                  </div>
                 </div>
               );
             })}
           </div>
+        )}
+        <div style={{ marginTop: 32 }}>
           <ReviewForm productId={product.id} showSkinType={isBojLayout} />
         </div>
       </section>

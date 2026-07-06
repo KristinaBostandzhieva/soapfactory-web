@@ -9,27 +9,37 @@ export async function getSession() {
   return verifyToken(token);
 }
 
-// Full user record for the logged-in session
+// Full user record for the logged-in session. Returns null if the token's
+// session version no longer matches the user's (i.e. it was revoked by a
+// password change/reset), or if the user no longer exists.
 export async function getCurrentUser() {
   const s = await getSession();
   if (!s?.sub) return null;
-  return prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id: s.sub },
     select: {
       id: true, email: true, name: true, role: true,
       phone: true, address: true, city: true, postcode: true, country: true,
+      sessionVersion: true,
     },
   });
+  if (!user) return null;
+  if ((s.sv ?? 0) !== user.sessionVersion) return null; // token revoked
+  const { sessionVersion: _sv, ...rest } = user;
+  return rest;
 }
 
+// DB-backed admin check — role AND session version are read fresh from the
+// database, so a demoted admin (or a revoked token) loses access immediately
+// rather than staying admin until the 30-day token expires.
 export async function requireAdmin() {
-  const s = await getSession();
-  return s?.role === 'admin' ? s : null;
+  const user = await getCurrentUser();
+  return user?.role === 'admin' ? user : null;
 }
 
 // Sign a session token for `user` and set it as the session cookie.
-export async function createSession(user: { id: string; email: string; role: string; name?: string | null }) {
-  const token = await createToken({ sub: user.id, email: user.email, role: user.role, name: user.name });
+export async function createSession(user: { id: string; email: string; role: string; name?: string | null; sessionVersion?: number }) {
+  const token = await createToken({ sub: user.id, email: user.email, role: user.role, name: user.name, sv: user.sessionVersion ?? 0 });
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: 'lax',

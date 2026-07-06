@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lora, Manrope } from "next/font/google";
+import { PT_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import Chrome from "@/components/Chrome";
 import CartProvider from "@/components/CartProvider";
@@ -8,18 +8,19 @@ import {
   organizationJsonLd, websiteJsonLd, jsonLdScript,
 } from "@/lib/seo";
 
-const lora = Lora({
+// Classic editorial serif (full Cyrillic) + neutral grotesque body.
+const ptSerif = PT_Serif({
   subsets: ["latin", "cyrillic"],
-  weight: ["500", "600"],
+  weight: ["400", "700"],
   style: ["normal", "italic"],
-  variable: "--font-lora",
+  variable: "--font-serif",
   display: "swap",
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-manrope",
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -68,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg" className={`${lora.variable} ${manrope.variable}`}>
+    <html lang="bg" className={`${ptSerif.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(organizationJsonLd())} />
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(websiteJsonLd())} />

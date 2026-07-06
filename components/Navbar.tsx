@@ -205,7 +205,9 @@ export default function Navbar() {
           {([
             { icon: <Search size={15} key="s"/>, extra: false, mobileHide: true, label: 'Търсене', onClick: () => setSearchOpen((o) => !o) },
             { icon: <Heart size={15} key="h"/>, extra: true, mobileHide: true, label: 'Любими', href: '/lyubimi', badge: favCount },
-            { icon: <User size={15} key="u"/>, extra: true, mobileHide: true, label: 'Профил', href: '/account' },
+            // Profile stays visible on mobile (next to the cart) — the only
+            // secondary icon that isn't collapsed into the hamburger menu.
+            { icon: <User size={15} key="u"/>, extra: false, mobileHide: false, label: 'Профил', href: '/account' },
           ] as { icon: React.ReactNode; extra: boolean; mobileHide?: boolean; label: string; href?: string; onClick?: () => void; badge?: number }[]).map((it, i) => {
             const style = {
               width: 26, height: 26, borderRadius: '50%',

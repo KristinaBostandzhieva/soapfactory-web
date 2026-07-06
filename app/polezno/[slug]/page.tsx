@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getPostBySlug } from '@/lib/blog';
 import { absoluteUrl, metaDescription, jsonLdScript, decodeSlug, SITE_NAME, SITE_URL } from '@/lib/seo';
-import PageHeader from '@/components/PageHeader';
+import BlogPostView from '@/components/BlogPostView';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
@@ -13,7 +13,7 @@ const loadPost = cache((slug: string) => getPostBySlug(slug));
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = await loadPost(decodeSlug(slug));
-  if (!post) return { title: '???????? ?? ? ????????', robots: { index: false, follow: true } };
+  if (!post) return { title: 'Статията не е намерена', robots: { index: false, follow: true } };
   const description = metaDescription(post.excerpt);
   return {
     title: post.title,
@@ -37,8 +37,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   if (!post || !post.published) {
     return (
       <div className="max-w-full mx-auto px-[15px] py-24 text-center">
-        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 28, color: '#9B72C7' }}>???????? ?? ? ????????</h1>
-        <Link href="/polezno" className="btn-primary inline-block mt-6">??? ?????</Link>
+        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 28, color: '#9B72C7' }}>Статията не е намерена</h1>
+        <Link href="/polezno" className="btn-primary inline-block mt-6">Към блога</Link>
       </div>
     );
   }
@@ -59,24 +59,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(jsonLd)} />
-
-      <PageHeader
+      <BlogPostView
         title={post.title}
-        breadcrumbs={[{ label: '??????', href: '/' }, { label: '???????', href: '/polezno' }, { label: post.title }]}
-        subtitle={new Date(post.publishedAt).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}
+        titleEn={post.titleEn}
+        content={post.content}
+        contentEn={post.contentEn}
+        coverImage={post.coverImage}
+        publishedAt={post.publishedAt.toISOString()}
       />
-
-      <article className="max-w-[820px] mx-auto px-[15px] py-10">
-        {post.coverImage && (
-          <img src={post.coverImage} alt={post.title} className="w-full rounded-lg mb-8 object-cover" style={{ maxHeight: 460 }} />
-        )}
-
-        <div className="blog-content" dangerouslySetInnerHTML={{ __html: post.content }} />
-
-        <div className="mt-10 pt-6 border-t border-[var(--border)]">
-          <Link href="/polezno" className="text-[14px] text-[var(--primary)] font-semibold hover:underline">? ?????? ??????</Link>
-        </div>
-      </article>
     </div>
   );
 }

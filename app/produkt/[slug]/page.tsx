@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = await loadProduct(slug);
   if (!product) {
-    return { title: '????????? ?? ? ???????', robots: { index: false, follow: true } };
+    return { title: 'Продуктът не е намерен', robots: { index: false, follow: true } };
   }
   const url = absoluteUrl(`/produkt/${product.slug}`);
   const description = metaDescription(product.shortDescription || product.description);
@@ -47,8 +47,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) {
     return (
       <div className="max-w-full mx-auto px-[15px] py-24 text-center">
-        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 28, color: '#9B72C7' }}>????????? ?? ? ???????</h1>
-        <Link href="/shop" className="btn-primary inline-block mt-6">??? ????????</Link>
+        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 28, color: '#9B72C7' }}>Продуктът не е намерен</h1>
+        <Link href="/shop" className="btn-primary inline-block mt-6">Към магазина</Link>
       </div>
     );
   }
@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     getProductReviews(product.id),
   ]);
 
-  const crumbs = [{ name: '??????', path: '/' }];
+  const crumbs = [{ name: 'Начало', path: '/' }];
   if (product.categorySlug && product.categoryTitle) {
     crumbs.push({ name: product.categoryTitle, path: `/kategoria/${product.categorySlug}` });
   }

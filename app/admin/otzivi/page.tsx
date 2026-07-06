@@ -1,6 +1,7 @@
 ﻿import { prisma } from '@/lib/prisma';
 import { approveReview, deleteReview } from '@/app/admin/actions';
 import Stars from '@/components/Stars';
+import SaveForm from '@/components/admin/SaveForm';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
@@ -49,9 +50,9 @@ export default async function AdminReviews({ searchParams }: { searchParams: Pro
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     {!r.approved && (
-                      <form action={approveReview.bind(null, r.id)}>
+                      <SaveForm action={approveReview.bind(null, r.id)}>
                         <button className="text-[13px] font-semibold text-green-600 hover:underline">Одобри</button>
-                      </form>
+                      </SaveForm>
                     )}
                     <form action={deleteReview.bind(null, r.id)}>
                       <button className="text-[13px] text-red-500 hover:underline">Изтрий</button>

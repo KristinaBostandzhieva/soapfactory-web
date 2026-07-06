@@ -191,6 +191,79 @@ export async function sendPasswordResetEmail(email: string, name: string | undef
 }
 
 /**
+ * Send a 6-digit email-verification code for a new signup.
+ */
+export async function sendVerificationCodeEmail(email: string, name: string | null | undefined, code: string): Promise<void> {
+  const greeting = name ? `Здравей, ${name}!` : 'Здравей!';
+
+  const html = `
+  <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 24px;background:#fff;">
+    <div style="background:#9B72C7;padding:24px;border-radius:8px 8px 0 0;text-align:center;">
+      <span style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;">Сапунена работилница</span>
+    </div>
+    <div style="border:1px solid #e8e0da;border-top:none;border-radius:0 0 8px 8px;padding:32px 24px;">
+      <p style="font-size:15px;color:#333;margin-bottom:8px;">${greeting}</p>
+      <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:24px;">
+        Благодарим ти за регистрацията! За да завършиш създаването на профила си, въведи кода по-долу в сайта.
+      </p>
+      <div style="text-align:center;margin-bottom:24px;">
+        <span style="display:inline-block;background:#f5eefc;color:#9B72C7;padding:16px 32px;border-radius:8px;font-size:32px;font-weight:800;letter-spacing:8px;">${code}</span>
+      </div>
+      <p style="font-size:12px;color:#999;line-height:1.6;margin-bottom:4px;">
+        Кодът е валиден <strong>5 минути</strong>. Ако не си се регистрирал/а при нас, просто игнорирай това писмо.
+      </p>
+    </div>
+    <p style="text-align:center;font-size:11px;color:#ccc;margin-top:16px;">© Сапунена работилница</p>
+  </div>`;
+
+  await sendMail({
+    to: email,
+    subject: `${code} — код за потвърждение · Сапунена работилница`,
+    html,
+  });
+}
+
+/**
+ * Sent when someone tries to register with an email that already has an account.
+ * Goes to the real owner (who controls the inbox) — the registration endpoint
+ * returns the same response as a fresh signup, so the *requester* learns nothing.
+ */
+export async function sendAccountExistsEmail(email: string, name: string | null | undefined): Promise<void> {
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
+  const loginUrl = `${siteUrl}/vhod`;
+  const resetUrl = `${siteUrl}/zabravena-parola`;
+  const greeting = name ? `Здравей, ${name}!` : 'Здравей!';
+
+  const html = `
+  <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 24px;background:#fff;">
+    <div style="background:#9B72C7;padding:24px;border-radius:8px 8px 0 0;text-align:center;">
+      <span style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;">Сапунена работилница</span>
+    </div>
+    <div style="border:1px solid #e8e0da;border-top:none;border-radius:0 0 8px 8px;padding:32px 24px;">
+      <p style="font-size:15px;color:#333;margin-bottom:8px;">${greeting}</p>
+      <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:24px;">
+        Някой (вероятно ти) опита да създаде нов профил с този имейл, но ти <strong>вече имаш профил</strong> при нас.
+        Няма нужда от нова регистрация — просто влез. Ако си забравил/а паролата си, можеш да я смениш.
+      </p>
+      <div style="text-align:center;margin-bottom:24px;">
+        <a href="${loginUrl}" style="display:inline-block;background:#9B72C7;color:#fff;text-decoration:none;padding:13px 28px;border-radius:6px;font-size:15px;font-weight:700;margin:0 4px 8px;">Вход</a>
+        <a href="${resetUrl}" style="display:inline-block;background:#f0e8f8;color:#9B72C7;text-decoration:none;padding:13px 28px;border-radius:6px;font-size:15px;font-weight:700;margin:0 4px 8px;">Смяна на парола</a>
+      </div>
+      <p style="font-size:12px;color:#999;line-height:1.6;">
+        Ако не си опитвал/а да се регистрираш, можеш спокойно да игнорираш това писмо — профилът ти е непокътнат.
+      </p>
+    </div>
+    <p style="text-align:center;font-size:11px;color:#ccc;margin-top:16px;">© Сапунена работилница</p>
+  </div>`;
+
+  await sendMail({
+    to: email,
+    subject: 'Вече имаш профил в Сапунена работилница',
+    html,
+  });
+}
+
+/**
  * Send order confirmation (to customer) + notification (to admins), once.
  * Safe to call multiple times — guarded by confirmationSentAt.
  */

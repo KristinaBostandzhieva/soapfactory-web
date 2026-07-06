@@ -24,10 +24,11 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
 }
 
 export default function CategoryView({
-  products, title, categorySlug, parentTitle, parentSlug,
+  products, title, titleEn, categorySlug, parentTitle, parentSlug,
 }: {
   products: UiProduct[];
   title: string;
+  titleEn?: string | null;
   categorySlug?: string | null;
   parentTitle?: string | null;
   parentSlug?: string | null;
@@ -203,9 +204,13 @@ export default function CategoryView({
     'za-doma': { bg: 'За дома', en: 'Cleaning' },
   };
 
-  const displayTitle = categorySlug && CATEGORY_LABELS[categorySlug]
-    ? CATEGORY_LABELS[categorySlug][isEnglish ? 'en' : 'bg']
-    : title;
+  // EN title priority: admin-entered nameEn from the DB, then the hardcoded
+  // label map (legacy categories), then the Bulgarian title.
+  const displayTitle = isEnglish && titleEn
+    ? titleEn
+    : categorySlug && CATEGORY_LABELS[categorySlug]
+      ? CATEGORY_LABELS[categorySlug][isEnglish ? 'en' : 'bg']
+      : title;
   const displayParentTitle = parentSlug && CATEGORY_LABELS[parentSlug]
     ? CATEGORY_LABELS[parentSlug][isEnglish ? 'en' : 'bg']
     : parentTitle;
@@ -784,8 +789,7 @@ export default function CategoryView({
           height: 37px;
           display: flex !important;
           align-items: center;
-          justify-content: space-between;
-          gap: 12px;
+          justify-content: flex-start;
           border: 0 !important;
           border-radius: 0 !important;
           background: #eeeeec !important;
@@ -798,31 +802,17 @@ export default function CategoryView({
           letter-spacing: 0 !important;
           text-transform: none !important;
           line-height: 1 !important;
+          transition: background 0.2s ease !important;
         }
 
-        .boj-product-grid .product-card--boj-category .boj-save {
-          font-weight: 600;
-          color: #111;
-          white-space: nowrap;
-        }
-
-        .boj-product-grid .product-card--boj-category .boj-prices {
-          display: inline-flex;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 8px;
-          white-space: nowrap;
-        }
-
-        .boj-product-grid .product-card--boj-category .boj-compare {
-          color: #606060;
-          font-size: 12px;
-          text-decoration: line-through;
+        .boj-product-grid .product-card--boj-category .boj-price-strip:hover {
+          background: var(--sage-light) !important;
         }
 
         .boj-product-grid .product-card--boj-category .boj-current {
-          color: #d41620;
-          font-size: 13px;
+          color: #111;
+          font-size: 14px;
+          font-weight: 600;
         }
 
         @media (min-width: 1400px) {

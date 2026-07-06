@@ -6,6 +6,7 @@ import FavoriteButton from '@/components/FavoriteButton';
 import Stars from '@/components/Stars';
 import { eur, lev } from '@/lib/currency';
 import { useT } from '@/hooks/useT';
+import { useLanguageStore } from '@/store/languageStore';
 
 const BESTSELLER_SLUGS = new Set<string>([]);
 
@@ -27,6 +28,8 @@ interface Product {
   rating?: number;
   reviewCount?: number;
   shortDescription?: string | null;
+  nameEn?: string | null;
+  shortDescriptionEn?: string | null;
 }
 
 export default function ProductCard({
@@ -39,14 +42,13 @@ export default function ProductCard({
   const { addItem } = useCartStore();
   const inStock = product.inStock !== false;
   const tr = useT();
+  const lang = useLanguageStore((s) => s.lang);
+  const name = lang === 'en' && product.nameEn ? product.nameEn : product.name;
+  const shortDescription = lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : product.shortDescription;
   const isBojCategory = variant === 'bojCategory';
   const isLipBalmImage = product.image?.includes('/lipbalm/');
   const isPhotoImage = product.image?.includes('/fscr-care/') || product.image?.includes('/blog') || product.image?.includes('/deos/');
 
-  const compareAt = product.priceMax && product.priceMax > product.price
-    ? product.priceMax
-    : product.price / 0.8;
-  const discount = Math.max(1, Math.round((1 - product.price / compareAt) * 100));
   const lvLabel = product.priceMax
     ? `${lev(product.price)} – ${lev(product.priceMax)} лв.`
     : `${lev(product.price)} лв.`;
@@ -105,22 +107,22 @@ export default function ProductCard({
       <Link href={`/produkt/${product.slug}`}>
         <h3 className="card-title text-[14px] font-semibold text-[#1a1a1a] leading-snug mb-1 hover:text-[var(--primary)] transition-colors"
           style={{ fontFamily: 'var(--font-body)' }}>
-          {product.name}
+          {name}
         </h3>
       </Link>
 
       {/* Short description — desktop */}
-      {product.shortDescription && (
+      {shortDescription && (
         <p className="card-desc-all text-[12px] leading-snug mb-2 line-clamp-1"
           style={{ color: '#999', fontFamily: 'var(--font-body)' }}>
-          {product.shortDescription}
+          {shortDescription}
         </p>
       )}
 
       {/* Mobile-only short description (different class for mobile specifics) */}
-      {product.shortDescription && (
+      {shortDescription && (
         <p className="card-desc-mobile text-[11px] text-[var(--text-muted)] mb-1 line-clamp-1 leading-snug">
-          {product.shortDescription}
+          {shortDescription}
         </p>
       )}
 
@@ -161,13 +163,7 @@ export default function ProductCard({
           className={`mt-auto btn-primary text-left w-full transition-opacity duration-200${isBojCategory ? ' boj-price-strip' : ''}`}
         >
           {isBojCategory ? (
-            <>
-              <span className="boj-save">Save {discount}%</span>
-              <span className="boj-prices">
-                <span className="boj-compare">€{eur(compareAt)}</span>
-                <span className="boj-current">€{eur(product.price)}</span>
-              </span>
-            </>
+            <span className="boj-current">{eur(product.price)} €</span>
           ) : (
             <>
               <span className="btn-text-full">{tr.cart.add}</span>

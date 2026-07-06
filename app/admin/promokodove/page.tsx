@@ -1,6 +1,7 @@
 ﻿import { prisma } from '@/lib/prisma';
 import { toggleDiscount, deleteDiscount } from '@/app/admin/actions';
 import NewDiscountForm from '@/components/admin/NewDiscountForm';
+import SaveForm from '@/components/admin/SaveForm';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
@@ -44,9 +45,9 @@ export default async function AdminDiscounts() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-2">
-                      <form action={toggleDiscount.bind(null, d.id)}>
+                      <SaveForm action={toggleDiscount.bind(null, d.id)}>
                         <button className="text-[13px] text-[var(--primary)] hover:underline">{d.active ? 'Спри' : 'Активирай'}</button>
-                      </form>
+                      </SaveForm>
                       <span className="text-[var(--border)]">|</span>
                       <form action={deleteDiscount.bind(null, d.id)}>
                         <button className="text-[13px] text-red-500 hover:underline">Изтрий</button>

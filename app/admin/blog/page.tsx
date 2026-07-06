@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma';
 import { Plus, Pencil } from 'lucide-react';
 import { togglePostPublished, deletePost } from '@/app/admin/actions';
+import SaveForm from '@/components/admin/SaveForm';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
@@ -43,9 +44,9 @@ export default async function AdminBlog() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-3 whitespace-nowrap">
-                      <form action={togglePostPublished.bind(null, p.id)}>
+                      <SaveForm action={togglePostPublished.bind(null, p.id)}>
                         <button className="text-[13px] text-[var(--primary)] hover:underline">{p.published ? 'Скрий' : 'Публикувай'}</button>
-                      </form>
+                      </SaveForm>
                       <Link href={`/admin/blog/${p.id}`} className="text-[var(--text-muted)] hover:text-[var(--primary)]" aria-label="Редактирай"><Pencil size={16} /></Link>
                       <form action={deletePost.bind(null, p.id)}>
                         <button className="text-[13px] text-red-500 hover:underline">Изтрий</button>

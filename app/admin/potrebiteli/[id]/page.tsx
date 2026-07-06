@@ -1,64 +1,93 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { orderNumber, orderStatusLabel, orderStatusColor } from '@/lib/orders';
 
 export const dynamic = 'force-dynamic';
 const hf = 'var(--font-body)';
 
-export default async function AdminUsers({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const { q } = await searchParams;
-  const where = q
-    ? {
-        OR: [
-          { email: { contains: q } },
-          { name: { contains: q } },
-          { phone: { contains: q } },
-          { address: { contains: q } },
-          { city: { contains: q } },
-          { postcode: { contains: q } },
-        ],
-      }
-    : undefined;
-  const [total, users] = await Promise.all([
-    prisma.user.count(),
-    prisma.user.findMany({ where, orderBy: { createdAt: 'desc' }, take: 100, select: { id: true, email: true, name: true, role: true, phone: true, createdAt: true, orders: { select: { total: true } } } }),
-  ]);
+export default async function AdminUserProfile({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const user = await prisma.user.findUnique({
+    where: { id },
+    include: { orders: { orderBy: { createdAt: 'desc' } } },
+  });
+  if (!user) notFound();
+
+  const orders = user.orders;
+  const spent = orders.filter((o) => o.paymentStatus === 'paid').reduce((s, o) => s + o.total, 0);
+  const lastOrder = orders[0];
+
+  const stats = [
+    { label: 'Поръчки', value: orders.length },
+    { label: 'Похарчено (платени)', value: `${spent.toFixed(2)} €` },
+    { label: 'Последна поръчка', value: lastOrder ? new Date(lastOrder.createdAt).toLocaleDateString('bg-BG') : '—' },
+    { label: 'Регистриран', value: new Date(user.createdAt).toLocaleDateString('bg-BG') },
+  ];
+
+  const field = (label: string, value: string | null | undefined) => (
+    <div>
+      <div className="text-[12px] text-[var(--text-muted)]">{label}</div>
+      <div className="text-[14px] text-[var(--text-dark)]">{value || '—'}</div>
+    </div>
+  );
 
   return (
     <div>
-      <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }} className="mb-2">Потребители <span className="text-[var(--text-muted)] text-[18px]">({total})</span></h1>
-      <p className="text-[13px] text-[var(--text-muted)] mb-5">Показани са до 100 резултата. Използвай търсенето за конкретен потребител.</p>
+      <div className="flex items-center justify-between mb-6">
+        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 26, color: '#333' }}>
+          {user.name || 'Потребител'}
+          {user.role === 'admin' && <span className="ml-3 px-2 py-0.5 rounded-full text-[12px] font-semibold bg-[var(--primary)] text-white align-middle">Админ</span>}
+        </h1>
+        <Link href="/admin/potrebiteli" className="text-[14px] text-[var(--text-muted)] hover:text-[var(--primary)]">← Назад</Link>
+      </div>
 
-      <form className="mb-5">
-        <input name="q" defaultValue={q || ''} placeholder="Търси по имейл, име, телефон или адрес…"
-          className="w-full max-w-sm border border-[var(--border)] rounded px-4 py-2 text-[14px] focus:outline-none focus:border-[var(--primary)]" />
-      </form>
+      {/* Stat cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {stats.map((s) => (
+          <div key={s.label} className="bg-white border border-[var(--border)] rounded-lg p-4">
+            <div className="text-[12px] text-[var(--text-muted)] mb-1">{s.label}</div>
+            <div style={{ fontFamily: hf }} className="text-[20px] font-extrabold text-[var(--text-dark)]">{s.value}</div>
+          </div>
+        ))}
+      </div>
 
+      {/* Contact details */}
+      <div className="bg-white border border-[var(--border)] rounded-lg p-5 mb-8">
+        <h2 style={{ fontFamily: hf, fontWeight: 800, fontSize: 15 }} className="mb-4">Данни за контакт</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {field('Имейл', user.email)}
+          {field('Телефон', user.phone)}
+          {field('Град', user.city)}
+          {field('Адрес', user.address)}
+          {field('Пощенски код', user.postcode)}
+          {field('Държава', user.country)}
+        </div>
+      </div>
+
+      {/* Order history */}
+      <h2 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333' }} className="mb-4">Поръчки на клиента</h2>
       <div className="bg-white border border-[var(--border)] rounded-lg overflow-x-auto">
-        <table className="w-full text-[14px]">
-          <thead className="bg-[var(--bg-light)] text-left text-[var(--text-muted)]">
-            <tr><th className="px-4 py-3">Имейл</th><th className="px-4 py-3">Име</th><th className="px-4 py-3">Телефон</th><th className="px-4 py-3">Поръчки</th><th className="px-4 py-3">Похарчено</th><th className="px-4 py-3">Роля</th><th className="px-4 py-3">Действия</th></tr>
-          </thead>
-          <tbody>
-            {users.map((u) => {
-              const orderCount = u.orders.length;
-              const spent = u.orders.reduce((s, o) => s + o.total, 0);
-              return (
-              <tr key={u.id} className="border-t border-[var(--border)] hover:bg-[var(--bg-light)]">
-                <td className="px-4 py-3">{u.email}</td>
-                <td className="px-4 py-3">{u.name || '—'}</td>
-                <td className="px-4 py-3 text-[var(--text-body)]">{u.phone || '—'}</td>
-                <td className="px-4 py-3">{orderCount}</td>
-                <td className="px-4 py-3 font-semibold">{spent > 0 ? `${spent.toFixed(2)} €` : '—'}</td>
-                <td className="px-4 py-3">{u.role === 'admin' ? <span className="px-2 py-0.5 rounded-full text-[12px] font-semibold bg-[var(--primary)] text-white">Админ</span> : 'Клиент'}</td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <Link href={`/admin/potrebiteli/${u.id}`} className="btn-primary">Виж профила →</Link>
-                </td>
-              </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {users.length === 0 && <p className="text-[14px] text-[var(--text-muted)] p-6 text-center">Няма намерени потребители.</p>}
+        {orders.length === 0 ? (
+          <p className="text-[14px] text-[var(--text-muted)] p-6 text-center">Този потребител още няма поръчки.</p>
+        ) : (
+          <table className="w-full text-[14px]">
+            <thead className="bg-[var(--bg-light)] text-left text-[var(--text-muted)]">
+              <tr><th className="px-4 py-3">№</th><th className="px-4 py-3">Сума</th><th className="px-4 py-3">Плащане</th><th className="px-4 py-3">Статус</th><th className="px-4 py-3">Дата</th></tr>
+            </thead>
+            <tbody>
+              {orders.map((o) => (
+                <tr key={o.id} className="border-t border-[var(--border)] hover:bg-[var(--bg-light)]">
+                  <td className="px-4 py-3"><Link href={`/admin/porachki/${o.id}`} className="text-[var(--primary)] font-semibold">#{orderNumber(o.id)}</Link></td>
+                  <td className="px-4 py-3 font-semibold">{o.total.toFixed(2)} €</td>
+                  <td className="px-4 py-3">{o.paymentStatus === 'paid' ? 'Платена' : 'Неплатена'}</td>
+                  <td className="px-4 py-3"><span className={`px-2.5 py-1 rounded-full text-[12px] font-semibold ${orderStatusColor(o.status)}`}>{orderStatusLabel(o.status)}</span></td>
+                  <td className="px-4 py-3 text-[var(--text-muted)]">{new Date(o.createdAt).toLocaleDateString('bg-BG')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

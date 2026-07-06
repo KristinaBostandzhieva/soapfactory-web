@@ -40,7 +40,16 @@ export default async function AccountPage() {
             {rows.map(([label, value]) => (
               <div key={label} className="flex justify-between py-2.5 text-[14px]">
                 <dt className="text-[var(--text-muted)]">{label}</dt>
-                <dd className="text-[var(--text-dark)] font-medium">{value || '—'}</dd>
+                <dd className="text-[var(--text-dark)] font-medium">
+                  {value || (
+                    <span className="text-[var(--text-muted)]">
+                      Нямаме данни,{' '}
+                      <Link href="/account/nastroiki" className="text-[var(--primary)] font-semibold hover:underline">
+                        кликни за да добавиш
+                      </Link>
+                    </span>
+                  )}
+                </dd>
               </div>
             ))}
           </dl>

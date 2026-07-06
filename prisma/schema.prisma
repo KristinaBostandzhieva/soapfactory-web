@@ -12,6 +12,7 @@ model Category {
   id        String     @id @default(cuid())
   wooId     Int?       @unique          // original WooCommerce id (for parent mapping)
   name      String
+  nameEn    String?    // optional English name — shown when the EN toggle is on
   slug      String     @unique
   parentId  String?
   parent    Category?  @relation("Subcategories", fields: [parentId], references: [id])
@@ -32,6 +33,11 @@ model Product {
   stockQty         Int?        // null = untracked (use inStock flag); a number = tracked stock that auto-decrements
   shortDescription String?
   description       String?
+  // Optional English translations — shown on the storefront when the EN
+  // language toggle is on; fall back to the Bulgarian fields when empty.
+  nameEn           String?
+  shortDescriptionEn String?
+  descriptionEn    String?
   weight           String?
   images           String      @default("[]") // JSON-encoded array of image URLs
   featured         Boolean     @default(false)
@@ -40,6 +46,9 @@ model Product {
   reviews          Review[]
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+
+  @@index([createdAt])   // admin + catalog list ordering
+  @@index([featured])    // featured products on the homepage
 }
 
 model Review {
@@ -50,7 +59,11 @@ model Review {
   rating     Int      // 1–5
   comment    String?
   approved   Boolean  @default(false) // admin moderates before it shows publicly
+  verified   Boolean  @default(false) // reviewer's account has an order containing this product
   createdAt  DateTime @default(now())
+
+  @@index([productId])  // reviews-for-a-product lookups (FK)
+  @@index([approved])   // pending-moderation badge + admin tabs
 }
 
 model User {
@@ -66,6 +79,9 @@ model User {
   city         String?
   postcode     String?
   country      String?
+  // Bumped on password change / reset to invalidate all previously-issued
+  // session tokens (each token carries the version it was signed with).
+  sessionVersion Int     @default(0)
   createdAt    DateTime  @default(now())
   orders       Order[]
   sessions     Session[]
@@ -78,6 +94,8 @@ model Session {
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expires      DateTime
+
+  @@index([userId])  // session lookups for a user (FK)
 }
 
 model Order {
@@ -113,6 +131,11 @@ model Order {
   items           OrderItem[]
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+
+  @@index([createdAt])      // list ordering (admin lists, dashboard)
+  @@index([status])         // status tabs + "new orders" badge/count
+  @@index([paymentStatus])  // dashboard paid-revenue aggregate
+  @@index([userId])         // a customer's order history (FK)
 }
 
 model OrderItem {
@@ -124,6 +147,9 @@ model OrderItem {
   name      String
   price     Float
   quantity  Int
+
+  @@index([orderId])    // items-of-an-order (FK)
+  @@index([productId])  // best-sellers aggregate (FK)
 }
 
 // Promo / discount codes
@@ -148,11 +174,57 @@ model Post {
   slug        String   @unique
   excerpt     String?
   content     String                    // HTML body
+  // Optional English version — shown when the EN toggle is on; falls back to BG.
+  titleEn     String?
+  excerptEn   String?
+  contentEn   String?                   // HTML body (EN)
   coverImage  String?
   published   Boolean  @default(true)
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+// Pending email-verification signups. A real User row is NOT created until the
+// 6-digit code emailed at signup is confirmed — so unconfirmed signups never
+// exist as users. One row per email (re-registering overwrites it).
+model PendingSignup {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  passwordHash String
+  code         String    // 6-digit confirmation code
+  expiresAt    DateTime  // code TTL (15 min)
+  attempts     Int       @default(0) // wrong-code attempts (locks after a few)
+  // ── Per-email resend throttle (escalating cooldown: 60s → 120s → 6h lock) ──
+  resendCount  Int       @default(0) // how many times a code has been re-sent
+  lastSentAt   DateTime  @default(now()) // when the last code was emailed
+  lockedUntil  DateTime? // set when the escalation trips a long lockout
+  createdAt    DateTime  @default(now())
+}
+
+// Per-IP signup throttle log — one row per code actually emailed, used to cap
+// how many new signups a single IP can trigger per hour (anti-flood).
+model SignupIpLog {
+  id        String   @id @default(cuid())
+  ip        String
+  createdAt DateTime @default(now())
+
+  @@index([ip, createdAt])
+}
+
+// Throttle log for password-reset requests. One row per *attempt* (whether or
+// not the email belongs to a real user), so the rate limit is enforced BEFORE
+// user existence is checked and can never be used to probe which emails exist.
+model PasswordResetRequest {
+  id        String   @id @default(cuid())
+  email     String   // normalized email (may not correspond to a real user)
+  ip        String
+  sent      Boolean  @default(false) // true only when a reset email actually went out
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+  @@index([ip, createdAt])
 }
 
 // Password reset tokens (1-hour TTL, single-use)
@@ -182,4 +254,7 @@ model PageView {
   utmMedium   String?  // e.g. cpc, paid, social, email
   utmCampaign String?  // e.g. spring_sale
   createdAt   DateTime @default(now())
+
+  @@index([createdAt])  // analytics date-range filtering (fastest-growing table)
+  @@index([sessionId])  // unique-visitor counting
 }

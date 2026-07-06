@@ -143,7 +143,7 @@ export default function HomeMegaCarousel({
       {/* Marquee */}
       <div
         ref={outerRef}
-        className="sf-carousel-outer"
+        className="sf-carousel-outer boj-product-grid"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
@@ -153,7 +153,7 @@ export default function HomeMegaCarousel({
         <div ref={trackRef} className="sf-carousel-track">
           {loop.map((p, i) => (
             <div key={`${p.id}-${i}`} className="sf-carousel-card">
-              <ProductCard product={p} />
+              <ProductCard product={p} variant="bojCategory" />
             </div>
           ))}
         </div>

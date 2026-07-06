@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createDiscount } from '@/app/admin/actions';
+import SaveForm from '@/components/admin/SaveForm';
 
 const hf = 'var(--font-body)';
 const label = 'block text-[13px] font-medium mb-1';
@@ -38,8 +39,12 @@ export default function NewDiscountForm() {
     setMin('');
   }
 
+  function reset() {
+    setCode(''); setType('percent'); setValue(''); setMin(''); setMax(''); setExp('');
+  }
+
   return (
-    <form action={createDiscount} className="bg-white border border-[var(--border)] rounded-lg p-6 mb-8">
+    <SaveForm action={createDiscount} onSaved={reset} className="bg-white border border-[var(--border)] rounded-lg p-6 mb-8">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <h3 style={{ fontFamily: hf, fontWeight: 800, fontSize: 15 }}>Нов код</h3>
         <button type="button" onClick={generate}
@@ -83,6 +88,6 @@ export default function NewDiscountForm() {
       </div>
 
       <button type="submit" className="btn-primary mt-5" style={{ padding: '10px 26px', fontSize: 14 }}>Създай код</button>
-    </form>
+    </SaveForm>
   );
 }

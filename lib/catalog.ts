@@ -21,6 +21,9 @@ export type UiProduct = {
   inStock: boolean;
   shortDescription?: string | null;
   description?: string | null;
+  nameEn?: string | null;
+  shortDescriptionEn?: string | null;
+  descriptionEn?: string | null;
   weight?: string | null;
   stockQty?: number | null;
   rating?: number;
@@ -34,6 +37,7 @@ export type ReviewItem = {
   authorName: string;
   rating: number;
   comment: string | null;
+  verified: boolean;
   createdAt: Date;
 };
 
@@ -52,6 +56,9 @@ type DbProduct = {
   stockQty: number | null;
   shortDescription: string | null;
   description: string | null;
+  nameEn: string | null;
+  shortDescriptionEn: string | null;
+  descriptionEn: string | null;
   weight: string | null;
   images: string;
   categories: { slug: string; name: string; parentId: string | null }[];
@@ -111,6 +118,9 @@ const PRODUCT_IMAGE_OVERRIDES: Record<string, string[]> = {
 };
 
 function applyImageOverride(product: { sku?: string | null }, images: string[]): string[] {
+  // Images saved in the DB always win, so the admin panel is the source of truth.
+  // The hardcoded override is only a fallback for products that have no images yet.
+  if (images.length) return images;
   return product.sku && PRODUCT_IMAGE_OVERRIDES[product.sku] ? PRODUCT_IMAGE_OVERRIDES[product.sku] : images;
 }
 
@@ -143,6 +153,16 @@ export function firstImage(images: string): string | undefined {
   }
 }
 
+// Parse the raw images JSON column into a clean string array.
+export function productImages(images: string): string[] {
+  try {
+    const arr = JSON.parse(images || '[]');
+    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === 'string' && x.length > 0) : [];
+  } catch {
+    return [];
+  }
+}
+
 function toUi(p: DbProduct): UiProduct {
   let images: string[] = [];
   try {
@@ -167,6 +187,9 @@ function toUi(p: DbProduct): UiProduct {
     inStock,
     shortDescription: p.shortDescription,
     description: p.description,
+    nameEn: p.nameEn,
+    shortDescriptionEn: p.shortDescriptionEn,
+    descriptionEn: p.descriptionEn,
     weight: p.weight,
     stockQty: p.stockQty,
     rating,
@@ -181,7 +204,7 @@ export async function getProductReviews(productId: string): Promise<ReviewItem[]
     return await prisma.review.findMany({
       where: { productId, approved: true },
       orderBy: { createdAt: 'desc' },
-      select: { id: true, authorName: true, rating: true, comment: true, createdAt: true },
+      select: { id: true, authorName: true, rating: true, comment: true, verified: true, createdAt: true },
     });
   } catch {
     return [];

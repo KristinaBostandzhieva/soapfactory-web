@@ -12,6 +12,7 @@ const input = 'w-full border border-[var(--border)] rounded px-3 py-2 text-[14px
 export interface PostInitial {
   title?: string; slug?: string; excerpt?: string | null; coverImage?: string | null;
   content?: string; published?: boolean;
+  titleEn?: string | null; excerptEn?: string | null; contentEn?: string | null;
 }
 
 export default function PostForm({
@@ -50,6 +51,27 @@ export default function PostForm({
         <div>
           <label className={label}>Съдържание *</label>
           <RichTextEditor name="content" defaultValue={initial?.content || ''} required />
+        </div>
+
+        {/* English version — shown on the site when the visitor switches to EN */}
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-light)] p-4 space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[var(--primary)] text-white">EN</span>
+            <p className="text-[13px] font-semibold text-[var(--text-dark)]">Английска версия <span className="text-[var(--text-muted)] font-normal">(по желание)</span></p>
+          </div>
+          <p className="text-[12px] text-[var(--text-muted)] -mt-2">Показва се, когато посетителят превключи сайта на английски. Остави празно, за да се показва българският текст.</p>
+          <div>
+            <label className={label}>Заглавие (EN)</label>
+            <input name="titleEn" defaultValue={initial?.titleEn || ''} placeholder="Post title in English" className={input} />
+          </div>
+          <div>
+            <label className={label}>Кратко описание (EN)</label>
+            <textarea name="excerptEn" rows={2} defaultValue={initial?.excerptEn || ''} placeholder="Short summary in English" className={input} />
+          </div>
+          <div>
+            <label className={label}>Съдържание (EN)</label>
+            <RichTextEditor name="contentEn" defaultValue={initial?.contentEn || ''} />
+          </div>
         </div>
 
         <div>

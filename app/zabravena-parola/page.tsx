@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Turnstile from '@/components/Turnstile';
+
+const captchaEnabled = !!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const hf = 'var(--font-body)';
 const inputCls = 'w-full border border-[var(--border)] rounded px-4 py-2.5 text-[14px] focus:outline-none focus:border-[var(--primary)]';
@@ -11,22 +14,30 @@ export default function ForgotPasswordPage() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    if (captchaEnabled && !captchaToken) { setError('Моля, потвърди, че не си робот.'); return; }
     setLoading(true);
     try {
       const res = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, turnstileToken: captchaToken }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error || 'Възникна грешка.'); return; }
+      if (!res.ok) {
+        setError(data.error || 'Възникна грешка.');
+        setCaptchaToken(''); setCaptchaKey((k) => k + 1); // single-use token → reset
+        return;
+      }
       setSent(true);
     } catch {
       setError('Възникна грешка. Опитай отново.');
+      setCaptchaToken(''); setCaptchaKey((k) => k + 1);
     } finally {
       setLoading(false);
     }
@@ -72,7 +83,8 @@ export default function ForgotPasswordPage() {
             placeholder="твоят@имейл.com"
           />
         </div>
-        <button type="submit" disabled={loading} className="btn-primary w-full text-center" style={{ padding: '11px', fontSize: 14 }}>
+        <Turnstile key={captchaKey} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken('')} />
+        <button type="submit" disabled={loading || (captchaEnabled && !captchaToken)} className="btn-primary w-full text-center" style={{ padding: '11px', fontSize: 14 }}>
           {loading ? 'Изпращане…' : 'Изпрати линк'}
         </button>
         <p className="text-[13px] text-[var(--text-body)] text-center mt-5">
