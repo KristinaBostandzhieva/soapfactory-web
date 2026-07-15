@@ -66,10 +66,8 @@ export default function HomeView({
     return () => clearInterval(id);
   }, []);
 
-  // Mobile sliders (arrows scroll one card). Shared helper for the ritual
-  // category cards and the Velvet product cards.
+  // Mobile slider (arrows scroll one card) for the ritual category cards.
   const catSliderRef = useRef<HTMLDivElement>(null);
-  const velvetSliderRef = useRef<HTMLDivElement>(null);
   const scrollRow = (ref: React.RefObject<HTMLDivElement | null>, cardSel: string, dir: number) => {
     const el = ref.current;
     if (!el) return;
@@ -77,7 +75,6 @@ export default function HomeView({
     el.scrollBy({ left: dir * ((card?.offsetWidth || el.clientWidth * 0.82) + 16), behavior: 'smooth' });
   };
   const scrollCats = (dir: number) => scrollRow(catSliderRef, '.cat-card', dir);
-  const scrollVelvet = (dir: number) => scrollRow(velvetSliderRef, '.product-card', dir);
 
   const cats = [
     { title: tr.home.catFace, label: tr.home.catFaceLabel, desc: tr.home.catFaceDesc, cta: tr.home.catFaceCta, trust: tr.home.catFaceTrust, href: CAT_HREFS[0], img: CAT_IMGS[0] },
@@ -100,17 +97,26 @@ export default function HomeView({
             </div>
           </div>
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2, padding: '24px 24px 40px', background: 'linear-gradient(to bottom, rgba(40,20,8,0.82) 0%, rgba(40,20,8,0.4) 60%, transparent 100%)', textAlign: 'center' }}>
-            <h2 style={{ fontFamily: fd, fontWeight: 600, fontSize: 26, lineHeight: '32px', color: '#fff', margin: 0 }}>
+            <h2 style={{ fontFamily: fd, fontWeight: 400, fontSize: 'clamp(24px, 2.2vw, 32px)', lineHeight: 1.2, color: '#fff', margin: 0, textShadow: '0 2px 20px rgba(30, 18, 8, 0.3)' }}>
               {tr.hero.deotitle}
             </h2>
           </div>
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '60px 28px 28px', background: 'linear-gradient(to top, rgba(40,20,8,0.92) 0%, rgba(40,20,8,0.62) 52%, transparent 100%)', textAlign: 'center' }}>
-            <p style={{ fontFamily: fb, fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.68)', letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+            <p style={{ fontFamily: fb, fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.68)', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 10px' }}>
               {tr.hero.deobadge}
             </p>
-            <p style={{ fontFamily: fb, fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.80)', lineHeight: '20px', margin: 0 }}>
+            <p style={{ fontFamily: fb, fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.80)', lineHeight: '20px', margin: '0 0 16px' }}>
               {tr.hero.deotext}
             </p>
+            <Link href="/kategoria/deo-stikove" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              fontFamily: fb, fontSize: 11.5, fontWeight: 600,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: '#fff', textDecoration: 'none',
+              paddingBottom: 3, borderBottom: '1px solid rgba(255,255,255,0.65)',
+            }}>
+              {tr.hero.cta1}
+            </Link>
           </div>
         </div>
       </section>
@@ -153,60 +159,58 @@ export default function HomeView({
       {/* merged into HomeMegaCarousel above */}
 
 
-      {/* ═══ PROMO BANNERS ═══ */}
-      <section style={{ maxWidth: '100%', margin: '0 auto', padding: '0 15px', display: 'grid', gridTemplateColumns: 'minmax(320px, 760px) minmax(0, 1fr)', gap: 16 }} className="promo-grid">
-
-        {/* Velvet */}
-        <Link href="/kategoria/velvet" className="group" style={{ position: 'relative', display: 'block', width: '100%', aspectRatio: '0.8 / 1', borderRadius: 16, overflow: 'hidden', textDecoration: 'none' }}>
-          {VELVET_IMGS.map((slide, i) => (
-            <div key={slide.src} style={{
-              position: 'absolute', inset: 0,
-              backgroundColor: '#2f211d',
-              opacity: i === velvetIdx ? 1 : 0,
-              transition: 'opacity 0.9s ease',
-            }}>
-              <div style={{
-                position: 'absolute', inset: '-10%',
-                backgroundImage: `url(${slide.src})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                filter: 'blur(18px)',
-                transform: 'scale(1.05)',
-                opacity: 0.55,
-              }} />
-              <div style={{
-                position: 'absolute', inset: 0,
-                backgroundImage: `url(${slide.src})`,
-                backgroundSize: slide.size || 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }} />
-            </div>
-          ))}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(58,38,28,0.55) 0%, rgba(58,38,28,0.18) 45%, rgba(58,38,28,0.0) 100%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '36px 40px', maxWidth: '90%' }}>
-            <h2 style={{ fontFamily: fd, fontWeight: 600, fontStyle: 'italic', fontSize: 'clamp(22px, 2.4vw, 32px)', color: '#fff', marginBottom: 10, lineHeight: 1.2 }}>{tr.home.velvetTitle}</h2>
-            <p style={{ fontFamily: fb, fontSize: 14, fontWeight: 400, color: 'rgba(255,255,255,0.78)', lineHeight: 1.65, marginBottom: 24 }}>{tr.home.velvetBody.split('\n').join(' ')}</p>
-          </div>
-        </Link>
-
-        {/* Velvet products */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignSelf: 'start' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 12, borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontFamily: fd, fontWeight: 600, fontStyle: 'italic', fontSize: 22, color: 'var(--text-heading)', margin: 0 }}>Серия Velvet</h3>
-            <Link href="/kategoria/seria-velvet" style={{ fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--primary)', textDecoration: 'none' }}>Виж всички →</Link>
-          </div>
-          <div className="velvet-slider">
-            <div ref={velvetSliderRef} className="velvet-cards boj-product-grid grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-10">
-              {velvetProducts.slice(0, 6).map(p => (
-                <ProductCard key={p.id} product={p} variant="bojCategory" />
-              ))}
-            </div>
-            <button type="button" className="velvet-slider-arrow left" onClick={() => scrollVelvet(-1)} aria-label="Предишен продукт">‹</button>
-            <button type="button" className="velvet-slider-arrow right" onClick={() => scrollVelvet(1)} aria-label="Следващ продукт">›</button>
-          </div>
+      {/* ═══ VELVET — banner centered, one product on each side ═══ */}
+      <section className="velvet-section" style={{ maxWidth: 1800, margin: '0 auto', padding: '0 15px' }}>
+        <div className="title-row" style={{ marginBottom: 28 }}>
+          <h2 className="section-title">Серия Velvet</h2>
+          <Link href="/kategoria/seria-velvet" className="btn-primary">Виж всички →</Link>
         </div>
+        <div className="velvet-triptych">
+          {/* Banner (first in DOM so it leads when stacked on mobile) */}
+          <Link href="/kategoria/velvet" className="group velvet-banner" style={{ position: 'relative', display: 'block', width: '100%', aspectRatio: '0.8 / 1', borderRadius: 16, overflow: 'hidden', textDecoration: 'none' }}>
+            {VELVET_IMGS.map((slide, i) => (
+              <div key={slide.src} style={{
+                position: 'absolute', inset: 0,
+                backgroundColor: '#2f211d',
+                opacity: i === velvetIdx ? 1 : 0,
+                transition: 'opacity 0.9s ease',
+              }}>
+                <div style={{
+                  position: 'absolute', inset: '-10%',
+                  backgroundImage: `url(${slide.src})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'blur(18px)',
+                  transform: 'scale(1.05)',
+                  opacity: 0.55,
+                }} />
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  backgroundImage: `url(${slide.src})`,
+                  backgroundSize: slide.size || 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }} />
+              </div>
+            ))}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(58,38,28,0.55) 0%, rgba(58,38,28,0.18) 45%, rgba(58,38,28,0.0) 100%)' }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '36px 40px', textAlign: 'center' }}>
+              <h2 style={{ fontFamily: fd, fontWeight: 400, fontSize: 'clamp(22px, 2.4vw, 32px)', color: '#fff', marginBottom: 10, lineHeight: 1.2 }}>{tr.home.velvetTitle}</h2>
+              <p style={{ fontFamily: fb, fontSize: 14, fontWeight: 400, color: 'rgba(255,255,255,0.78)', lineHeight: 1.65, margin: 0 }}>{tr.home.velvetBody.split('\n').join(' ')}</p>
+            </div>
+          </Link>
 
+          {velvetProducts[0] && (
+            <div className="boj-product-grid velvet-side velvet-side-left">
+              <ProductCard product={velvetProducts[0]} variant="bojCategory" />
+            </div>
+          )}
+          {velvetProducts[1] && (
+            <div className="boj-product-grid velvet-side velvet-side-right">
+              <ProductCard product={velvetProducts[1]} variant="bojCategory" />
+            </div>
+          )}
+        </div>
       </section>
 
       {/* ═══ БИО САПУНИ ═══ */}

@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { Search, Heart, User, Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
+import { Search, Heart, User, Menu, X, ChevronDown, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useFavoritesStore } from '@/store/favoritesStore';
 import PromoModal from '@/components/PromoModal';
@@ -53,6 +53,43 @@ export default function Navbar() {
     { label: tr.nav.promotions, href: '/kategoria/promotsii' },
   ];
   const { totalItems, openCart } = useCartStore();
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeAnimTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [menuClosing, setMenuClosing] = useState(false);
+  const openMenu = (label: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (closeAnimTimer.current) clearTimeout(closeAnimTimer.current);
+    setMenuClosing(false);
+    setOpenDropdown(label);
+  };
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (closeAnimTimer.current) clearTimeout(closeAnimTimer.current);
+    // Grace period, then play the exit animation before unmounting
+    closeTimer.current = setTimeout(() => {
+      setMenuClosing(true);
+      closeAnimTimer.current = setTimeout(() => {
+        setOpenDropdown(null);
+        setMenuClosing(false);
+      }, 300);
+    }, 160);
+  };
+
+  // Featured image tiles shown on the right side of the mega menu, per category
+  const megaFeatures: Record<string, { img: string; label: string; href: string }[]> = {
+    '/kategoria/grizha-za-tialoto': [
+      { img: '/images/cat-tialo.jpeg', label: tr.nav.bodycare, href: '/kategoria/grizha-za-tialoto' },
+      { img: '/images/promo-soaps.png', label: tr.nav.biosoaps, href: '/kategoria/bio-sapuni' },
+    ],
+    '/kategoria/grizha-za-litseto': [
+      { img: '/images/cat-litse.jpeg', label: tr.nav.facecare, href: '/kategoria/grizha-za-litseto' },
+      { img: '/images/hero2/grizha-litseto.png', label: tr.nav.lipbalms, href: '/kategoria/bio-balsami-za-ustni' },
+    ],
+    '/kategoria/grizha-za-kosata': [
+      { img: '/images/cat-kosa.jpeg', label: tr.nav.haircare, href: '/kategoria/grizha-za-kosata' },
+      { img: '/images/shampoo-promo.png', label: tr.nav.shampoobar, href: '/kategoria/shampoanovi-blokcheta' },
+    ],
+  };
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const count = mounted ? totalItems() : 0;
@@ -69,64 +106,48 @@ export default function Navbar() {
   const leftNavItems = navItems.slice(0, 3);
   const rightNavItems = navItems.slice(3);
   const headerIconButtonStyle = {
-    width: 26, height: 26, borderRadius: '50%',
-    background: 'transparent', color: '#111', border: '1.4px solid #111',
-    alignItems: 'center', justifyContent: 'center',
+    width: 30, height: 30, borderRadius: '50%',
+    background: 'transparent', color: '#3F332D', border: 'none',
+    alignItems: 'center', justifyContent: 'center', padding: 0,
     cursor: 'pointer', flexShrink: 0, display: 'flex',
   } as const;
   const languageButtonStyle = {
-    background: 'transparent', border: '1.4px solid #111',
-    borderRadius: 999, padding: '4px 8px',
-    fontSize: 11, fontWeight: 800, cursor: 'pointer',
-    color: '#111', letterSpacing: '0.05em',
+    background: 'transparent', border: 'none',
+    padding: '4px 2px',
+    fontSize: 11.5, fontWeight: 600, cursor: 'pointer',
+    color: '#3F332D', letterSpacing: '0.18em',
     fontFamily: 'var(--font-body)',
     flexShrink: 0,
   } as const;
   const renderNavItem = (item: typeof navItems[number]) => (
     <div key={item.label} style={{ position: 'relative' }}
-      onMouseEnter={() => item.children && setOpenDropdown(item.label)}
-      onMouseLeave={() => setOpenDropdown(null)}>
+      onMouseEnter={() => (item.children ? openMenu(item.label) : scheduleClose())}
+      onMouseLeave={() => item.children && scheduleClose()}>
       <Link href={item.href}
-        onClick={undefined}
+        onClick={() => setOpenDropdown(null)}
         style={{
-          display: 'flex', alignItems: 'center', gap: 4,
-          padding: '8px 0',
-          fontSize: 15,
-          fontWeight: 800,
+          display: 'flex', alignItems: 'center', gap: 5,
+          padding: '9px 0',
+          fontSize: 13,
+          fontWeight: 500,
           fontFamily: 'var(--font-body)',
-          color: '#111',
-          borderBottom: isActive(item) ? '1px solid #111' : '1px solid transparent',
+          color: '#3F332D',
+          borderBottom: isActive(item) ? '1px solid rgba(63,51,45,0.75)' : '1px solid transparent',
           textDecoration: 'none',
           textTransform: 'uppercase',
-          letterSpacing: '0.02em',
+          letterSpacing: '0.12em',
           whiteSpace: 'nowrap',
           transition: 'color 0.2s',
         }}>
         {item.label}
-        {item.children && <ChevronDown size={13} style={{ opacity: 0.65, marginTop: 1 }} />}
+        {item.children && (
+          <ChevronDown size={13} strokeWidth={1.6} style={{
+            opacity: 0.5, marginTop: 1,
+            transform: openDropdown === item.label ? 'rotate(180deg)' : 'none',
+            transition: 'transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+          }} />
+        )}
       </Link>
-
-      {item.children && openDropdown === item.label && (
-        <div style={{
-          position: 'absolute', top: '100%', left: 0,
-          background: '#fff', border: '1px solid rgba(0,0,0,0.08)',
-          boxShadow: '0 10px 24px rgba(0,0,0,0.10)',
-          borderRadius: 4, minWidth: 230, zIndex: 100, padding: '8px 0',
-        }}>
-          {item.children.map((child) => (
-            <Link key={child.href} href={child.href} style={{
-              display: 'block', padding: '11px 16px',
-              fontSize: 14, fontWeight: 700,
-              fontFamily: 'var(--font-body)',
-              color: '#222', textDecoration: 'none',
-            }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#9B72C7')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#222')}>
-              {child.label}
-            </Link>
-          ))}
-        </div>
-      )}
     </div>
   );
 
@@ -134,8 +155,10 @@ export default function Navbar() {
   <>
     <header style={{
       position: 'sticky', top: 0, zIndex: 30,
-      background: 'linear-gradient(90deg, #dfeedd 0%, #edf6e9 48%, #fff 100%)',
-      boxShadow: '0 4px 18px rgba(56, 35, 42, 0.22)',
+      background: 'rgba(253, 251, 247, 0.94)',
+      backdropFilter: 'blur(14px) saturate(1.3)',
+      WebkitBackdropFilter: 'blur(14px) saturate(1.3)',
+      borderBottom: '1px solid rgba(63, 51, 45, 0.10)',
     }}>
       <div className="nav-header-inner" style={{
         maxWidth: '100%', margin: '0 auto',
@@ -171,7 +194,7 @@ export default function Navbar() {
         <div className="nav-desktop-left-tools" style={{ position: 'absolute', left: 42, top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: 18 }}>
           <span aria-hidden="true" style={{ width: 32, flexShrink: 0 }} />
           <button type="button" aria-label="Search" onClick={() => setSearchOpen((o) => !o)} style={headerIconButtonStyle}>
-            <Search size={15} />
+            <Search size={18} strokeWidth={1.5} />
           </button>
           <button
             type="button"
@@ -184,7 +207,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="desktop-nav">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 42, flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 42, flex: 1, paddingLeft: 140, minWidth: 0 }}>
             {leftNavItems.map(renderNavItem)}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -195,7 +218,7 @@ export default function Navbar() {
               <img src="/images/soap-factory-logo-transparent.png" alt="Soapfactory" style={{ width: 82, height: 82, objectFit: 'contain', display: 'block' }} />
             </Link>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 42, flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 42, flex: 1, paddingRight: 160, minWidth: 0 }}>
             {rightNavItems.map(renderNavItem)}
           </div>
         </nav>
@@ -203,18 +226,13 @@ export default function Navbar() {
         {/* Icons */}
         <div className="nav-icons-bar" style={{ position: 'absolute', right: 42, top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: 18 }}>
           {([
-            { icon: <Search size={15} key="s"/>, extra: false, mobileHide: true, label: 'Търсене', onClick: () => setSearchOpen((o) => !o) },
-            { icon: <Heart size={15} key="h"/>, extra: true, mobileHide: true, label: 'Любими', href: '/lyubimi', badge: favCount },
+            { icon: <Search size={18} strokeWidth={1.5} key="s"/>, extra: false, mobileHide: true, label: 'Търсене', onClick: () => setSearchOpen((o) => !o) },
+            { icon: <Heart size={18} strokeWidth={1.5} key="h"/>, extra: true, mobileHide: true, label: 'Любими', href: '/lyubimi', badge: favCount },
             // Profile stays visible on mobile (next to the cart) — the only
             // secondary icon that isn't collapsed into the hamburger menu.
-            { icon: <User size={15} key="u"/>, extra: false, mobileHide: false, label: 'Профил', href: '/account' },
+            { icon: <User size={18} strokeWidth={1.5} key="u"/>, extra: false, mobileHide: false, label: 'Профил', href: '/account' },
           ] as { icon: React.ReactNode; extra: boolean; mobileHide?: boolean; label: string; href?: string; onClick?: () => void; badge?: number }[]).map((it, i) => {
-            const style = {
-              width: 26, height: 26, borderRadius: '50%',
-              background: 'transparent', color: '#111', border: '1.4px solid #111',
-              alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', flexShrink: 0, display: 'flex',
-            } as const;
+            const style = headerIconButtonStyle;
             const inner = it.href ? (
               <Link href={it.href} aria-label={it.label} style={style}>{it.icon}</Link>
             ) : (
@@ -225,10 +243,10 @@ export default function Navbar() {
                 {inner}
                 {it.badge ? (
                   <span style={{
-                    position: 'absolute', top: -7, right: -7,
-                    background: '#fff', color: '#111', border: '1px solid #111',
-                    borderRadius: '50%', width: 17, height: 17,
-                    fontSize: 9, fontWeight: 800,
+                    position: 'absolute', top: -3, right: -5,
+                    background: '#3F332D', color: '#FDFBF7', border: 'none',
+                    borderRadius: '50%', width: 15, height: 15,
+                    fontSize: 9, fontWeight: 600,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>{it.badge}</span>
                 ) : null}
@@ -236,28 +254,26 @@ export default function Navbar() {
             );
           })}
 
-          <button onClick={openCart} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: 26, height: 26, borderRadius: '50%',
-            background: 'transparent', color: '#111', border: '1.4px solid #111',
-            fontSize: 12, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap',
-            fontFamily: 'var(--font-body)',
-          }}>
-            {count}
-          </button>
+          <div style={{ position: 'relative', display: 'flex' }}>
+            <button onClick={openCart} aria-label="Кошница" style={headerIconButtonStyle}>
+              <ShoppingBag size={18} strokeWidth={1.5} />
+            </button>
+            {count ? (
+              <span style={{
+                position: 'absolute', top: -3, right: -5,
+                background: '#3F332D', color: '#FDFBF7',
+                borderRadius: '50%', width: 15, height: 15,
+                fontSize: 9, fontWeight: 600,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>{count}</span>
+            ) : null}
+          </div>
 
           {/* Language toggle */}
           <button
             className="nav-language-moved"
             onClick={() => setLang(lang === 'bg' ? 'en' : 'bg')}
-            style={{
-              background: 'transparent', border: '1.4px solid #111',
-              borderRadius: 999, padding: '4px 8px',
-              fontSize: 11, fontWeight: 800, cursor: 'pointer',
-              color: '#111', letterSpacing: '0.05em',
-              fontFamily: 'var(--font-body)',
-              flexShrink: 0,
-            }}
+            style={languageButtonStyle}
           >
             {lang === 'bg' ? 'EN' : 'БГ'}
           </button>
@@ -268,6 +284,134 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+
+      {/* Mega menu — full-width panel with category links + featured imagery */}
+      {(() => {
+        const active = navItems.find((n) => n.label === openDropdown && n.children);
+        if (!active || !active.children) return null;
+        const feats = megaFeatures[active.href] ?? [];
+        return (
+          <div
+            className={menuClosing ? 'mega-panel mega-panel-closing' : 'mega-panel'}
+            onMouseEnter={() => openMenu(active.label)}
+            onMouseLeave={scheduleClose}
+            style={{
+              position: 'absolute', top: '100%', left: 0, right: 0,
+              background: '#FDFBF7',
+              borderTop: '1px solid rgba(63,51,45,0.07)',
+              borderBottom: '1px solid rgba(63,51,45,0.09)',
+              boxShadow: '0 34px 64px rgba(63,51,45,0.16)',
+              zIndex: 99, overflow: 'hidden',
+            }}
+          >
+            <style>{`
+              @keyframes megaPanelIn {
+                from { opacity: 0; transform: translateY(-12px); }
+                to { opacity: 1; transform: translateY(0); }
+              }
+              .mega-panel { animation: megaPanelIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+              @keyframes megaPanelOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(-10px); }
+              }
+              .mega-panel-closing { animation: megaPanelOut 0.3s cubic-bezier(0.4, 0, 0.6, 1) both; }
+              @keyframes megaItemIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+              }
+              .mega-item { animation: megaItemIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+              .mega-link { color: #554C47; }
+              .mega-link:hover { color: #3F332D; padding-left: 6px; }
+              .mega-tile img { transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+              .mega-tile:hover img { transform: scale(1.06); }
+            `}</style>
+            <div style={{
+              maxWidth: 1180, margin: '0 auto',
+              padding: '40px 42px 46px',
+              display: 'flex', gap: 56, alignItems: 'flex-start',
+            }}>
+              {/* Link column */}
+              <div style={{ flex: 1, minWidth: 220 }}>
+                <div className="mega-item" style={{
+                  fontSize: 11, fontWeight: 600, letterSpacing: '0.22em',
+                  textTransform: 'uppercase', color: '#756B65',
+                  fontFamily: 'var(--font-body)', marginBottom: 18,
+                  animationDelay: '0.05s',
+                }}>
+                  {active.label}
+                </div>
+                {active.children.map((child, i) => (
+                  <Link key={child.href} href={child.href}
+                    className="mega-item mega-link"
+                    onClick={() => setOpenDropdown(null)}
+                    style={{
+                      display: 'block', padding: '9px 0',
+                      fontSize: 14, fontWeight: 500,
+                      letterSpacing: '0.02em',
+                      fontFamily: 'var(--font-body)',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s, padding-left 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+                      animationDelay: `${0.08 + i * 0.045}s`,
+                    }}>
+                    {child.label}
+                  </Link>
+                ))}
+                <Link href={active.href}
+                  className="mega-item"
+                  onClick={() => setOpenDropdown(null)}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    marginTop: 20, padding: '9px 0',
+                    fontSize: 12, fontWeight: 600,
+                    letterSpacing: '0.16em', textTransform: 'uppercase',
+                    fontFamily: 'var(--font-body)',
+                    color: '#3F332D', textDecoration: 'none',
+                    borderBottom: '1px solid rgba(63,51,45,0.45)',
+                    animationDelay: `${0.1 + active.children.length * 0.045}s`,
+                  }}>
+                  {lang === 'bg' ? 'Виж всички' : 'View all'}
+                  <ArrowRight size={14} strokeWidth={1.6} />
+                </Link>
+              </div>
+
+              {/* Featured image tiles — wide editorial cards with the label on the image */}
+              {feats.map((f, i) => (
+                <Link key={f.href + i} href={f.href}
+                  className="mega-item mega-tile"
+                  onClick={() => setOpenDropdown(null)}
+                  style={{
+                    display: 'block', width: 340, flexShrink: 0,
+                    textDecoration: 'none',
+                    animationDelay: `${0.14 + i * 0.08}s`,
+                  }}>
+                  <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 3, aspectRatio: '4 / 3', background: '#EFE9E1' }}>
+                    <img src={f.img} alt={f.label}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: 'linear-gradient(to top, rgba(30, 23, 18, 0.52) 0%, rgba(30, 23, 18, 0.10) 42%, transparent 62%)',
+                    }} />
+                    <div style={{
+                      position: 'absolute', left: 18, right: 18, bottom: 14,
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                    }}>
+                      <span style={{
+                        fontSize: 11.5, fontWeight: 600,
+                        letterSpacing: '0.16em', textTransform: 'uppercase',
+                        color: '#FDFBF7', fontFamily: 'var(--font-body)',
+                        textShadow: '0 1px 8px rgba(30, 23, 18, 0.35)',
+                      }}>
+                        {f.label}
+                      </span>
+                      <ArrowRight size={15} strokeWidth={1.6} style={{ color: '#FDFBF7', flexShrink: 0 }} />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Search bar (plain GET form → works without JS, SEO-friendly) */}
       {searchOpen && (

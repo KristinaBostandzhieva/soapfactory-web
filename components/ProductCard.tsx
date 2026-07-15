@@ -95,17 +95,17 @@ export default function ProductCard({
         </div>
       </Link>
 
-      {/* Stars — above name like BoJ */}
-      <div className="product-card-rating flex items-center gap-1 mb-1" style={{ justifyContent: 'flex-start' }}>
-        <Stars rating={product.rating ?? 0} size={12} />
-        {(product.reviewCount ?? 0) > 0 && (
+      {/* Stars — only shown once a product has real reviews */}
+      {(product.reviewCount ?? 0) > 0 && (
+        <div className="product-card-rating flex items-center gap-1 mb-1" style={{ justifyContent: 'flex-start' }}>
+          <Stars rating={product.rating ?? 0} size={12} />
           <span className="text-[11px] text-[var(--text-muted)]">({product.reviewCount} отзива)</span>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Title */}
       <Link href={`/produkt/${product.slug}`}>
-        <h3 className="card-title text-[14px] font-semibold text-[#1a1a1a] leading-snug mb-1 hover:text-[var(--primary)] transition-colors"
+        <h3 className="card-title text-[14px] font-medium text-[#3F332D] leading-snug mb-1 hover:text-[var(--primary-dark)] transition-colors"
           style={{ fontFamily: 'var(--font-body)' }}>
           {name}
         </h3>
@@ -130,20 +130,20 @@ export default function ProductCard({
       {!isBojCategory && <div className="card-price-desktop mb-3">
         {product.priceMax && product.priceMax > product.price ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 600, color: '#d04040' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 600, color: '#A4574F' }}>
               Спести {Math.round((1 - product.price / product.priceMax) * 100)}%
             </span>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#bbb', textDecoration: 'line-through' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#B4A99F', textDecoration: 'line-through' }}>
               {eur(product.priceMax)} €
             </span>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: '#9B72C7' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: '#3F332D' }}>
               {eur(product.price)} €
             </span>
           </div>
         ) : (
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: '#9B72C7' }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: '#3F332D' }}>
             {eur(product.price)} €{' '}
-            <span style={{ fontSize: 12, color: '#bbb', fontWeight: 400 }}>({lvLabel})</span>
+            <span style={{ fontSize: 12, color: '#756B65', fontWeight: 400 }}>({lvLabel})</span>
           </span>
         )}
       </div>}

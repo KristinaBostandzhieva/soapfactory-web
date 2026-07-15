@@ -772,28 +772,18 @@ export default function CategoryView({
         }
 
         .boj-product-grid .product-card--boj-category .card-desc-all {
-          display: block !important;
-          margin: 0 0 10px !important;
-          font-family: ${fb} !important;
-          font-size: 13px !important;
-          line-height: 1.3 !important;
-          color: #696969 !important;
-          text-align: left !important;
-          overflow: hidden !important;
-          display: -webkit-box !important;
-          -webkit-line-clamp: 3 !important;
-          -webkit-box-orient: vertical !important;
+          display: none !important;
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip {
           height: 37px;
           display: flex !important;
           align-items: center;
-          justify-content: flex-start;
-          border: 0 !important;
+          justify-content: center;
+          border: 1px solid rgba(63, 51, 45, 0.35) !important;
           border-radius: 0 !important;
-          background: #eeeeec !important;
-          color: #111 !important;
+          background: transparent !important;
+          color: #3F332D !important;
           padding: 0 14px !important;
           opacity: 1 !important;
           font-family: ${fb} !important;
@@ -802,17 +792,23 @@ export default function CategoryView({
           letter-spacing: 0 !important;
           text-transform: none !important;
           line-height: 1 !important;
-          transition: background 0.2s ease !important;
+          transition: background 0.25s ease, border-color 0.25s ease !important;
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip:hover {
-          background: var(--sage-light) !important;
+          background: #3F332D !important;
+          border-color: #3F332D !important;
         }
 
         .boj-product-grid .product-card--boj-category .boj-current {
-          color: #111;
+          color: #3F332D;
           font-size: 14px;
           font-weight: 600;
+          transition: color 0.25s ease;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-current {
+          color: #fff;
         }
 
         @media (min-width: 1400px) {

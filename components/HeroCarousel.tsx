@@ -45,6 +45,22 @@ export default function HeroCarousel() {
         .hc-img-wrap > div { position: absolute; inset: 0; }
         .hc-mobile-panel { display: none; }
 
+        /* Slow Ken Burns drift on the active slide */
+        @keyframes hcKenBurns {
+          from { transform: scale(1); }
+          to { transform: scale(1.06); }
+        }
+        .hc-kenburns { animation: hcKenBurns 7s ease-out both; }
+        @media (max-width: 900px) {
+          .hc-kenburns { animation: none; }
+        }
+
+        /* Slide progress bar fill */
+        @keyframes hcProgress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+
         /* ── Mobile: BoJ split layout ── */
         @media (max-width: 900px) {
           .hero-carousel-wrap {
@@ -184,12 +200,14 @@ export default function HeroCarousel() {
         {slides.map((s, i) => (
           <div
             key={i}
+            className={i === active ? 'hc-kenburns' : undefined}
             style={{
               backgroundImage: `url(${s.image})`,
               backgroundSize: 'cover',
               backgroundPosition: s.bgPos || 'center',
               opacity: i === active ? 1 : 0,
               transition: 'opacity 1s ease',
+              willChange: 'transform, opacity',
             }}
           />
         ))}
@@ -206,16 +224,14 @@ export default function HeroCarousel() {
       {/* Desktop text (full-bleed overlay) */}
       <div className="hero-carousel-content" style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 46, alignItems: slides[active].side === 'right' ? 'flex-end' : 'flex-start' }}>
         {slides.map((s, i) => (
-          <div key={i} style={{ display: i === active ? 'block' : 'none', maxWidth: 450, textAlign: s.side === 'right' ? 'right' : 'left' }}>
+          <div key={i} style={{ display: i === active ? 'block' : 'none', maxWidth: 580, textAlign: s.side === 'right' ? 'right' : 'left' }}>
             <h1 className={`hero-carousel-h1${i === active ? ' hero-anim' : ''}`} style={{
-              fontFamily: 'var(--font-display), Georgia, serif', fontStyle: 'italic', fontWeight: 600,
-              fontSize: 38, lineHeight: '47px', color: '#fff', margin: '0 0 16px', animationDelay: '0.35s',
+              fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 400,
+              fontSize: 'var(--text-hero)', lineHeight: 1.12, color: '#fff', margin: '0 0 32px',
+              textShadow: '0 2px 24px rgba(30, 18, 8, 0.28)', animationDelay: '0.35s',
             }}>
               {s.title}
             </h1>
-            <p className="hero-carousel-body" style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 400, color: 'rgba(255,255,255,0.9)', lineHeight: '1.6', marginBottom: 22 }}>
-              {s.text}
-            </p>
             <Link href={s.href} className={`hero-cta${i === active ? ' hero-anim' : ''}`} style={{ animationDelay: '0.85s' }}>
               {s.cta}
               <span className="hero-cta-arrow" aria-hidden="true">&rarr;</span>
@@ -224,12 +240,25 @@ export default function HeroCarousel() {
         ))}
       </div>
 
-      {/* Desktop dots */}
-      <div className="hero-carousel-dots" style={{ position: 'absolute', zIndex: 2, bottom: 24, left: 0, right: 0, display: 'flex', gap: 7, alignItems: 'center', justifyContent: 'center' }}>
+      {/* Desktop slide indicator — thin lines, active one fills over the slide duration */}
+      <div className="hero-carousel-dots" style={{ position: 'absolute', zIndex: 2, bottom: 26, left: 0, right: 0, display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
         {slides.map((s, i) => (
           <button key={i} aria-label={tr.hero.slideLabel(i + 1)} onClick={() => { setActive(i); restart(); }}
-            style={{ width: i === active ? 22 : 6, height: 6, borderRadius: 3, border: 'none', cursor: 'pointer', background: i === active ? '#fff' : 'rgba(255,255,255,0.38)', transition: 'all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)', padding: 0, flexShrink: 0 }}
-          />
+            style={{
+              position: 'relative', overflow: 'hidden',
+              width: i === active ? 44 : 24, height: 2,
+              border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0,
+              background: 'rgba(255,255,255,0.35)',
+              transition: 'width 0.4s cubic-bezier(0.25,0.46,0.45,0.94)',
+            }}>
+            {i === active && (
+              <span key={active} style={{
+                position: 'absolute', inset: 0, display: 'block',
+                background: '#fff', transformOrigin: 'left',
+                animation: 'hcProgress 6s linear both',
+              }} />
+            )}
+          </button>
         ))}
       </div>
 
