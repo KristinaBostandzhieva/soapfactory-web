@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import FavoriteButton from '@/components/FavoriteButton';
@@ -10,7 +11,34 @@ import { useLanguageStore } from '@/store/languageStore';
 
 const BESTSELLER_SLUGS = new Set<string>([]);
 
-const BACK_IMAGES: Record<string, string> = {
+// Second photo shown with a crossfade when the card is hovered, keyed by slug
+const HOVER_IMAGES: Record<string, string> = {
+  // Face care
+  'bakuchiol-lift-regeneration-power':        '/images/fscr-care/bakuchiol-cream-hover.png',
+  'bakuchiol-lift-regeneration-power-serum':  '/images/fscr-care/bakuchiol-serum-texture-hover.png',
+  'bakuchiol-lift-regeneration-power-serum-2': '/images/fscr-care/bakuchiol-serum-texture-hover.png',
+  'coenzyme-q10-powerful-skin-recharge-2':    '/images/fscr-care/coenzyme-cream-hover.png',
+  'hyaluron-intense-hydration-2':             '/images/fscr-care/hyalouron-cream-hover.png',
+  'hyaluron-ultimate-hydration-serum':        '/images/fscr-care/hyalouron-serum-texture-hover.png',
+  'bio-face-wash-chaeno-darvo-za-problemna-kozha': '/images/fscr-care/facewash-hover-texture.png',
+  // Lip balms
+  'bio-balsam-za-ustni-vaniliya-i-kakao':     '/images/fscr-care/lipbalm/cocoa-lipbalm-hover.png',
+  'bio-balsam-za-ustni-bilkov':               '/images/fscr-care/lipbalm/herbal-lipbalm-hover.png',
+  'bio-balsam-za-ustni-portokal':             '/images/fscr-care/lipbalm/orange-lipbalm-hover.png',
+  'bio-balsam-za-ustni-portokal-i-kanela':    '/images/fscr-care/lipbalm/orangeandcinnamon-lipbalm-hover.png',
+  // Shampoos (label colours matched to the HappyHair range)
+  'happyhair-shampoan-za-normalna-iztoshtena-i-ili-tsaftyashta-kosa': '/images/shampoani/greenhappyhair-hover.png',
+  'happyhair-shampoan-pri-mazna-kosa-i-skalp':                        '/images/shampoani/yellowhappyhair-hover.png',
+  'happyhair-shampoan-za-suha-boyadisana-i-uvredena-kosa':            '/images/shampoani/red-happyhair-hover.png',
+  'happyhair-stimulirasht-shampoan-pri-kosopad':                      '/images/shampoani/bluehappyhair-hover.png',
+  'shampoan-pri-parhot':                                              '/images/shampoani/purhot-jappyhair-hover.png',
+  'bio-slanchev-shampoan-za-poveche-obem':                            '/images/shampoani/slunchev-hover.png',
+  'bio-bilkov-shampoan-za-zdrav-skalp':                               '/images/shampoani/bilkov-techen-shampoan-hover.png',
+  // Body care
+  'bio-aloe-vera-gel':        '/images/fscr-care/aloeveragel-hover.png',
+  'zaharen-eksfoliant-kafe':  '/images/scrubs/coffee-scrub-hover.png',
+  'zaharen-eksfoliant-portokal': '/images/scrubs/orange-crub-hover.png',
+  // Soaps (pre-existing back shots)
   'bilkov-sapun':          '/images/sapuni/bilkov-back.webp',
   'sapun-lavandula':       '/images/sapuni/lavandula-back.webp',
   'sapun-sandalovo-darvo': '/images/sapuni/sandal-back.webp',
@@ -41,6 +69,30 @@ export default function ProductCard({
 }) {
   const { addItem } = useCartStore();
   const inStock = product.inStock !== false;
+
+  // Entrance animation: when the card first scrolls into view, the photo
+  // settles from extra-zoomed down to its resting zoom.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [entered, setEntered] = useState(false);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    // Already on screen at mount → animate right away (also covers
+    // environments where IntersectionObserver is unreliable).
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setEntered(true);
+      return;
+    }
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setEntered(true);
+        obs.disconnect();
+      }
+    }, { threshold: 0.25 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
   const tr = useT();
   const lang = useLanguageStore((s) => s.lang);
   const name = lang === 'en' && product.nameEn ? product.nameEn : product.name;
@@ -54,7 +106,7 @@ export default function ProductCard({
     : `${lev(product.price)} лв.`;
 
   return (
-    <div className={`product-card group relative flex flex-col text-left${isBojCategory ? ' product-card--boj-category' : ''}${isPhotoImage ? ' product-card--photo-image' : ''}${isLipBalmImage ? ' product-card--lipbalm-image' : ''}`}>
+    <div ref={rootRef} className={`product-card group relative flex flex-col text-left${isBojCategory ? ' product-card--boj-category' : ''}${isPhotoImage ? ' product-card--photo-image' : ''}${isLipBalmImage ? ' product-card--lipbalm-image' : ''}${entered ? ' card-img-enter' : ''}`}>
 
       {/* Wishlist */}
       <FavoriteButton product={product} variant="card" />
@@ -78,11 +130,22 @@ export default function ProductCard({
             </div>
           )}
           {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="product-img w-full h-full object-cover"
-            />
+            <>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="product-img w-full h-full object-cover"
+              />
+              {HOVER_IMAGES[product.slug] && (
+                <img
+                  src={HOVER_IMAGES[product.slug]}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  className="product-img product-card-hover-img w-full h-full object-cover"
+                />
+              )}
+            </>
           ) : (
             <div className="product-img w-full h-full flex items-center justify-center text-[#d8d8d8]">
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
@@ -95,13 +158,16 @@ export default function ProductCard({
         </div>
       </Link>
 
-      {/* Stars — only shown once a product has real reviews */}
-      {(product.reviewCount ?? 0) > 0 && (
-        <div className="product-card-rating flex items-center gap-1 mb-1" style={{ justifyContent: 'flex-start' }}>
-          <Stars rating={product.rating ?? 0} size={12} />
-          <span className="text-[11px] text-[var(--text-muted)]">({product.reviewCount} отзива)</span>
-        </div>
-      )}
+      {/* Stars — row is always rendered (fixed height) so titles align across cards;
+          the stars themselves only show once a product has real reviews */}
+      <div className="product-card-rating flex items-center gap-1 mb-1" style={{ justifyContent: 'flex-start', minHeight: 18 }}>
+        {(product.reviewCount ?? 0) > 0 && (
+          <>
+            <Stars rating={product.rating ?? 0} size={12} />
+            <span className="text-[11px] text-[var(--text-muted)]">({product.reviewCount} отзива)</span>
+          </>
+        )}
+      </div>
 
       {/* Title */}
       <Link href={`/produkt/${product.slug}`}>
@@ -160,10 +226,20 @@ export default function ProductCard({
               image: product.image,
             })
           }
-          className={`mt-auto btn-primary text-left w-full transition-opacity duration-200${isBojCategory ? ' boj-price-strip' : ''}`}
+          className={`mt-auto btn-primary text-left w-full transition-opacity duration-200${isBojCategory ? ' boj-price-strip' : ''}${isBojCategory && product.priceMax && product.priceMax > product.price ? ' boj-strip-sale' : ''}`}
         >
           {isBojCategory ? (
-            <span className="boj-current">{eur(product.price)} €</span>
+            product.priceMax && product.priceMax > product.price ? (
+              <>
+                <span className="boj-save">Спести {Math.round((1 - product.price / product.priceMax) * 100)}%</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  <span className="boj-old">{eur(product.priceMax)} €</span>
+                  <span className="boj-current">{eur(product.price)} €</span>
+                </span>
+              </>
+            ) : (
+              <span className="boj-current">{eur(product.price)} €</span>
+            )
           ) : (
             <>
               <span className="btn-text-full">{tr.cart.add}</span>

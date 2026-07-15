@@ -469,14 +469,41 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
 }
 
-/* Product card image zoom + lift on hover */
-.product-card:hover .product-img {
-  transform: scale(1.04);
+/* Product card image — rests at native size (sharp); no hover zoom
+   (hover swaps to a second photo instead, where one exists) */
+/* Entrance: photo lands from zoomed-in down to its natural size when the
+   card first scrolls into view (no fill mode, so it hands back to the base
+   and stays pixel-sharp afterwards) */
+@keyframes cardImgSettle {
+  from { transform: scale(1.16); }
+  to { transform: scale(1); }
+}
+.card-img-enter .product-img {
+  animation: cardImgSettle 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-img-enter .product-img { animation: none; }
 }
 .product-img {
-  transition: transform 0.3s ease;
+  transform: scale(1);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
   object-fit: contain !important;
   background: #fff;
+  /* White photo backgrounds melt into the pastel backdrop behind them */
+  mix-blend-mode: multiply;
+}
+
+/* Hover photo swap: second image crossfades in over the main one */
+.product-card-hover-img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.product-card:hover .product-card-hover-img {
+  opacity: 1;
+}
+.product-card:has(.product-card-hover-img):hover .product-img:not(.product-card-hover-img) {
+  opacity: 0;
 }
 
 .product-card {
@@ -492,8 +519,12 @@ h1, h2, h3, h4, h5, h6 {
   border-color: rgba(63, 51, 45, 0.16);
   box-shadow: 0 22px 44px -22px rgba(63, 51, 45, 0.28);
 }
+/* Product photo backdrop — near-white with a subtle light-green sphere glowing
+   from the top-left (photos use mix-blend multiply, so their white melts in) */
 .product-card-img-wrap {
-  background: #fff;
+  background:
+    radial-gradient(circle at 20% 16%, rgba(200, 228, 191, 0.30) 0%, rgba(207, 232, 199, 0.16) 26%, rgba(214, 236, 207, 0.06) 42%, transparent 58%),
+    #FCFBF8;
   border-radius: 0;
   overflow: hidden;
   aspect-ratio: 1 / 1;
@@ -1249,7 +1280,6 @@ h1, h2, h3, h4, h5, h6 {
 .boj-product-grid .product-card--boj-category .product-card-img-wrap {
   aspect-ratio: 1 / 1 !important;
   border-radius: 0 !important;
-  background: #fff !important;
   overflow: hidden !important;
   margin-bottom: 0 !important;
 }
@@ -1259,7 +1289,6 @@ h1, h2, h3, h4, h5, h6 {
   height: 100% !important;
   padding: 2% !important;
   mix-blend-mode: multiply;
-  transform: none !important;
 }
 .boj-product-grid .product-card--boj-category.product-card--photo-image .product-card-img-wrap,
 .boj-product-grid .product-card--boj-category.product-card--lipbalm-image .product-card-img-wrap {
@@ -1289,26 +1318,40 @@ h1, h2, h3, h4, h5, h6 {
 .boj-product-grid .product-card--boj-category .card-title {
   margin: 0 0 2px !important;
   font-family: var(--font-body) !important;
-  font-size: 16px !important;
-  line-height: 1.18 !important;
-  font-weight: 400 !important;
-  color: #111 !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  min-height: 1.25em;
+  font-weight: 600 !important;
+  color: #1a1a1a !important;
   letter-spacing: 0 !important;
   text-align: left !important;
   display: -webkit-box !important;
-  -webkit-line-clamp: 2 !important;
+  -webkit-line-clamp: 1 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
 }
-/* Descriptions stay hidden on boj cards too — image, name, price only. */
+/* One-line muted subtitle under the name, BoJ-style */
+.boj-product-grid .product-card--boj-category .card-desc-all {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  margin: 0 0 10px !important;
+  font-family: var(--font-body) !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  min-height: 1.4em;
+  color: #756B65 !important;
+  text-align: left !important;
+}
 .boj-product-grid .product-card--boj-category .boj-price-strip {
   height: 37px;
   display: flex !important;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(63, 51, 45, 0.35) !important;
+  border: 0 !important;
   border-radius: 0 !important;
-  background: transparent !important;
+  background: #F9E8EC !important;
   color: #3F332D !important;
   padding: 0 14px !important;
   opacity: 1 !important;
@@ -1318,11 +1361,22 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0 !important;
   text-transform: none !important;
   line-height: 1 !important;
-  transition: background 0.2s ease !important;
+  transition: background 0.25s ease !important;
 }
-.boj-product-grid .product-card--boj-category .boj-price-strip:hover {
-  background: #3F332D !important;
-  border-color: #3F332D !important;
+.boj-product-grid .product-card--boj-category .boj-price-strip.boj-strip-sale {
+  justify-content: space-between;
+}
+.boj-product-grid .product-card--boj-category .boj-save {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #3F332D;
+  transition: color 0.25s ease;
+}
+.boj-product-grid .product-card--boj-category .boj-old {
+  font-size: 12.5px;
+  color: #A89A90;
+  text-decoration: line-through;
+  transition: color 0.25s ease;
 }
 .boj-product-grid .product-card--boj-category .boj-current {
   color: #3F332D;
@@ -1330,6 +1384,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   transition: color 0.25s ease;
 }
-.boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-current {
+.boj-product-grid .product-card--boj-category .boj-strip-sale .boj-current {
+  color: #C2453F;
+}
+.boj-product-grid .product-card--boj-category .boj-price-strip:hover {
+  background: #3F332D !important;
+}
+.boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-current,
+.boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-save {
   color: #fff;
+}
+.boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-old {
+  color: rgba(255, 255, 255, 0.6);
 }

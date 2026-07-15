@@ -709,7 +709,6 @@ export default function CategoryView({
         .boj-product-grid .product-card--boj-category .product-card-img-wrap {
           aspect-ratio: 1 / 1 !important;
           border-radius: 0 !important;
-          background: #fff !important;
           overflow: hidden !important;
           margin-bottom: 0 !important;
         }
@@ -720,7 +719,6 @@ export default function CategoryView({
           height: 100% !important;
           padding: 2% !important;
           mix-blend-mode: multiply;
-          transform: none !important;
         }
 
         .boj-product-grid .product-card--boj-category.product-card--photo-image .product-card-img-wrap {
@@ -759,20 +757,31 @@ export default function CategoryView({
         .boj-product-grid .product-card--boj-category .card-title {
           margin: 0 0 2px !important;
           font-family: ${fb} !important;
-          font-size: 16px !important;
-          line-height: 1.18 !important;
-          font-weight: 400 !important;
-          color: #111 !important;
+          font-size: 15px !important;
+          line-height: 1.25 !important;
+          min-height: 1.25em;
+          font-weight: 600 !important;
+          color: #1a1a1a !important;
           letter-spacing: 0 !important;
           text-align: left !important;
           display: -webkit-box !important;
-          -webkit-line-clamp: 2 !important;
+          -webkit-line-clamp: 1 !important;
           -webkit-box-orient: vertical !important;
           overflow: hidden !important;
         }
 
         .boj-product-grid .product-card--boj-category .card-desc-all {
-          display: none !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 1 !important;
+          -webkit-box-orient: vertical !important;
+          overflow: hidden !important;
+          margin: 0 0 10px !important;
+          font-family: ${fb} !important;
+          font-size: 13px !important;
+          line-height: 1.4 !important;
+          min-height: 1.4em;
+          color: #756B65 !important;
+          text-align: left !important;
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip {
@@ -780,9 +789,9 @@ export default function CategoryView({
           display: flex !important;
           align-items: center;
           justify-content: center;
-          border: 1px solid rgba(63, 51, 45, 0.35) !important;
+          border: 0 !important;
           border-radius: 0 !important;
-          background: transparent !important;
+          background: #F9E8EC !important;
           color: #3F332D !important;
           padding: 0 14px !important;
           opacity: 1 !important;
@@ -792,12 +801,29 @@ export default function CategoryView({
           letter-spacing: 0 !important;
           text-transform: none !important;
           line-height: 1 !important;
-          transition: background 0.25s ease, border-color 0.25s ease !important;
+          transition: background 0.25s ease !important;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-price-strip.boj-strip-sale {
+          justify-content: space-between;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-save {
+          font-size: 12.5px;
+          font-weight: 600;
+          color: #3F332D;
+          transition: color 0.25s ease;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-old {
+          font-size: 12.5px;
+          color: #A89A90;
+          text-decoration: line-through;
+          transition: color 0.25s ease;
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip:hover {
           background: #3F332D !important;
-          border-color: #3F332D !important;
         }
 
         .boj-product-grid .product-card--boj-category .boj-current {
@@ -807,8 +833,17 @@ export default function CategoryView({
           transition: color 0.25s ease;
         }
 
-        .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-current {
+        .boj-product-grid .product-card--boj-category .boj-strip-sale .boj-current {
+          color: #C2453F;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-current,
+        .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-save {
           color: #fff;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-old {
+          color: rgba(255, 255, 255, 0.6);
         }
 
         @media (min-width: 1400px) {
