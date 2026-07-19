@@ -13,6 +13,7 @@ export interface ProductInitial {
   shortDescription?: string | null; description?: string | null; weight?: string | null;
   nameEn?: string | null; shortDescriptionEn?: string | null; descriptionEn?: string | null;
   inStock?: boolean; featured?: boolean; imageUrl?: string; imageUrl2?: string; categoryId?: string;
+  hoverImage?: string;
   stockQty?: number | null;
 }
 
@@ -114,6 +115,12 @@ export default function ProductForm({
             <ImageUpload name="imageUrl2" defaultValue={initial?.imageUrl2} />
             <p className="text-[12px] text-[var(--text-muted)] mt-1">Показва се като допълнителна снимка в галерията.</p>
           </div>
+        </div>
+
+        <div>
+          <label className={label}>Снимка при посочване <span className="text-[var(--text-muted)]">(по желание)</span></label>
+          <ImageUpload name="hoverImage" defaultValue={initial?.hoverImage} />
+          <p className="text-[12px] text-[var(--text-muted)] mt-1">Показва се с плавен преход върху картата на продукта, когато посетителят посочи с мишката. Най-добре: същия размер като основната снимка, на бял фон.</p>
         </div>
 
         <div>

@@ -23,7 +23,7 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
         background: 'rgba(0,0,0,0.75)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '24px 28px',
-        animation: 'promo-backdrop-in 0.25s ease both',
+        animation: 'promo-backdrop-in 0.5s ease both',
       }}
       onClick={onClose}
     >
@@ -32,7 +32,7 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
           position: 'relative',
           maxWidth: 1120,
           width: '100%',
-          animation: 'promo-modal-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both',
+          animation: 'promo-modal-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both',
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -65,7 +65,7 @@ export default function PromoModal({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               style={{
                 display: 'inline-block',
-                background: '#9B72C7',
+                background: '#B08D57',
                 color: '#fff',
                 fontFamily: 'var(--font-body)',
                 fontWeight: 600,

@@ -24,10 +24,28 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === '/kategoria/bio-sapuni' && !sessionStorage.getItem('soap-promo-seen')) {
+    if (pathname !== '/kategoria/bio-sapuni' || sessionStorage.getItem('soap-promo-seen')) return;
+    // Don't ambush the visitor: show the promo after 4s of browsing, or once
+    // they've scrolled a little — whichever happens first, only once.
+    let fired = false;
+    const fire = () => {
+      if (fired) return;
+      fired = true;
       setPromoOpen(true);
       sessionStorage.setItem('soap-promo-seen', '1');
-    }
+      cleanup();
+    };
+    const startY = window.scrollY;
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - startY) > 320) fire();
+    };
+    const timer = setTimeout(fire, 4000);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const cleanup = () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', onScroll);
+    };
+    return cleanup;
   }, [pathname]);
 
   const navItems = [
@@ -92,6 +110,105 @@ export default function Navbar() {
   };
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  // Candy orbs follow the cursor while it's over the header — each orb chases
+  // with its own strength, eased with a lerp so the motion feels liquid.
+  const headerRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const orbs = Array.from(header.querySelectorAll<HTMLElement>('.header-orb'));
+    if (!orbs.length) return;
+    // Orbs drift over unhurriedly and take up positions AROUND the cursor
+    // (each has its own spot in a loose ring), still wiggling as they go.
+    const ringSpot = [
+      { x: -85, y: -14 },
+      { x: 70, y: -30 },
+      { x: -25, y: 42 },
+      { x: 95, y: 26 },
+    ];
+    const ease = [0.045, 0.03, 0.055, 0.025];
+    const base = orbs.map((o) => ({ x: o.offsetLeft + o.offsetWidth / 2, y: o.offsetTop + o.offsetHeight / 2 }));
+    const cur = orbs.map(() => ({ x: 0, y: 0 }));
+    let mx = 0, my = 0, hover = false, raf = 0;
+    const onMove = (e: MouseEvent) => {
+      const r = header.getBoundingClientRect();
+      mx = e.clientX - r.left;
+      my = e.clientY - r.top;
+      hover = true;
+    };
+    const onLeave = () => { hover = false; };
+    const tick = () => {
+      orbs.forEach((o, i) => {
+        const spot = ringSpot[i % ringSpot.length];
+        const gx = hover ? mx + spot.x - base[i].x : 0;
+        const gy = hover ? my + spot.y - base[i].y : 0;
+        const k = ease[i % ease.length];
+        cur[i].x += (gx - cur[i].x) * k;
+        cur[i].y += (gy - cur[i].y) * k;
+        o.style.setProperty('--mx', `${cur[i].x.toFixed(1)}px`);
+        o.style.setProperty('--my', `${cur[i].y.toFixed(1)}px`);
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    header.addEventListener('mousemove', onMove);
+    header.addEventListener('mouseleave', onLeave);
+    raf = requestAnimationFrame(tick);
+    return () => {
+      header.removeEventListener('mousemove', onMove);
+      header.removeEventListener('mouseleave', onLeave);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Same orb behaviour inside the mega menu panel — wired on every open,
+  // since the panel unmounts when it closes.
+  useEffect(() => {
+    if (!openDropdown) return;
+    const panel = document.querySelector<HTMLElement>('.mega-panel');
+    if (!panel) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const orbs = Array.from(panel.querySelectorAll<HTMLElement>('.header-orb'));
+    if (!orbs.length) return;
+    const ringSpot = [
+      { x: -80, y: -22 },
+      { x: 70, y: 34 },
+      { x: -28, y: 58 },
+    ];
+    const ease = [0.05, 0.032, 0.06];
+    const base = orbs.map((o) => ({ x: o.offsetLeft + o.offsetWidth / 2, y: o.offsetTop + o.offsetHeight / 2 }));
+    const cur = orbs.map(() => ({ x: 0, y: 0 }));
+    let mx = 0, my = 0, hover = false, raf = 0;
+    const onMove = (e: MouseEvent) => {
+      const r = panel.getBoundingClientRect();
+      mx = e.clientX - r.left;
+      my = e.clientY - r.top;
+      hover = true;
+    };
+    const onLeave = () => { hover = false; };
+    const tick = () => {
+      orbs.forEach((o, i) => {
+        const spot = ringSpot[i % ringSpot.length];
+        const gx = hover ? mx + spot.x - base[i].x : 0;
+        const gy = hover ? my + spot.y - base[i].y : 0;
+        const k = ease[i % ease.length];
+        cur[i].x += (gx - cur[i].x) * k;
+        cur[i].y += (gy - cur[i].y) * k;
+        o.style.setProperty('--mx', `${cur[i].x.toFixed(1)}px`);
+        o.style.setProperty('--my', `${cur[i].y.toFixed(1)}px`);
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    panel.addEventListener('mousemove', onMove);
+    panel.addEventListener('mouseleave', onLeave);
+    raf = requestAnimationFrame(tick);
+    return () => {
+      panel.removeEventListener('mousemove', onMove);
+      panel.removeEventListener('mouseleave', onLeave);
+      cancelAnimationFrame(raf);
+    };
+  }, [openDropdown]);
   const count = mounted ? totalItems() : 0;
   const favItems = useFavoritesStore((s) => s.items);
   const favCount = mounted ? favItems.length : 0;
@@ -153,18 +270,26 @@ export default function Navbar() {
 
   return (
   <>
-    <header style={{
+    <header ref={headerRef} style={{
       position: 'sticky', top: 0, zIndex: 30,
       background: 'rgba(253, 251, 247, 0.94)',
       backdropFilter: 'blur(14px) saturate(1.3)',
       WebkitBackdropFilter: 'blur(14px) saturate(1.3)',
       borderBottom: '1px solid rgba(63, 51, 45, 0.10)',
     }}>
+      {/* Drifting candy orbs — decorative, desktop only, behind the content */}
+      <div className="header-orbs" aria-hidden="true">
+        <span className="header-orb" style={{ width: 170, height: 170, left: '6%', top: -60, background: 'radial-gradient(circle, rgba(244, 178, 197, 0.75) 0%, rgba(244, 178, 197, 0) 70%)', animationDuration: '4.5s' }} />
+        <span className="header-orb" style={{ width: 200, height: 200, left: '36%', top: -80, background: 'radial-gradient(circle, rgba(178, 214, 165, 0.7) 0%, rgba(178, 214, 165, 0) 70%)', animationDuration: '6s', animationDirection: 'reverse' }} />
+        <span className="header-orb" style={{ width: 150, height: 150, right: '22%', top: -40, background: 'radial-gradient(circle, rgba(247, 222, 158, 0.65) 0%, rgba(247, 222, 158, 0) 70%)', animationDuration: '5s', animationDelay: '-2s' }} />
+        <span className="header-orb" style={{ width: 150, height: 150, right: '2%', top: -50, background: 'radial-gradient(circle, rgba(211, 194, 233, 0.7) 0%, rgba(211, 194, 233, 0) 70%)', animationDuration: '7s', animationDirection: 'reverse', animationDelay: '-3s' }} />
+      </div>
+
       <div className="nav-header-inner" style={{
         maxWidth: '100%', margin: '0 auto',
         padding: '22px 42px',
         display: 'flex', alignItems: 'center',
-        position: 'relative',
+        position: 'relative', zIndex: 1,
         height: 92, gap: 28,
       }}>
         {/* Mobile left: hamburger + search */}
@@ -321,14 +446,21 @@ export default function Navbar() {
               }
               .mega-item { animation: megaItemIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
               .mega-link { color: #554C47; }
-              .mega-link:hover { color: #3F332D; padding-left: 6px; }
+              .mega-link:hover { color: #B08D57; padding-left: 6px; }
               .mega-tile img { transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
               .mega-tile:hover img { transform: scale(1.06); }
             `}</style>
+            {/* Candy orbs — same dance + cursor-follow as the header bar */}
+            <div className="mega-orbs" aria-hidden="true">
+              <span className="header-orb" style={{ width: 220, height: 220, left: '10%', top: 30, background: 'radial-gradient(circle, rgba(244, 178, 197, 0.6) 0%, rgba(244, 178, 197, 0) 70%)', animationDuration: '5.5s' }} />
+              <span className="header-orb" style={{ width: 260, height: 260, left: '48%', top: 90, background: 'radial-gradient(circle, rgba(178, 214, 165, 0.55) 0%, rgba(178, 214, 165, 0) 70%)', animationDuration: '6.5s', animationDirection: 'reverse' }} />
+              <span className="header-orb" style={{ width: 200, height: 200, right: '8%', top: 40, background: 'radial-gradient(circle, rgba(211, 194, 233, 0.55) 0%, rgba(211, 194, 233, 0) 70%)', animationDuration: '7.5s', animationDelay: '-3s' }} />
+            </div>
             <div style={{
               maxWidth: 1180, margin: '0 auto',
               padding: '40px 42px 46px',
               display: 'flex', gap: 56, alignItems: 'flex-start',
+              position: 'relative', zIndex: 1,
             }}>
               {/* Link column */}
               <div style={{ flex: 1, minWidth: 220 }}>

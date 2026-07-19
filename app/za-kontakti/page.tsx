@@ -132,7 +132,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 className="btn-primary"
-                style={{ alignSelf: 'flex-start', padding: '12px 32px', fontSize: 14, background: '#9B72C7' }}
+                style={{ alignSelf: 'flex-start', padding: '12px 32px', fontSize: 14, background: '#B08D57' }}
               >
                 Изпрати
               </button>

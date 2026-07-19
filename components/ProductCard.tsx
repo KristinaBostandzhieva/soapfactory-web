@@ -21,6 +21,7 @@ const HOVER_IMAGES: Record<string, string> = {
   'hyaluron-intense-hydration-2':             '/images/fscr-care/hyalouron-cream-hover.png',
   'hyaluron-ultimate-hydration-serum':        '/images/fscr-care/hyalouron-serum-texture-hover.png',
   'bio-face-wash-chaeno-darvo-za-problemna-kozha': '/images/fscr-care/facewash-hover-texture.png',
+  'bio-sertifitsirana-rozova-voda':           '/images/fscr-care/rosewater-texture.png',
   // Lip balms
   'bio-balsam-za-ustni-vaniliya-i-kakao':     '/images/fscr-care/lipbalm/cocoa-lipbalm-hover.png',
   'bio-balsam-za-ustni-bilkov':               '/images/fscr-care/lipbalm/herbal-lipbalm-hover.png',
@@ -36,8 +37,16 @@ const HOVER_IMAGES: Record<string, string> = {
   'bio-bilkov-shampoan-za-zdrav-skalp':                               '/images/shampoani/bilkov-techen-shampoan-hover.png',
   // Body care
   'bio-aloe-vera-gel':        '/images/fscr-care/aloeveragel-hover.png',
+  'bio-bilkov-dush-gel':      '/images/dush-gel/bilkv-showergel-hover.png',
+  'bio-dush-gel-tsitrus':     '/images/dush-gel/citrus-showergel-hover.png',
+  'део-стик-натурален':       '/images/deos/natural-deo-hover.png',
+  'deo-stik-naturalen':       '/images/deos/natural-deo-hover.png',
+  'deo-sandalovo':            '/images/deos/sandal-deo-hover.png',
+  'deo-stik-sandalovo-darvo': '/images/deos/sandal-deo-hover.png',
+  'део-стик-сандалово-дърво': '/images/deos/sandal-deo-hover.png',
   'zaharen-eksfoliant-kafe':  '/images/scrubs/coffee-scrub-hover.png',
   'zaharen-eksfoliant-portokal': '/images/scrubs/orange-crub-hover.png',
+  'zaharen-eksfoliant-kokos': '/images/scrubs/coconut-scrub-hover.png',
   // Soaps (pre-existing back shots)
   'bilkov-sapun':          '/images/sapuni/bilkov-back.webp',
   'sapun-lavandula':       '/images/sapuni/lavandula-back.webp',
@@ -52,6 +61,7 @@ interface Product {
   priceMax?: number;
   slug: string;
   image?: string;
+  hoverImage?: string | null;
   inStock?: boolean;
   rating?: number;
   reviewCount?: number;
@@ -98,6 +108,8 @@ export default function ProductCard({
   const name = lang === 'en' && product.nameEn ? product.nameEn : product.name;
   const shortDescription = lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : product.shortDescription;
   const isBojCategory = variant === 'bojCategory';
+  // Admin-set hover image wins; the hardcoded map is a fallback for legacy entries
+  const hoverImage = product.hoverImage || HOVER_IMAGES[product.slug];
   const isLipBalmImage = product.image?.includes('/lipbalm/');
   const isPhotoImage = product.image?.includes('/fscr-care/') || product.image?.includes('/blog') || product.image?.includes('/deos/');
 
@@ -136,9 +148,9 @@ export default function ProductCard({
                 alt={product.name}
                 className="product-img w-full h-full object-cover"
               />
-              {HOVER_IMAGES[product.slug] && (
+              {hoverImage && (
                 <img
-                  src={HOVER_IMAGES[product.slug]}
+                  src={hoverImage}
                   alt=""
                   aria-hidden="true"
                   loading="lazy"

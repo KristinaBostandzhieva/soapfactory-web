@@ -40,6 +40,7 @@ model Product {
   descriptionEn    String?
   weight           String?
   images           String      @default("[]") // JSON-encoded array of image URLs
+  hoverImage       String?     // second photo cross-faded in when the product card is hovered
   featured         Boolean     @default(false)
   categories       Category[]  @relation("ProductCategories")
   orderItems       OrderItem[]

@@ -29,6 +29,9 @@ const TRUST_ICONS = [
 ];
 
 const CAT_IMGS = ['/images/cat-litse.png', '/images/cat-ytalo.png', '/images/cat-hair.png'];
+const CAT_FACE_IMGS = ['/images/cat-litse.png', '/images/cat-litse-2.png', '/images/cat-litse-3.png', '/images/cat-litse-4.png'];
+const CAT_BODY_IMGS = ['/images/cat-ytalo.png', '/images/cat-tyalo-2.png', '/images/cat-tyalo-3.png', '/images/cat-tyalo-4.png', '/images/cat-tyalo-5.png'];
+const CAT_HAIR_IMGS = ['/images/cat-hair.png', '/images/cat-hair-3.png', '/images/cat-hair-4.png'];
 const CAT_HREFS = ['/kategoria/grizha-za-litseto', '/kategoria/grizha-za-tialoto', '/kategoria/grizha-za-kosata'];
 const FEATURE_ICONS = ['/images/icon-plant.png', '/images/icon-quality.png', '/images/icon-leaf.png', '/images/icon-wheat.png'];
 const PARTNERS = [
@@ -55,10 +58,25 @@ export default function HomeView({
 }) {
   const tr = useT();
   const [velvetIdx, setVelvetIdx] = useState(0);
+  const [catImgTick, setCatImgTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setVelvetIdx(i => (i + 1) % VELVET_IMGS.length), 3000);
     return () => clearInterval(id);
   }, []);
+  useEffect(() => {
+    const id = setInterval(() => setCatImgTick(t => t + 1), 3000);
+    return () => clearInterval(id);
+  }, []);
+  const [velvetProductIdx, setVelvetProductIdx] = useState(0);
+  const velvetProductCount = velvetProducts.length;
+  const velvetLeftProduct = velvetProductCount ? velvetProducts[velvetProductIdx % velvetProductCount] : undefined;
+  const velvetRightProduct = velvetProductCount > 1 ? velvetProducts[(velvetProductIdx + 1) % velvetProductCount] : undefined;
+
+  useEffect(() => {
+    if (velvetProductCount > 0 && velvetProductIdx >= velvetProductCount) {
+      setVelvetProductIdx(0);
+    }
+  }, [velvetProductCount, velvetProductIdx]);
 
   const [partnerIdx, setPartnerIdx] = useState(0);
   useEffect(() => {
@@ -77,47 +95,61 @@ export default function HomeView({
   const scrollCats = (dir: number) => scrollRow(catSliderRef, '.cat-card', dir);
 
   const cats = [
-    { title: tr.home.catFace, label: tr.home.catFaceLabel, desc: tr.home.catFaceDesc, cta: tr.home.catFaceCta, trust: tr.home.catFaceTrust, href: CAT_HREFS[0], img: CAT_IMGS[0] },
-    { title: tr.home.catBody, label: tr.home.catBodyLabel, desc: tr.home.catBodyDesc, cta: tr.home.catBodyCta, trust: tr.home.catBodyTrust, href: CAT_HREFS[1], img: CAT_IMGS[1] },
-    { title: tr.home.catHair, label: tr.home.catHairLabel, desc: tr.home.catHairDesc, cta: tr.home.catHairCta, trust: tr.home.catHairTrust, href: CAT_HREFS[2], img: CAT_IMGS[2] },
+    { title: tr.home.catFace, label: tr.home.catFaceLabel, desc: tr.home.catFaceDesc, cta: tr.home.catFaceCta, trust: tr.home.catFaceTrust, href: CAT_HREFS[0], img: CAT_IMGS[0], images: CAT_FACE_IMGS },
+    { title: tr.home.catBody, label: tr.home.catBodyLabel, desc: tr.home.catBodyDesc, cta: tr.home.catBodyCta, trust: tr.home.catBodyTrust, href: CAT_HREFS[1], img: CAT_IMGS[1], images: CAT_BODY_IMGS },
+    { title: tr.home.catHair, label: tr.home.catHairLabel, desc: tr.home.catHairDesc, cta: tr.home.catHairCta, trust: tr.home.catHairTrust, href: CAT_HREFS[2], img: CAT_IMGS[2], images: CAT_HAIR_IMGS },
   ];
 
   return (
     <div>
       {/* ═══ HERO ═══ */}
-      <section style={{ maxWidth: '100%', margin: '0 auto', padding: '20px 15px 0', display: 'grid', gridTemplateColumns: '2fr 1fr', minHeight: 760, gap: 30 }} className="hero-grid">
+      <section style={{ maxWidth: '100%', margin: '0 auto', padding: '20px 15px 0', display: 'grid', gridTemplateColumns: '2.35fr 0.92fr', minHeight: 640, gap: 30, position: 'relative' }} className="hero-grid">
         <HeroCarousel />
 
-        <div className="hero-deo-panel" style={{ position: 'relative', borderRadius: 10, overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, borderRadius: 10, backgroundImage: 'url(/images/hero-carousel/promo-background.webp)', backgroundSize: 'cover', backgroundPosition: 'center', overflow: 'hidden', zIndex: 0 }} />
-          <div className="hero-deo-product" style={{ position: 'absolute', left: '50%', bottom: '9%', transform: 'translateX(-50%)', zIndex: 1, width: 'min(102%, 620px)', height: 620 }}>
+        <div className="hero-deo-panel deo-panel-glow" style={{
+          position: 'relative', borderRadius: 10, overflow: 'hidden',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          background:
+            'radial-gradient(ellipse 90% 55% at 50% 110%, rgba(244, 178, 197, 0.35) 0%, transparent 70%), ' +
+            'linear-gradient(165deg, #F3F9EE 0%, #E9F3E3 55%, #F7FBF3 100%)',
+          border: '1px solid rgba(63, 51, 45, 0.07)',
+          padding: '30px 24px 28px', textAlign: 'center',
+        }}>
+          <p style={{ fontFamily: fb, fontSize: 10.5, fontWeight: 600, color: '#7FA871', letterSpacing: '0.22em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+            {tr.hero.deobadge}
+          </p>
+          <h2 style={{ fontFamily: fd, fontWeight: 400, fontSize: 'clamp(24px, 2.2vw, 32px)', lineHeight: 1.2, color: '#3F332D', margin: 0 }}>
+            {tr.hero.deotitle}
+          </h2>
+
+          {/* Product — fills the middle of the panel */}
+          <div className="hero-deo-product" style={{ position: 'relative', flex: 1, width: 'min(102%, 560px)', minHeight: 0, margin: '10px 0 14px' }}>
             <div className="hero-product-shadow" />
             <div className="hero-product-pop" style={{ animationDelay: '0.3s', height: '100%' }}>
               <DeostickProduct />
             </div>
+            {/* Light reflection pool under the product */}
+            <div aria-hidden="true" style={{
+              position: 'absolute', left: '18%', right: '18%', bottom: -8, height: 30,
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.25) 55%, transparent 75%)',
+              filter: 'blur(7px)', pointerEvents: 'none',
+            }} />
           </div>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2, padding: '24px 24px 40px', background: 'linear-gradient(to bottom, rgba(40,20,8,0.82) 0%, rgba(40,20,8,0.4) 60%, transparent 100%)', textAlign: 'center' }}>
-            <h2 style={{ fontFamily: fd, fontWeight: 400, fontSize: 'clamp(24px, 2.2vw, 32px)', lineHeight: 1.2, color: '#fff', margin: 0, textShadow: '0 2px 20px rgba(30, 18, 8, 0.3)' }}>
-              {tr.hero.deotitle}
-            </h2>
-          </div>
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '60px 28px 28px', background: 'linear-gradient(to top, rgba(40,20,8,0.92) 0%, rgba(40,20,8,0.62) 52%, transparent 100%)', textAlign: 'center' }}>
-            <p style={{ fontFamily: fb, fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.68)', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 10px' }}>
-              {tr.hero.deobadge}
-            </p>
-            <p style={{ fontFamily: fb, fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.80)', lineHeight: '20px', margin: '0 0 16px' }}>
-              {tr.hero.deotext}
-            </p>
-            <Link href="/kategoria/deo-stikove" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              fontFamily: fb, fontSize: 11.5, fontWeight: 600,
-              letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: '#fff', textDecoration: 'none',
-              paddingBottom: 3, borderBottom: '1px solid rgba(255,255,255,0.65)',
-            }}>
-              {tr.hero.cta1}
-            </Link>
-          </div>
+
+          <p style={{ fontFamily: fb, fontSize: 13, fontWeight: 500, color: '#554C47', lineHeight: '20px', margin: '0 0 14px' }}>
+            {tr.hero.deotext}
+          </p>
+          <Link href="/kategoria/deo-stikove" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: '#3F332D', color: '#fff',
+            fontFamily: fb, fontSize: 11.5, fontWeight: 600,
+            letterSpacing: '0.16em', textTransform: 'uppercase',
+            padding: '13px 32px', textDecoration: 'none',
+            boxShadow: '0 10px 26px -14px rgba(63, 51, 45, 0.45)',
+          }}>
+            {tr.hero.cta1}
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
       </section>
 
@@ -135,9 +167,23 @@ export default function HomeView({
 
         <div className="cat-slider">
           <div className="cat-cards-grid" ref={catSliderRef}>
-            {cats.map((cat) => (
+            {cats.map((cat, catIndex) => (
               <Link key={cat.href} href={cat.href} className="cat-card" aria-label={cat.cta}>
-                <img src={cat.img} alt={cat.title} className="cat-card-img" />
+                {cat.images ? (
+                  <span className="cat-card-img-stack" aria-hidden="true">
+                    {cat.images.map((image, imageIndex) => (
+                      <img
+                        key={image}
+                        src={image}
+                        alt=""
+                        className="cat-card-img cat-card-img-layer"
+                        style={{ opacity: imageIndex === (catImgTick + catIndex) % cat.images.length ? 1 : 0 }}
+                      />
+                    ))}
+                  </span>
+                ) : (
+                  <img src={cat.img} alt={cat.title} className="cat-card-img" />
+                )}
                 <div className="cat-card-overlay" />
                 <div className="cat-card-content">
                   <span className="cat-card-label">{cat.label}</span>
@@ -159,7 +205,7 @@ export default function HomeView({
       {/* merged into HomeMegaCarousel above */}
 
 
-      {/* ═══ VELVET — banner centered, one product on each side ═══ */}
+      {/* ═══ VELVET — banner centered, product cards rotate through side slots ═══ */}
       <section className="velvet-section" style={{ maxWidth: 1800, margin: '0 auto', padding: '0 15px' }}>
         <div className="title-row" style={{ marginBottom: 28 }}>
           <h2 className="section-title">Серия Velvet</h2>
@@ -167,7 +213,7 @@ export default function HomeView({
         </div>
         <div className="velvet-triptych">
           {/* Banner (first in DOM so it leads when stacked on mobile) */}
-          <Link href="/kategoria/velvet" className="group velvet-banner" style={{ position: 'relative', display: 'block', width: '100%', aspectRatio: '0.8 / 1', borderRadius: 16, overflow: 'hidden', textDecoration: 'none' }}>
+          <Link href="/kategoria/seria-velvet" className="group velvet-banner" style={{ position: 'relative', display: 'block', width: '100%', aspectRatio: '0.8 / 1', borderRadius: 16, overflow: 'hidden', textDecoration: 'none' }}>
             {VELVET_IMGS.map((slide, i) => (
               <div key={slide.src} style={{
                 position: 'absolute', inset: 0,
@@ -200,17 +246,29 @@ export default function HomeView({
             </div>
           </Link>
 
-          {velvetProducts[0] && (
-            <div className="boj-product-grid velvet-side velvet-side-left">
-              <ProductCard product={velvetProducts[0]} variant="bojCategory" />
+          {velvetLeftProduct && (
+            <div key={`velvet-left-${velvetLeftProduct.id}-${velvetProductIdx}`} className="boj-product-grid velvet-side velvet-side-left">
+              <ProductCard product={velvetLeftProduct} variant="bojCategory" />
             </div>
           )}
-          {velvetProducts[1] && (
-            <div className="boj-product-grid velvet-side velvet-side-right">
-              <ProductCard product={velvetProducts[1]} variant="bojCategory" />
+          {velvetRightProduct && (
+            <div key={`velvet-right-${velvetRightProduct.id}-${velvetProductIdx}`} className="boj-product-grid velvet-side velvet-side-right">
+              <ProductCard product={velvetRightProduct} variant="bojCategory" />
             </div>
           )}
         </div>
+        {velvetProductCount > 2 && (
+          <div className="velvet-stage-controls" aria-label="Velvet product slider">
+            <input
+              type="range"
+              min={0}
+              max={velvetProductCount - 1}
+              value={velvetProductIdx}
+              onChange={(e) => setVelvetProductIdx(Number(e.target.value))}
+              aria-label="Избери Velvet продукти"
+            />
+          </div>
+        )}
       </section>
 
       {/* ═══ БИО САПУНИ ═══ */}
@@ -226,7 +284,7 @@ export default function HomeView({
             <p style={{ fontFamily: fb, fontWeight: 600, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: 8 }}>{tr.home.partnersSub}</p>
             <h2 style={{ fontFamily: fd, fontWeight: 500, fontSize: 'clamp(24px, 2vw, 30px)', color: 'var(--text-heading)', lineHeight: 1.15, marginBottom: 18 }}>{tr.home.partnersTitle}</h2>
             <p className="text-[15px] text-[var(--text-body)] leading-relaxed mb-6">{tr.home.partnersBody}</p>
-            <Link href="/za-kontakti" className="btn-primary" style={{ background: 'transparent', color: 'var(--primary)', border: '1.5px solid var(--primary)', borderRadius: 0 }}>{tr.home.partnersContact}</Link>
+            <Link href="/za-kontakti" className="btn-primary" style={{ background: 'transparent', color: '#B08D57', border: '1.5px solid #B08D57', borderRadius: 0 }}>{tr.home.partnersContact}</Link>
           </div>
           <div className="flex items-center justify-center" style={{ height: 200, position: 'relative' }}>
             {PARTNERS.map((p, i) => (

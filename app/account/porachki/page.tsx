@@ -25,11 +25,17 @@ export default async function MyOrdersPage() {
         breadcrumbs={[{ label: 'Начало', href: '/' }, { label: 'Моят профил', href: '/account' }, { label: 'Моите поръчки' }]}
       />
 
-      <div className="max-w-[820px] mx-auto px-[15px] py-12">
+      <div className="account-orders-page max-w-[920px] mx-auto px-[15px] py-12">
         {orders.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-[var(--text-body)] mb-6">Все още нямаш поръчки.</p>
-            <Link href="/shop" className="btn-primary inline-block">Към магазина</Link>
+          <div className="sf-empty-state">
+            <div className="sf-empty-art" aria-hidden="true">№</div>
+            <p className="sf-empty-kicker">История на поръчките</p>
+            <h2>Все още нямаш поръчки</h2>
+            <p>Когато направиш първата си поръчка, ще я виждаш тук с детайли за доставка и статус.</p>
+            <div className="sf-empty-actions">
+              <Link href="/shop" className="sf-empty-primary">Към магазина</Link>
+              <Link href="/lyubimi" className="sf-empty-secondary">Любими продукти</Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-5">

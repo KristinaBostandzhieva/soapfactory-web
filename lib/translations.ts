@@ -32,7 +32,7 @@ export const t = {
       continueShopping: 'Продължи пазаруването',
       remove: 'Премахни',
       freeShippingMsg: (amt: string) => `Добави продукти за още ${amt} € и ще получиш безплатна доставка!`,
-      hasFreeShipping: '🎉 Имаш безплатна доставка!',
+      hasFreeShipping: 'Имаш безплатна доставка!',
     },
     product: {
       instock: 'Налично',
@@ -295,7 +295,7 @@ export const t = {
       continueShopping: 'Continue shopping',
       remove: 'Remove',
       freeShippingMsg: (amt: string) => `Add €${amt} more for free shipping!`,
-      hasFreeShipping: '🎉 You have free shipping!',
+      hasFreeShipping: 'You have free shipping!',
     },
     product: {
       instock: 'In stock',

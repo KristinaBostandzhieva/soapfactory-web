@@ -18,6 +18,7 @@ export type UiProduct = {
   priceMax?: number;
   image?: string;
   images: string[];
+  hoverImage?: string | null;
   inStock: boolean;
   shortDescription?: string | null;
   description?: string | null;
@@ -61,6 +62,7 @@ type DbProduct = {
   descriptionEn: string | null;
   weight: string | null;
   images: string;
+  hoverImage?: string | null;
   categories: { slug: string; name: string; parentId: string | null }[];
   reviews: { rating: number }[];
 };
@@ -184,6 +186,7 @@ function toUi(p: DbProduct): UiProduct {
     price: p.price,
     image,
     images,
+    hoverImage: p.hoverImage ?? null,
     inStock,
     shortDescription: p.shortDescription,
     description: p.description,

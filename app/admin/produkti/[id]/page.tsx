@@ -20,6 +20,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     nameEn: product.nameEn, shortDescriptionEn: product.shortDescriptionEn, descriptionEn: product.descriptionEn,
     inStock: product.inStock, featured: product.featured,
     imageUrl: imgs[0] || '', imageUrl2: imgs[1] || '',
+    hoverImage: product.hoverImage || '',
     categoryId: product.categories[0]?.id || '',
     stockQty: product.stockQty,
   };

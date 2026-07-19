@@ -6,9 +6,11 @@ import { useT } from '@/hooks/useT';
 
 const SLIDE_STATIC: { image: string; href: string; side?: 'left' | 'right'; bgPos: string }[] = [
   { image: '/images/hero-carousel-1st.png', href: '/kategoria/bio-sapuni', side: 'left', bgPos: 'center' },
-  { image: '/images/hero-carousel/hero-2.webp', href: '/shop', bgPos: 'center' },
+  { image: '/images/hero-carousel-3.png', href: '/shop', bgPos: 'center' },
   { image: '/images/hero-carousel/hero-3.webp', href: '/produkt/slanchev-sapun', bgPos: 'center' },
-  { image: '/images/hero-carousel/hero-4.webp', href: '/kategoria/bio-sapuni', bgPos: '20% 30%' },
+  { image: '/images/hero-carousel2.png', href: '/kategoria/bio-sapuni', bgPos: 'center' },
+  { image: '/images/carousel-3.png', href: '/kategoria/grizha-za-litseto', bgPos: 'center' },
+  { image: '/images/carouse;-4.png', href: '/kategoria/grizha-za-litseto', bgPos: 'center' },
 ];
 
 export default function HeroCarousel() {
@@ -18,6 +20,8 @@ export default function HeroCarousel() {
     { ...SLIDE_STATIC[1], title: tr.hero.title2, text: tr.hero.text2, cta: tr.hero.cta2 },
     { ...SLIDE_STATIC[2], title: tr.hero.title3, text: tr.hero.text3, cta: tr.hero.cta3 },
     { ...SLIDE_STATIC[3], title: tr.hero.title4, text: tr.hero.text4, cta: tr.hero.cta4 },
+    { ...SLIDE_STATIC[4], title: tr.hero.title2, text: tr.hero.text2, cta: tr.hero.cta2 },
+    { ...SLIDE_STATIC[5], title: tr.hero.title2, text: tr.hero.text2, cta: tr.hero.cta2 },
   ];
 
   const [active, setActive] = useState(0);
@@ -38,22 +42,12 @@ export default function HeroCarousel() {
   };
 
   return (
-    <div className="hero-carousel-wrap" style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', height: '100%', minHeight: 620 }}>
+    <div className="hero-carousel-wrap" style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', height: '100%', minHeight: 540 }}>
       <style>{`
         /* ── Desktop: unchanged full-bleed with overlay ── */
         .hc-img-wrap { position: absolute; inset: 0; }
         .hc-img-wrap > div { position: absolute; inset: 0; }
         .hc-mobile-panel { display: none; }
-
-        /* Slow Ken Burns drift on the active slide */
-        @keyframes hcKenBurns {
-          from { transform: scale(1); }
-          to { transform: scale(1.06); }
-        }
-        .hc-kenburns { animation: hcKenBurns 7s ease-out both; }
-        @media (max-width: 900px) {
-          .hc-kenburns { animation: none; }
-        }
 
         /* Slide progress bar fill */
         @keyframes hcProgress {
@@ -200,14 +194,12 @@ export default function HeroCarousel() {
         {slides.map((s, i) => (
           <div
             key={i}
-            className={i === active ? 'hc-kenburns' : undefined}
             style={{
               backgroundImage: `url(${s.image})`,
               backgroundSize: 'cover',
               backgroundPosition: s.bgPos || 'center',
               opacity: i === active ? 1 : 0,
               transition: 'opacity 1s ease',
-              willChange: 'transform, opacity',
             }}
           />
         ))}

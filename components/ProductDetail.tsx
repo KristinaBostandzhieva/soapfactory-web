@@ -458,7 +458,7 @@ export default function ProductDetail({ product, related, reviews }: { product: 
         <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid #eee', marginBottom: 20 }}>
           {(['desc', 'info'] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)}
-              style={{ fontFamily: fb, fontSize: 14, fontWeight: 600, color: tab === t ? '#9B72C7' : '#aaa', background: 'none', border: 'none', borderBottom: tab === t ? '2px solid #9B72C7' : '2px solid transparent', paddingBottom: 10, cursor: 'pointer' }}>
+              style={{ fontFamily: fb, fontSize: 14, fontWeight: 600, color: tab === t ? '#3F332D' : '#aaa', background: 'none', border: 'none', borderBottom: tab === t ? '2px solid #B08D57' : '2px solid transparent', paddingBottom: 10, cursor: 'pointer' }}>
               {t === 'desc' ? 'Описание' : 'Информация'}
             </button>
           ))}

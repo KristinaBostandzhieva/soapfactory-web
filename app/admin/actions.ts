@@ -54,13 +54,14 @@ function parseProduct(formData: FormData) {
   const imageUrl = String(formData.get('imageUrl') || '').trim();
   const imageUrl2 = String(formData.get('imageUrl2') || '').trim();
   const images = [imageUrl, imageUrl2].filter(Boolean);
+  const hoverImage = String(formData.get('hoverImage') || '').trim() || null;
   const categoryId = String(formData.get('categoryId') || '').trim();
   const inStock = formData.get('inStock') === 'on';
   const featured = formData.get('featured') === 'on';
   const slugInput = String(formData.get('slug') || '').trim();
   const stockRaw = String(formData.get('stockQty') || '').trim();
   const stockQty = stockRaw === '' ? null : Math.max(0, parseInt(stockRaw, 10) || 0);
-  return { name, price, sku, shortDescription, description, nameEn, shortDescriptionEn, descriptionEn, weight, images, categoryId, inStock, featured, slugInput, stockQty };
+  return { name, price, sku, shortDescription, description, nameEn, shortDescriptionEn, descriptionEn, weight, images, hoverImage, categoryId, inStock, featured, slugInput, stockQty };
 }
 
 function revalidateProducts() {
@@ -83,6 +84,7 @@ export async function createProduct(formData: FormData) {
       nameEn: d.nameEn, shortDescriptionEn: d.shortDescriptionEn, descriptionEn: d.descriptionEn,
       inStock: d.inStock, featured: d.featured, stockQty: d.stockQty,
       images: JSON.stringify(d.images),
+      hoverImage: d.hoverImage,
       categories: d.categoryId ? { connect: { id: d.categoryId } } : undefined,
     },
   });
@@ -109,6 +111,7 @@ export async function updateProduct(id: string, formData: FormData) {
       nameEn: d.nameEn, shortDescriptionEn: d.shortDescriptionEn, descriptionEn: d.descriptionEn,
       inStock: d.inStock, featured: d.featured, stockQty: d.stockQty,
       images: JSON.stringify(d.images),
+      hoverImage: d.hoverImage,
       categories: d.categoryId ? { set: [{ id: d.categoryId }] } : { set: [] },
     },
   });

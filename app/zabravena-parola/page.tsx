@@ -45,35 +45,39 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <div className="max-w-[440px] mx-auto px-[15px] py-20 text-center">
+      <div className="auth-page">
+      <div className="auth-card text-center">
         <div className="text-5xl mb-4">📧</div>
-        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 24, color: '#9B72C7', marginBottom: 12 }}>
+        <h1 style={{ fontFamily: hf }} className="auth-title">
           Провери пощата си
         </h1>
         <p className="text-[14px] text-[var(--text-body)] mb-6">
           Ако имейл адресът <strong>{email}</strong> е регистриран при нас, ще получиш линк за смяна на паролата в следващите минути.
         </p>
-        <Link href="/vhod" className="text-[14px] text-[var(--primary)] font-semibold hover:underline">
+        <Link href="/vhod" className="auth-mini-link">
           ← Обратно към вход
         </Link>
+      </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-[440px] mx-auto px-[15px] py-16">
-      <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 28, color: '#9B72C7' }} className="mb-2 text-center">
+    <div className="auth-page">
+      <div className="auth-card">
+      <p className="auth-kicker">Password help</p>
+      <h1 style={{ fontFamily: hf }} className="auth-title">
         Забравена парола
       </h1>
-      <p className="text-[13px] text-[var(--text-muted)] text-center mb-6">
+      <p className="auth-subtitle">
         Въведи имейла си и ще ти изпратим линк за смяна на паролата.
       </p>
-      <form onSubmit={submit} className="bg-[var(--bg-light)] rounded-md p-8">
+      <form onSubmit={submit} className="auth-form">
         {error && (
           <p className="text-[13px] text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2 mb-4">{error}</p>
         )}
         <div className="mb-5">
-          <label className="block text-[13px] mb-1">Имейл *</label>
+          <label className="auth-label">Имейл *</label>
           <input
             type="email"
             required
@@ -84,13 +88,14 @@ export default function ForgotPasswordPage() {
           />
         </div>
         <Turnstile key={captchaKey} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken('')} />
-        <button type="submit" disabled={loading || (captchaEnabled && !captchaToken)} className="btn-primary w-full text-center" style={{ padding: '11px', fontSize: 14 }}>
+        <button type="submit" disabled={loading || (captchaEnabled && !captchaToken)} className="auth-submit">
           {loading ? 'Изпращане…' : 'Изпрати линк'}
         </button>
-        <p className="text-[13px] text-[var(--text-body)] text-center mt-5">
-          <Link href="/vhod" className="text-[var(--primary)] font-semibold hover:underline">← Обратно към вход</Link>
+        <p className="auth-switch">
+          <Link href="/vhod">← Обратно към вход</Link>
         </p>
       </form>
+      </div>
     </div>
   );
 }

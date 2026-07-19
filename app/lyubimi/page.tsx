@@ -20,21 +20,31 @@ export default function FavoritesPage() {
         breadcrumbs={[{ label: 'Начало', href: '/' }, { label: 'Любими' }]}
       />
 
-      <div className="max-w-full mx-auto px-[15px] py-10">
+      <div className="favorites-page max-w-[1400px] mx-auto px-[15px] py-10">
         {favs.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-5xl mb-4">🤍</div>
-            <p className="text-[var(--text-body)] mb-6">Все още нямаш любими продукти. Натисни сърцето върху продукт, за да го запазиш тук.</p>
-            <Link href="/shop" className="btn-primary inline-block">Към магазина</Link>
+          <div className="favorites-empty">
+            <div className="favorites-empty-art" aria-hidden="true">
+              <span>♡</span>
+            </div>
+            <p className="favorites-empty-kicker">Твоята селекция</p>
+            <h2>Запази продуктите, към които искаш да се върнеш</h2>
+            <p>Натисни сърцето върху любим продукт и ще го пазим тук, готов за следващата ти поръчка.</p>
+            <div className="favorites-empty-actions">
+              <Link href="/shop" className="favorites-primary-link">Към магазина</Link>
+              <Link href="/kategoria/promotsii" className="favorites-secondary-link">Виж промоции</Link>
+            </div>
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-[14px] text-[var(--text-muted)]">{favs.length} продукт{favs.length === 1 ? '' : 'а'}</p>
-              <button onClick={clear} className="text-[13px] text-[var(--text-muted)] hover:text-[var(--primary)] underline">Изчисти всички</button>
+            <div className="favorites-toolbar">
+              <div>
+                <p className="favorites-toolbar-kicker">Запазени продукти</p>
+                <h2>{favs.length} продукт{favs.length === 1 ? '' : 'а'}</h2>
+              </div>
+              <button onClick={clear}>Изчисти всички</button>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10">
-              {favs.map((p) => <ProductCard key={p.id} product={p} />)}
+            <div className="boj-product-grid favorites-grid">
+              {favs.map((p) => <ProductCard key={p.id} product={p} variant="bojCategory" />)}
             </div>
           </>
         )}

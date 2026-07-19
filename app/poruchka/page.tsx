@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useCartStore } from '@/store/cartStore';
 import { lev } from '@/lib/currency';
 import { orderNumber } from '@/lib/orders';
@@ -9,7 +9,14 @@ import CourierSelector, { type CourierSelection } from '@/components/CourierSele
 import PageHeader from '@/components/PageHeader';
 
 const hf = 'var(--font-body)';
-const inputCls = 'w-full border border-[var(--border)] rounded px-4 py-2.5 text-[14px] focus:outline-none focus:border-[var(--primary)]';
+const inputCls = 'w-full border border-[rgba(63,51,45,0.16)] rounded-[10px] bg-white px-4 py-3 text-[14px] focus:outline-none focus:border-[var(--primary)] transition-colors';
+
+// Section headings — same serif voice as the shop
+const sectionH = { fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 24, color: '#3F332D', marginBottom: 18 } as const;
+
+// Same soft green-sphere backdrop the product cards use
+const thumbBackdrop =
+  'radial-gradient(circle at 20% 16%, rgba(200, 228, 191, 0.30) 0%, rgba(207, 232, 199, 0.16) 26%, rgba(214, 236, 207, 0.06) 42%, transparent 58%), #FCFBF8';
 
 export default function OrderPage() {
   const store = useCartStore();
@@ -20,6 +27,7 @@ export default function OrderPage() {
 
   const [delivery, setDelivery] = useState<CourierSelection | null>(null);
   const shipping = delivery?.shipping ?? 0;
+  const addressRequired = delivery?.deliveryType === 'address';
 
   const [promoInput, setPromoInput] = useState('');
   const [promo, setPromo] = useState<{ amount: number; code: string; label?: string } | null>(null);
@@ -54,6 +62,22 @@ export default function OrderPage() {
   const [orderId, setOrderId] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [detailsComplete, setDetailsComplete] = useState(false);
+
+  function updateDetailsProgress(form: HTMLFormElement | null = formRef.current) {
+    if (!form) return;
+    const data = new FormData(form);
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'city'];
+    const requiredFilled = requiredFields.every((name) => String(data.get(name) || '').trim().length > 0);
+    const addressFilled = !addressRequired || String(data.get('address') || '').trim().length > 0;
+    setDetailsComplete(requiredFilled && addressFilled);
+  }
+
+  useEffect(() => {
+    updateDetailsProgress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addressRequired]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -123,7 +147,7 @@ export default function OrderPage() {
     return (
       <div className="max-w-[700px] mx-auto px-[15px] py-24 text-center">
         <div className="text-5xl mb-4">✅</div>
-        <h1 style={{ fontFamily: hf, fontWeight: 800, fontSize: 28, color: '#9B72C7', marginBottom: 12 }}>Благодарим за поръчката!</h1>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 34, color: '#3F332D', marginBottom: 12 }}>Благодарим за поръчката!</h1>
         <p className="text-[var(--text-body)] mb-2">Номер на поръчката: <strong>#{orderNumber(orderId)}</strong></p>
         <p className="text-[var(--text-body)] mb-6">Ще се свържем с теб за потвърждение. Плащане при доставка (наложен платеж).</p>
         <Link href="/" className="btn-primary inline-block">Обратно към начало</Link>
@@ -140,52 +164,67 @@ export default function OrderPage() {
     );
   }
 
-  const addressRequired = delivery?.deliveryType === 'address';
+  const deliveryComplete = !!delivery?.valid;
+  const paymentComplete = detailsComplete && deliveryComplete && !!paymentMethod;
+  const detailsStepClass = detailsComplete ? 'is-done' : 'is-active';
+  const deliveryStepClass = deliveryComplete ? 'is-done' : detailsComplete ? 'is-active' : '';
+  const paymentStepClass = paymentComplete ? 'is-done' : deliveryComplete ? 'is-active' : '';
 
   return (
-    <div>
+    <div className="checkout-page" style={{
+      background:
+        'radial-gradient(ellipse 28% 75% at 0% 50%, rgba(244, 178, 197, 0.20) 0%, transparent 72%), ' +
+        'radial-gradient(ellipse 28% 75% at 100% 50%, rgba(244, 178, 197, 0.20) 0%, transparent 72%)',
+    }}>
       <PageHeader
         title="Поръчка"
         breadcrumbs={[{ label: 'Начало', href: '/' }, { label: 'Количка', href: '/checkout' }, { label: 'Поръчка' }]}
       />
 
-      <div className="max-w-full mx-auto px-[15px] py-12 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10">
+      <div className="checkout-shell max-w-[1240px] mx-auto px-[15px] py-12 grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 lg:gap-14">
         {/* Billing form */}
-        <form onSubmit={submit}>
-          <h3 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333', marginBottom: 16 }}>Данни за доставка</h3>
+        <form ref={formRef} onSubmit={submit} onChange={(event) => updateDetailsProgress(event.currentTarget)} className="checkout-form">
+          <div className="checkout-progress" aria-label="Checkout progress">
+            <a href="#checkout-summary" className="is-done"><span>1</span> Количка</a>
+            <a href="#checkout-details" className={detailsStepClass}><span>2</span> Данни</a>
+            <a href="#checkout-delivery" className={deliveryStepClass}><span>3</span> Доставка</a>
+            <a href="#checkout-payment" className={paymentStepClass}><span>4</span> Плащане</a>
+          </div>
+          <div id="checkout-details" className="checkout-card checkout-card--contact">
+          <h3 style={sectionH}>Данни за доставка</h3>
           {error && <p className="text-[13px] text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2 mb-4">{error}</p>}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div><label className="block text-[13px] mb-1">Име *</label><input name="firstName" required className={inputCls} /></div>
-            <div><label className="block text-[13px] mb-1">Фамилия *</label><input name="lastName" required className={inputCls} /></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <input name="firstName" required placeholder="Име *" aria-label="Име" className={inputCls} />
+            <input name="lastName" required placeholder="Фамилия *" aria-label="Фамилия" className={inputCls} />
           </div>
-          <div className="mb-4"><label className="block text-[13px] mb-1">Имейл *</label><input name="email" required type="email" className={inputCls} /></div>
-          <div className="mb-4"><label className="block text-[13px] mb-1">Телефон *</label><input name="phone" required type="tel" className={inputCls} /></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div><label className="block text-[13px] mb-1">Град *</label><input name="city" required className={inputCls} /></div>
-            <div><label className="block text-[13px] mb-1">Пощенски код</label><input name="postcode" className={inputCls} /></div>
+          <div className="mb-3"><input name="email" required type="email" placeholder="Имейл *" aria-label="Имейл" className={inputCls} /></div>
+          <div className="mb-3"><input name="phone" required type="tel" placeholder="Телефон *" aria-label="Телефон" className={inputCls} /></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <input name="city" required placeholder="Град *" aria-label="Град" className={inputCls} />
+            <input name="postcode" placeholder="Пощенски код" aria-label="Пощенски код" className={inputCls} />
           </div>
-          <div className="mb-4">
-            <label className="block text-[13px] mb-1">Адрес {addressRequired ? '*' : <span className="text-[var(--text-muted)]">(при доставка до адрес)</span>}</label>
-            <input name="address" className={inputCls} />
+          <div className="mb-3">
+            <input name="address" placeholder={addressRequired ? 'Адрес *' : 'Адрес (при доставка до адрес)'} aria-label="Адрес" className={inputCls} />
           </div>
-          <div className="mb-8"><label className="block text-[13px] mb-1">Бележки към поръчката</label><textarea name="notes" rows={3} className={inputCls} /></div>
+          <div className="mb-0"><textarea name="notes" rows={3} placeholder="Бележки към поръчката" aria-label="Бележки към поръчката" className={inputCls} /></div>
+          </div>
 
           {/* Courier / delivery */}
-          <div className="border-t border-[var(--border)] pt-6 mb-8">
+          <div id="checkout-delivery" className="checkout-card checkout-card--delivery">
             <CourierSelector subtotal={total} onChange={setDelivery} />
           </div>
 
           {/* Payment method */}
-          <div className="border-t border-[var(--border)] pt-6 mb-8">
-            <h3 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333', marginBottom: 16 }}>Начин на плащане</h3>
-            <label className="flex items-center gap-3 border rounded-md px-4 py-3 mb-3 cursor-pointer"
-              style={{ borderColor: paymentMethod === 'cod' ? 'var(--primary)' : 'var(--border)' }}>
-              <input type="radio" name="payment" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} style={{ accentColor: 'var(--primary)' }} />
+          <div id="checkout-payment" className="checkout-card checkout-card--payment">
+            <h3 style={sectionH}>Начин на плащане</h3>
+            <label className="flex items-center gap-3 border rounded-xl px-4 py-3.5 mb-3 cursor-pointer transition-colors"
+              style={{ borderColor: paymentMethod === 'cod' ? '#3F332D' : 'rgba(63,51,45,0.16)', background: paymentMethod === 'cod' ? '#F9F1F4' : '#fff' }}>
+              <input type="radio" name="payment" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} style={{ accentColor: '#3F332D' }} />
               <span className="text-[14px]"><strong>Наложен платеж</strong> — плащане в брой при доставка</span>
             </label>
-            <label className="flex items-center gap-3 border rounded-md px-4 py-3 cursor-pointer"
-              style={{ borderColor: paymentMethod === 'stripe' ? 'var(--primary)' : 'var(--border)', opacity: stripeEnabled ? 1 : 0.55 }}>
-              <input type="radio" name="payment" disabled={!stripeEnabled} checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} style={{ accentColor: 'var(--primary)' }} />
+            <label className="flex items-center gap-3 border rounded-xl px-4 py-3.5 cursor-pointer transition-colors"
+              style={{ borderColor: paymentMethod === 'stripe' ? '#3F332D' : 'rgba(63,51,45,0.16)', background: paymentMethod === 'stripe' ? '#F9F1F4' : '#fff', opacity: stripeEnabled ? 1 : 0.55 }}>
+              <input type="radio" name="payment" disabled={!stripeEnabled} checked={paymentMethod === 'stripe'} onChange={() => setPaymentMethod('stripe')} style={{ accentColor: '#3F332D' }} />
               <span className="text-[14px]">
                 <strong>Плащане с карта</strong> (Visa / Mastercard, чрез Stripe)
                 {!stripeEnabled && <span className="text-[var(--text-muted)]"> — нужен API ключ</span>}
@@ -193,20 +232,45 @@ export default function OrderPage() {
             </label>
           </div>
 
-          <button type="submit" disabled={loading} className="btn-primary" style={{ padding: '14px 36px', fontSize: 14 }}>
+          <div className="checkout-submit-card">
+          <button type="submit" disabled={loading} className="checkout-submit-button" style={{
+            background: '#3F332D', color: '#fff', border: 'none', cursor: loading ? 'wait' : 'pointer',
+            padding: '16px 46px', fontSize: 13, fontWeight: 600,
+            letterSpacing: '0.14em', textTransform: 'uppercase',
+            fontFamily: hf, borderRadius: 12, opacity: loading ? 0.65 : 1,
+            transition: 'opacity 0.2s ease, background 0.25s ease',
+          }}>
             {loading ? 'Обработка…' : paymentMethod === 'stripe' ? 'Плати с карта' : 'Изпрати поръчката'}
           </button>
           <p className="text-[12px] text-[var(--text-muted)] mt-3">При плащане с карта те пренасочваме сигурно към Stripe — данните на картата не минават през нашия сайт.</p>
+          </div>
         </form>
 
         {/* Summary */}
-        <aside className="bg-[var(--bg-light)] rounded-md p-6 h-fit">
-          <h3 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333', marginBottom: 16 }}>Твоята поръчка</h3>
+        <aside id="checkout-summary" className="checkout-summary h-fit lg:sticky lg:top-[110px] rounded-2xl p-6"
+          style={{ background: '#fff', border: '1px solid rgba(63,51,45,0.08)', boxShadow: '0 18px 44px -28px rgba(63,51,45,0.25)' }}>
+          <h3 style={sectionH}>Твоята поръчка</h3>
           <ul className="mb-4">
             {items.map((it) => (
-              <li key={it.id} className="flex justify-between text-[14px] py-2 border-b border-[var(--border)]">
-                <span className="text-[var(--text-body)]">{it.name} × {it.quantity}</span>
-                <span className="font-semibold">{(it.price * it.quantity).toFixed(2)} €</span>
+              <li key={it.id} className="flex items-center gap-3 py-2.5 border-b border-[rgba(63,51,45,0.07)]">
+                <div style={{ position: 'relative', width: 56, height: 56, flexShrink: 0 }}>
+                  <div style={{ width: '100%', height: '100%', borderRadius: 10, overflow: 'hidden', background: thumbBackdrop }}>
+                    {it.image && (
+                      <img src={it.image} alt={it.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+                    )}
+                  </div>
+                  <span style={{
+                    position: 'absolute', top: -6, right: -6,
+                    minWidth: 19, height: 19, borderRadius: 999, padding: '0 5px',
+                    background: '#3F332D', color: '#FDFBF7',
+                    fontSize: 10.5, fontWeight: 600,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: hf,
+                  }}>{it.quantity}</span>
+                </div>
+                <span className="flex-1 min-w-0 text-[13px] leading-snug text-[#3F332D] font-medium">{it.name}</span>
+                <span className="text-[14px] font-semibold text-[#3F332D]">{(it.price * it.quantity).toFixed(2)} €</span>
               </li>
             ))}
           </ul>
@@ -223,7 +287,7 @@ export default function OrderPage() {
                   <input value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Промокод"
                     className="flex-1 border border-[var(--border)] rounded px-3 py-2 text-[14px] focus:outline-none focus:border-[var(--primary)] uppercase" />
                   <button type="button" onClick={applyPromo} disabled={promoLoading}
-                    className="px-4 rounded text-[13px] font-semibold border border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+                    className="px-4 rounded-[10px] text-[13px] font-semibold border border-[#3F332D] text-[#3F332D] hover:bg-[#3F332D] hover:text-white transition-colors">
                     {promoLoading ? '…' : 'Приложи'}
                   </button>
                 </div>
@@ -240,12 +304,15 @@ export default function OrderPage() {
           )}
           <div className="flex justify-between text-[14px] py-1">
             <span className="text-[var(--text-body)]">Доставка{delivery ? ` (${delivery.courier === 'boxnow' ? 'BOX NOW' : delivery.courier === 'speedy' ? 'Спиди' : 'Еконт'})` : ''}</span>
-            <span>{shipping === 0 ? 'Безплатна' : `${shipping.toFixed(2)} €`}</span>
+            <span style={shipping === 0 ? { color: '#5C7350', fontWeight: 600 } : undefined}>{shipping === 0 ? 'Безплатна' : `${shipping.toFixed(2)} €`}</span>
           </div>
-          <div className="flex justify-between py-3 mt-2 border-t border-[var(--border)]">
-            <span style={{ fontFamily: hf }} className="font-bold">Общо</span>
-            <span style={{ fontFamily: hf }} className="font-bold text-[18px] text-[var(--primary)]">{grandTotal.toFixed(2)} € <span className="text-[12px] text-[var(--text-muted)] font-normal">({lev(grandTotal)} лв.)</span></span>
+          <div className="flex justify-between items-baseline mt-3 rounded-[10px] px-3.5 py-3" style={{ background: '#E9F3E3' }}>
+            <span style={{ fontFamily: hf, fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#5C7350' }}>Общо</span>
+            <span style={{ fontFamily: hf }} className="font-semibold text-[18px] text-[#3F332D]">{grandTotal.toFixed(2)} € <span className="text-[12px] text-[#7C8F72] font-normal">({lev(grandTotal)} лв.)</span></span>
           </div>
+          <p className="text-[11px] text-[#A89A90] text-center mt-4 mb-0" style={{ fontFamily: hf }}>
+            🔒 Сигурно плащане · Данните ти са защитени
+          </p>
         </aside>
       </div>
     </div>

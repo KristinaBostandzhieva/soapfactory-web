@@ -239,6 +239,7 @@ export default function CategoryView({
     'za-doma':                          '/images/pc-top-image/forthehome-pc-top.png',
   };
   const heroImage = categorySlug ? HERO_IMAGES[categorySlug] : undefined;
+  const isPromotionsHero = categorySlug === 'promotsii';
 
   const SUBCATEGORIES: Record<string, { slug: string; nameBg: string; nameEn: string; image: string }[]> = {
     'grizha-za-tialoto': [
@@ -263,14 +264,41 @@ export default function CategoryView({
         {/* Per-category hero image (non-parent pages) */}
         {heroImage && !subcategories && (
           <div aria-hidden="true" style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0, width: '45%',
-            backgroundImage: `url(${heroImage})`,
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: isPromotionsHero ? '67%' : '45%',
+            backgroundImage: isPromotionsHero ? undefined : `url(${heroImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 35%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 35%)',
+            backgroundRepeat: 'no-repeat',
+            maskImage: isPromotionsHero ? undefined : 'linear-gradient(to right, transparent 0%, black 35%)',
+            WebkitMaskImage: isPromotionsHero ? undefined : 'linear-gradient(to right, transparent 0%, black 35%)',
             pointerEvents: 'none',
-          }} />
+          }}>
+            {isPromotionsHero && (
+              <>
+                <img
+                  src={heroImage}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    height: '100%',
+                    width: 'auto',
+                    maxWidth: '100%',
+                    objectFit: 'contain',
+                    objectPosition: 'right center',
+                    maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 18%, rgba(0,0,0,0.75) 36%, black 54%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 18%, rgba(0,0,0,0.75) 36%, black 54%)',
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to right, rgba(247,243,233,0.92) 0%, rgba(247,243,233,0.34) 34%, rgba(247,243,233,0.02) 68%, transparent 100%)',
+                }} />
+              </>
+            )}
+          </div>
         )}
         <div className="boj-category-hero-inner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
           <div>
@@ -442,7 +470,7 @@ export default function CategoryView({
           content: "";
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.56) 0%, rgba(0,0,0,0.16) 48%, rgba(0,0,0,0.02) 100%);
+          background: linear-gradient(to top, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.28) 42%, rgba(255,255,255,0.02) 100%);
           pointer-events: none;
         }
 
@@ -457,11 +485,11 @@ export default function CategoryView({
           font-size: 11px;
           line-height: 1.18;
           font-weight: 700;
-          color: #fff;
+          color: #3F332D;
           letter-spacing: 0.04em;
           text-transform: uppercase;
           text-align: center;
-          text-shadow: 0 1px 8px rgba(0,0,0,0.48);
+          text-shadow: 0 1px 10px rgba(255,255,255,0.72);
         }
 
         .boj-subcategory-card:hover img {
@@ -785,6 +813,8 @@ export default function CategoryView({
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip {
+          position: relative;
+          overflow: hidden;
           height: 37px;
           display: flex !important;
           align-items: center;
@@ -801,7 +831,17 @@ export default function CategoryView({
           letter-spacing: 0 !important;
           text-transform: none !important;
           line-height: 1 !important;
-          transition: background 0.25s ease !important;
+          transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease !important;
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-price-strip::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.0) 34%, rgba(255,255,255,0.72) 48%, rgba(255,255,255,0.0) 62%, transparent 100%);
+          transform: translateX(-120%);
+          transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+          pointer-events: none;
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip.boj-strip-sale {
@@ -823,7 +863,12 @@ export default function CategoryView({
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip:hover {
-          background: #3F332D !important;
+          background: linear-gradient(135deg, #EAF4E3 0%, #D6EBCB 48%, #F4FAEF 100%) !important;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 10px 24px -20px rgba(92, 115, 80, 0.75);
+        }
+
+        .boj-product-grid .product-card--boj-category .boj-price-strip:hover::after {
+          transform: translateX(120%);
         }
 
         .boj-product-grid .product-card--boj-category .boj-current {
@@ -839,11 +884,11 @@ export default function CategoryView({
 
         .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-current,
         .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-save {
-          color: #fff;
+          color: #2f4128;
         }
 
         .boj-product-grid .product-card--boj-category .boj-price-strip:hover .boj-old {
-          color: rgba(255, 255, 255, 0.6);
+          color: rgba(47, 65, 40, 0.48);
         }
 
         @media (min-width: 1400px) {

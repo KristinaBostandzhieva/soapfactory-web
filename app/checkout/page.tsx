@@ -28,12 +28,19 @@ export default function CheckoutPage() {
         breadcrumbs={[{ label: 'Начало', href: '/' }, { label: 'Количка' }]}
       />
 
-      <div className="max-w-full mx-auto px-[15px] py-12">
+      <div className="cart-page max-w-[1400px] mx-auto px-[15px] py-12">
         {items.length === 0 ? (
-          <div className="text-center py-20">
-            <ShoppingBag size={56} className="mx-auto mb-4 opacity-20" />
-            <p className="text-[var(--text-body)] mb-6">Количката ви е празна.</p>
-            <Link href="/shop" className="btn-primary inline-block">Към магазина</Link>
+          <div className="sf-empty-state">
+            <div className="sf-empty-art" aria-hidden="true">
+              <ShoppingBag size={38} strokeWidth={1.4} />
+            </div>
+            <p className="sf-empty-kicker">Количка</p>
+            <h2>Количката ти е празна</h2>
+            <p>Добави любим продукт и ще го подготвим за поръчка тук.</p>
+            <div className="sf-empty-actions">
+              <Link href="/shop" className="sf-empty-primary">Към магазина</Link>
+              <Link href="/kategoria/promotsii" className="sf-empty-secondary">Виж промоции</Link>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">

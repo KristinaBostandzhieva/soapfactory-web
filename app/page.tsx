@@ -24,9 +24,9 @@ const fallbackProducts: UiProduct[] = [
 export default async function HomePage() {
   const BESTSELLER_SLUGS = [
     'slanchev-sapun',
-    'coconut-sugar-scrub',
     'happyhair-stimulirasht-shampoan-pri-kosopad',
-    'face-wash-ylang-ylang',
+    'deo-stik-vaniliya-i-laym',
+    'zaharen-eksfoliant-kafe',
   ];
 
   let featured: UiProduct[];

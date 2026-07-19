@@ -68,11 +68,11 @@ export default function CourierSelector({
   }, [courier, deliveryType, point, shipping, valid]);
 
   return (
-    <div>
+    <div className="courier-selector">
       <h3 style={{ fontFamily: hf, fontWeight: 800, fontSize: 18, color: '#333', marginBottom: 16 }}>Доставка</h3>
 
       {/* Courier choice */}
-      <div className="grid grid-cols-3 gap-3 mb-5">
+      <div className="courier-grid grid grid-cols-3 gap-3 mb-5">
         {COURIERS.map((c) => {
           const active = c.id === courier;
           return (
@@ -80,7 +80,7 @@ export default function CourierSelector({
               type="button"
               key={c.id}
               onClick={() => pickCourier(c.id)}
-              className="border rounded-md py-3 px-2 text-center transition-colors"
+              className="courier-card border rounded-md py-3 px-2 text-center transition-colors"
               style={{
                 borderColor: active ? 'var(--primary)' : 'var(--border)',
                 background: active ? 'rgba(155, 114, 199,0.05)' : '#fff',
@@ -96,7 +96,7 @@ export default function CourierSelector({
       </div>
 
       {/* Delivery method */}
-      <div className="flex flex-wrap gap-4 mb-4">
+      <div className="courier-methods flex flex-wrap gap-4 mb-4">
         {def.methods.map((m) => (
           <label key={m} className="flex items-center gap-2 text-[14px] cursor-pointer">
             <input
