@@ -96,39 +96,38 @@ export default function Navbar() {
   // Featured image tiles shown on the right side of the mega menu, per category
   const megaFeatures: Record<string, { img: string; label: string; href: string }[]> = {
     '/kategoria/grizha-za-tialoto': [
-      { img: '/images/cat-tialo.jpeg', label: tr.nav.bodycare, href: '/kategoria/grizha-za-tialoto' },
-      { img: '/images/promo-soaps.png', label: tr.nav.biosoaps, href: '/kategoria/bio-sapuni' },
+      { img: '/images/banner-body-care-menu.png', label: tr.nav.deosticks, href: '/kategoria/deo-stikove' },
+      { img: '/images/banner-body-care-menu-2.png', label: tr.nav.biosoaps, href: '/kategoria/bio-sapuni' },
     ],
     '/kategoria/grizha-za-litseto': [
-      { img: '/images/cat-litse.jpeg', label: tr.nav.facecare, href: '/kategoria/grizha-za-litseto' },
-      { img: '/images/hero2/grizha-litseto.png', label: tr.nav.lipbalms, href: '/kategoria/bio-balsami-za-ustni' },
+      { img: '/images/banner-face-2.png', label: lang === 'bg' ? 'Почистващи' : 'Cleansers', href: '/kategoria/pochistvashti-grizha-za-litseto' },
+      { img: '/images/velvet-menu-banner.png', label: 'Серия Velvet', href: '/kategoria/seria-velvet' },
     ],
     '/kategoria/grizha-za-kosata': [
-      { img: '/images/cat-kosa.jpeg', label: tr.nav.haircare, href: '/kategoria/grizha-za-kosata' },
-      { img: '/images/shampoo-promo.png', label: tr.nav.shampoobar, href: '/kategoria/shampoanovi-blokcheta' },
+      { img: '/images/banner-hair-1.png', label: tr.nav.shampoos, href: '/kategoria/shampoani' },
+      { img: '/images/banner-hairmenu-2.png', label: tr.nav.shampoobar, href: '/kategoria/shampoanovi-blokcheta' },
     ],
   };
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // Candy orbs follow the cursor while it's over the header — each orb chases
-  // with its own strength, eased with a lerp so the motion feels liquid.
   const headerRef = useRef<HTMLElement>(null);
+  // Sun orbs: at rest they gather at their base positions (clustered behind the
+  // centered logo). While the cursor is over the header they glide out and take
+  // up a loose ring around it, then drift back into a sun when it leaves.
   useEffect(() => {
     const header = headerRef.current;
     if (!header) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const orbs = Array.from(header.querySelectorAll<HTMLElement>('.header-orb'));
     if (!orbs.length) return;
-    // Orbs drift over unhurriedly and take up positions AROUND the cursor
-    // (each has its own spot in a loose ring), still wiggling as they go.
     const ringSpot = [
-      { x: -85, y: -14 },
-      { x: 70, y: -30 },
-      { x: -25, y: 42 },
-      { x: 95, y: 26 },
+      { x: -95, y: -6 },
+      { x: 92, y: 10 },
+      { x: -30, y: -22 },
+      { x: 44, y: 26 },
     ];
-    const ease = [0.045, 0.03, 0.055, 0.025];
+    const ease = [0.05, 0.04, 0.06, 0.045];
     const base = orbs.map((o) => ({ x: o.offsetLeft + o.offsetWidth / 2, y: o.offsetTop + o.offsetHeight / 2 }));
     const cur = orbs.map(() => ({ x: 0, y: 0 }));
     let mx = 0, my = 0, hover = false, raf = 0;
@@ -161,54 +160,6 @@ export default function Navbar() {
       cancelAnimationFrame(raf);
     };
   }, []);
-
-  // Same orb behaviour inside the mega menu panel — wired on every open,
-  // since the panel unmounts when it closes.
-  useEffect(() => {
-    if (!openDropdown) return;
-    const panel = document.querySelector<HTMLElement>('.mega-panel');
-    if (!panel) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const orbs = Array.from(panel.querySelectorAll<HTMLElement>('.header-orb'));
-    if (!orbs.length) return;
-    const ringSpot = [
-      { x: -80, y: -22 },
-      { x: 70, y: 34 },
-      { x: -28, y: 58 },
-    ];
-    const ease = [0.05, 0.032, 0.06];
-    const base = orbs.map((o) => ({ x: o.offsetLeft + o.offsetWidth / 2, y: o.offsetTop + o.offsetHeight / 2 }));
-    const cur = orbs.map(() => ({ x: 0, y: 0 }));
-    let mx = 0, my = 0, hover = false, raf = 0;
-    const onMove = (e: MouseEvent) => {
-      const r = panel.getBoundingClientRect();
-      mx = e.clientX - r.left;
-      my = e.clientY - r.top;
-      hover = true;
-    };
-    const onLeave = () => { hover = false; };
-    const tick = () => {
-      orbs.forEach((o, i) => {
-        const spot = ringSpot[i % ringSpot.length];
-        const gx = hover ? mx + spot.x - base[i].x : 0;
-        const gy = hover ? my + spot.y - base[i].y : 0;
-        const k = ease[i % ease.length];
-        cur[i].x += (gx - cur[i].x) * k;
-        cur[i].y += (gy - cur[i].y) * k;
-        o.style.setProperty('--mx', `${cur[i].x.toFixed(1)}px`);
-        o.style.setProperty('--my', `${cur[i].y.toFixed(1)}px`);
-      });
-      raf = requestAnimationFrame(tick);
-    };
-    panel.addEventListener('mousemove', onMove);
-    panel.addEventListener('mouseleave', onLeave);
-    raf = requestAnimationFrame(tick);
-    return () => {
-      panel.removeEventListener('mousemove', onMove);
-      panel.removeEventListener('mouseleave', onLeave);
-      cancelAnimationFrame(raf);
-    };
-  }, [openDropdown]);
   const count = mounted ? totalItems() : 0;
   const favItems = useFavoritesStore((s) => s.items);
   const favCount = mounted ? favItems.length : 0;
@@ -268,6 +219,8 @@ export default function Navbar() {
     </div>
   );
 
+  const menuOpen = Boolean(openDropdown) && !menuClosing;
+
   return (
   <>
     <header ref={headerRef} style={{
@@ -275,14 +228,20 @@ export default function Navbar() {
       background: 'rgba(253, 251, 247, 0.94)',
       backdropFilter: 'blur(14px) saturate(1.3)',
       WebkitBackdropFilter: 'blur(14px) saturate(1.3)',
-      borderBottom: '1px solid rgba(63, 51, 45, 0.10)',
+      borderBottom: `1px solid ${menuOpen ? 'rgba(63, 51, 45, 0)' : 'rgba(63, 51, 45, 0.10)'}`,
+      transition: 'border-color 0.4s ease',
     }}>
-      {/* Drifting candy orbs — decorative, desktop only, behind the content */}
-      <div className="header-orbs" aria-hidden="true">
-        <span className="header-orb" style={{ width: 170, height: 170, left: '6%', top: -60, background: 'radial-gradient(circle, rgba(244, 178, 197, 0.75) 0%, rgba(244, 178, 197, 0) 70%)', animationDuration: '4.5s' }} />
-        <span className="header-orb" style={{ width: 200, height: 200, left: '36%', top: -80, background: 'radial-gradient(circle, rgba(178, 214, 165, 0.7) 0%, rgba(178, 214, 165, 0) 70%)', animationDuration: '6s', animationDirection: 'reverse' }} />
-        <span className="header-orb" style={{ width: 150, height: 150, right: '22%', top: -40, background: 'radial-gradient(circle, rgba(247, 222, 158, 0.65) 0%, rgba(247, 222, 158, 0) 70%)', animationDuration: '5s', animationDelay: '-2s' }} />
-        <span className="header-orb" style={{ width: 150, height: 150, right: '2%', top: -50, background: 'radial-gradient(circle, rgba(211, 194, 233, 0.7) 0%, rgba(211, 194, 233, 0) 70%)', animationDuration: '7s', animationDirection: 'reverse', animationDelay: '-3s' }} />
+      {/* Colour wash — fades in when a mega menu is open so header + panel
+          merge into one continuous surface */}
+      <div className="header-wash" aria-hidden="true" style={{ opacity: menuOpen ? 1 : 0 }} />
+
+      {/* Sun orbs — warm yellow spheres that rest behind the centered logo and
+          glide out to chase the cursor while it's over the header */}
+      <div className="header-orbs" aria-hidden="true" style={{ opacity: menuOpen ? 0 : 1 }}>
+        <span className="header-orb" style={{ width: 128, height: 128, left: '50%', top: '50%', marginLeft: -64, marginTop: -64, background: 'radial-gradient(circle, rgba(255, 205, 92, 0.55) 0%, rgba(255, 205, 92, 0) 68%)', animationDuration: '7s' }} />
+        <span className="header-orb" style={{ width: 96, height: 96, left: '50%', top: '50%', marginLeft: -74, marginTop: -54, background: 'radial-gradient(circle, rgba(255, 224, 138, 0.5) 0%, rgba(255, 224, 138, 0) 68%)', animationDuration: '8.5s', animationDirection: 'reverse' }} />
+        <span className="header-orb" style={{ width: 92, height: 92, left: '50%', top: '50%', marginLeft: 8, marginTop: -38, background: 'radial-gradient(circle, rgba(255, 190, 74, 0.45) 0%, rgba(255, 190, 74, 0) 68%)', animationDuration: '7.8s', animationDelay: '-2s' }} />
+        <span className="header-orb" style={{ width: 78, height: 78, left: '50%', top: '50%', marginLeft: -22, marginTop: 2, background: 'radial-gradient(circle, rgba(255, 236, 170, 0.5) 0%, rgba(255, 236, 170, 0) 68%)', animationDuration: '9.5s', animationDirection: 'reverse', animationDelay: '-4s' }} />
       </div>
 
       <div className="nav-header-inner" style={{
@@ -422,8 +381,10 @@ export default function Navbar() {
             onMouseLeave={scheduleClose}
             style={{
               position: 'absolute', top: '100%', left: 0, right: 0,
-              background: '#FDFBF7',
-              borderTop: '1px solid rgba(63,51,45,0.07)',
+              background:
+                'radial-gradient(ellipse 45% 90% at 0% 50%, rgba(244, 178, 197, 0.16) 0%, transparent 70%), ' +
+                'radial-gradient(ellipse 40% 85% at 100% 60%, rgba(178, 214, 165, 0.13) 0%, transparent 70%), ' +
+                '#FDFBF7',
               borderBottom: '1px solid rgba(63,51,45,0.09)',
               boxShadow: '0 34px 64px rgba(63,51,45,0.16)',
               zIndex: 99, overflow: 'hidden',
@@ -447,30 +408,45 @@ export default function Navbar() {
               .mega-item { animation: megaItemIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
               .mega-link { color: #554C47; }
               .mega-link:hover { color: #B08D57; padding-left: 6px; }
-              .mega-tile img { transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
-              .mega-tile:hover img { transform: scale(1.06); }
+              .mega-tile { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+              .mega-tile:hover { transform: translateY(-3px); }
+              .mega-tile-frame { box-shadow: 0 10px 30px -18px rgba(63, 51, 45, 0.25); transition: box-shadow 0.4s ease; }
+              .mega-tile:hover .mega-tile-frame { box-shadow: 0 18px 38px -18px rgba(63, 51, 45, 0.34); }
+              /* Mirror shine — a glossy streak sweeps across on hover */
+              .mega-tile-frame::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.4) 48%, rgba(255, 255, 255, 0.15) 52%, transparent 65%);
+                transform: translateX(-130%);
+              }
+              .mega-tile:hover .mega-tile-frame::after {
+                transform: translateX(130%);
+                transition: transform 0.85s cubic-bezier(0.3, 0.6, 0.3, 1);
+              }
+              .mega-tile-arrow { transition: transform 0.3s ease; }
+              .mega-tile:hover .mega-tile-arrow,
+              .mega-viewall:hover .mega-tile-arrow { transform: translateX(5px); }
+              .mega-viewall { transition: color 0.2s ease, border-color 0.2s ease; }
+              .mega-viewall:hover { color: #B08D57 !important; border-bottom-color: #B08D57 !important; }
             `}</style>
-            {/* Candy orbs — same dance + cursor-follow as the header bar */}
-            <div className="mega-orbs" aria-hidden="true">
-              <span className="header-orb" style={{ width: 220, height: 220, left: '10%', top: 30, background: 'radial-gradient(circle, rgba(244, 178, 197, 0.6) 0%, rgba(244, 178, 197, 0) 70%)', animationDuration: '5.5s' }} />
-              <span className="header-orb" style={{ width: 260, height: 260, left: '48%', top: 90, background: 'radial-gradient(circle, rgba(178, 214, 165, 0.55) 0%, rgba(178, 214, 165, 0) 70%)', animationDuration: '6.5s', animationDirection: 'reverse' }} />
-              <span className="header-orb" style={{ width: 200, height: 200, right: '8%', top: 40, background: 'radial-gradient(circle, rgba(211, 194, 233, 0.55) 0%, rgba(211, 194, 233, 0) 70%)', animationDuration: '7.5s', animationDelay: '-3s' }} />
-            </div>
             <div style={{
               maxWidth: 1180, margin: '0 auto',
-              padding: '40px 42px 46px',
+              padding: '36px 42px 32px',
               display: 'flex', gap: 56, alignItems: 'flex-start',
               position: 'relative', zIndex: 1,
             }}>
               {/* Link column */}
-              <div style={{ flex: 1, minWidth: 220 }}>
+              <div style={{ flex: '0 0 250px', paddingRight: 44, borderRight: '1px solid rgba(63, 51, 45, 0.08)' }}>
                 <div className="mega-item" style={{
                   fontSize: 11, fontWeight: 600, letterSpacing: '0.22em',
                   textTransform: 'uppercase', color: '#756B65',
-                  fontFamily: 'var(--font-body)', marginBottom: 18,
+                  fontFamily: 'var(--font-body)',
                   animationDelay: '0.05s',
                 }}>
                   {active.label}
+                  <span aria-hidden="true" style={{ display: 'block', width: 28, height: 2, background: '#B08D57', margin: '10px 0 16px' }} />
                 </div>
                 {active.children.map((child, i) => (
                   <Link key={child.href} href={child.href}
@@ -489,7 +465,7 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <Link href={active.href}
-                  className="mega-item"
+                  className="mega-item mega-viewall"
                   onClick={() => setOpenDropdown(null)}
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -502,7 +478,7 @@ export default function Navbar() {
                     animationDelay: `${0.1 + active.children.length * 0.045}s`,
                   }}>
                   {lang === 'bg' ? 'Виж всички' : 'View all'}
-                  <ArrowRight size={14} strokeWidth={1.6} />
+                  <ArrowRight size={14} strokeWidth={1.6} className="mega-tile-arrow" />
                 </Link>
               </div>
 
@@ -512,11 +488,11 @@ export default function Navbar() {
                   className="mega-item mega-tile"
                   onClick={() => setOpenDropdown(null)}
                   style={{
-                    display: 'block', width: 340, flexShrink: 0,
+                    display: 'block', width: 385, flexShrink: 0,
                     textDecoration: 'none',
                     animationDelay: `${0.14 + i * 0.08}s`,
                   }}>
-                  <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 3, aspectRatio: '4 / 3', background: '#EFE9E1' }}>
+                  <div className="mega-tile-frame" style={{ position: 'relative', overflow: 'hidden', borderRadius: 10, aspectRatio: '4 / 3', background: '#EFE9E1' }}>
                     <img src={f.img} alt={f.label}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                     <div style={{
@@ -535,11 +511,29 @@ export default function Navbar() {
                       }}>
                         {f.label}
                       </span>
-                      <ArrowRight size={15} strokeWidth={1.6} style={{ color: '#FDFBF7', flexShrink: 0 }} />
+                      <ArrowRight size={15} strokeWidth={1.6} className="mega-tile-arrow" style={{ color: '#FDFBF7', flexShrink: 0 }} />
                     </div>
                   </div>
                 </Link>
               ))}
+            </div>
+
+            {/* Bottom trust strip — anchored footer band of the panel */}
+            <div className="mega-item" style={{
+              position: 'relative', zIndex: 1,
+              borderTop: '1px solid rgba(63, 51, 45, 0.06)',
+              background: 'rgba(63, 51, 45, 0.025)',
+              padding: '11px 42px',
+              textAlign: 'center',
+              fontFamily: 'var(--font-body)',
+              fontSize: 10, fontWeight: 600,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: '#A89A90',
+              animationDelay: '0.3s',
+            }}>
+              {lang === 'bg'
+                ? 'Безплатна доставка над 35 € · 100% натурална козметика · Ръчно изработено в България'
+                : 'Free shipping over €35 · 100% natural cosmetics · Handmade in Bulgaria'}
             </div>
           </div>
         );

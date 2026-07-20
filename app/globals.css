@@ -326,9 +326,8 @@ h1, h2, h3, h4, h5, h6 {
   .hero-grid::after { animation: none; }
 }
 
-/* Header candy orbs — soft drifting color spheres behind the desktop header.
-   They live in their own clipped layer so the mega menu (also a header child)
-   is never clipped. */
+/* Header candy orbs — playful drifting spheres, desktop only. They fade out
+   while a mega menu is open (the wash takes over) and return when it closes. */
 .header-orbs {
   position: absolute;
   inset: 0;
@@ -336,35 +335,41 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   z-index: 0;
   display: none;
+  transition: opacity 0.4s ease;
 }
 @media (min-width: 901px) {
   .header-orbs { display: block; }
 }
-/* Orb layer inside the mega menu panel (desktop-only by construction) */
-.mega-orbs {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
 .header-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(18px);
-  animation: headerOrbDrift 18s ease-in-out infinite;
-  /* --mx / --my are set per-frame by the cursor-follow parallax in Navbar */
+  filter: blur(16px);
+  /* Position is driven per-frame by JS (--mx/--my): 0 at rest so orbs stay
+     clustered behind the logo, offset toward the cursor on hover. */
+  translate: var(--mx, 0px) var(--my, 0px);
+  /* Gentle breathing so the resting sun shimmers instead of sitting flat. */
+  animation: headerOrbPulse 6s ease-in-out infinite;
 }
-@keyframes headerOrbDrift {
-  0%   { transform: translate(var(--mx, 0px), var(--my, 0px)) scale(1); }
-  20%  { transform: translate(calc(var(--mx, 0px) + 34px), calc(var(--my, 0px) + 18px)) scale(1.22); }
-  40%  { transform: translate(calc(var(--mx, 0px) - 22px), calc(var(--my, 0px) - 16px)) scale(0.88); }
-  60%  { transform: translate(calc(var(--mx, 0px) + 26px), calc(var(--my, 0px) - 20px)) scale(1.14); }
-  80%  { transform: translate(calc(var(--mx, 0px) - 30px), calc(var(--my, 0px) + 14px)) scale(0.94); }
-  100% { transform: translate(var(--mx, 0px), var(--my, 0px)) scale(1); }
+@keyframes headerOrbPulse {
+  0%, 100% { scale: 1; }
+  50%      { scale: 1.12; }
 }
 @media (prefers-reduced-motion: reduce) {
   .header-orb { animation: none; }
+}
+
+/* Header colour wash — mirrors the mega menu panel's pink/green tint and is
+   anchored to the header's bottom edge, so when it fades in the header looks
+   like the top of the open panel. */
+.header-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.45s ease;
+  background:
+    radial-gradient(ellipse 45% 170% at 0% 100%, rgba(244, 178, 197, 0.26) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 160% at 100% 100%, rgba(178, 214, 165, 0.2) 0%, transparent 70%);
 }
 
 /* Section title */

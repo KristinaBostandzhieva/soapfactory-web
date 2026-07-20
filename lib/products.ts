@@ -19,18 +19,18 @@ export interface Category {
 }
 
 export const categories: Category[] = [
-  { slug: 'grizha-za-tialoto', title: 'Грижа за тялото', image: '/images/cat-tialo.jpeg' },
+  { slug: 'grizha-za-tialoto', title: 'Грижа за тялото', image: '/images/cat-ytalo.png' },
   { slug: 'bio-sapuni', title: 'Био сапуни', parent: 'grizha-za-tialoto' },
   { slug: 'bio-dush-gelove', title: 'Био душ гелове', parent: 'grizha-za-tialoto' },
   { slug: 'deo-stikove', title: 'Део стикове', parent: 'grizha-za-tialoto' },
   { slug: 'zaharni-eksfolianti', title: 'Ексфолианти', parent: 'grizha-za-tialoto' },
   { slug: 'losioni-i-masla', title: 'Лосиони и масла', parent: 'grizha-za-tialoto' },
-  { slug: 'grizha-za-litseto', title: 'Грижа за лицето', image: '/images/cat-litse.jpeg' },
+  { slug: 'grizha-za-litseto', title: 'Грижа за лицето', image: '/images/cat-litse.png' },
   { slug: 'bio-balsami-za-ustni', title: 'Био балсами за устни', parent: 'grizha-za-litseto' },
   { slug: 'kremove', title: 'Кремове', parent: 'grizha-za-litseto' },
   { slug: 'pochistvashti', title: 'Почистващи', parent: 'grizha-za-litseto' },
   { slug: 'velvet', title: 'Серия Velvet', parent: 'grizha-za-litseto' },
-  { slug: 'grizha-za-kosata', title: 'Грижа за косата', image: '/images/cat-kosa.jpeg' },
+  { slug: 'grizha-za-kosata', title: 'Грижа за косата', image: '/images/cat-hair.png' },
   { slug: 'shampoane', title: 'Шампоани', parent: 'grizha-za-kosata' },
   { slug: 'shampoanovi-blokcheta', title: 'Шампоанови блокчета', parent: 'grizha-za-kosata' },
   { slug: 'promotsii', title: 'Промоции' },
@@ -64,7 +64,7 @@ export const products: Product[] = [
   { id: 'd3', name: 'Дeo стик – лайм и бергамот', price: 7.99, slug: 'deo-laim-bergamot', image: '/images/soap5.jpg', category: 'grizha-za-tialoto', subcategory: 'deo-stikove' },
   { id: 'd4', name: 'Дeo стик – Ванилия и лайм', price: 7.99, slug: 'deo-vanilia-laim', category: 'grizha-za-tialoto', subcategory: 'deo-stikove' },
   // face
-  { id: 'f1', name: 'Балсам за устни – Портокал и канела', price: 4.99, slug: 'balsam-portokal', image: '/images/cat-litse.jpeg', category: 'grizha-za-litseto', subcategory: 'bio-balsami-za-ustni' },
+  { id: 'f1', name: 'Балсам за устни – Портокал и канела', price: 4.99, slug: 'balsam-portokal', image: '/images/cat-litse.png', category: 'grizha-za-litseto', subcategory: 'bio-balsami-za-ustni' },
   { id: 'f2', name: 'Bakuchiol Anti-Ageing крем', price: 24.99, slug: 'bakuchiol-krem', image: '/images/velvet.jpeg', category: 'grizha-za-litseto', subcategory: 'velvet', promo: true },
   { id: 'f3', name: 'Хидратиращ крем за лице', price: 19.99, slug: 'hidratirasht-krem', category: 'grizha-za-litseto', subcategory: 'kremove' },
   { id: 'f4', name: 'Почистващ гел за лице', price: 14.99, slug: 'pochistvasht-gel', category: 'grizha-za-litseto', subcategory: 'pochistvashti' },

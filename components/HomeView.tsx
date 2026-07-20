@@ -30,8 +30,8 @@ const TRUST_ICONS = [
 
 const CAT_IMGS = ['/images/cat-litse.png', '/images/cat-ytalo.png', '/images/cat-hair.png'];
 const CAT_FACE_IMGS = ['/images/cat-litse.png', '/images/cat-litse-2.png', '/images/cat-litse-3.png', '/images/cat-litse-4.png'];
-const CAT_BODY_IMGS = ['/images/cat-ytalo.png', '/images/cat-tyalo-2.png', '/images/cat-tyalo-3.png', '/images/cat-tyalo-4.png', '/images/cat-tyalo-5.png'];
-const CAT_HAIR_IMGS = ['/images/cat-hair.png', '/images/cat-hair-3.png', '/images/cat-hair-4.png'];
+const CAT_BODY_IMGS = ['/images/cat-ytalo.png', '/images/cat-tyalo-2.png', '/images/cat-tyalo-3.png', '/images/cat-tyalo-4.png'];
+const CAT_HAIR_IMGS = ['/images/cat-hair.png', '/images/cat-hair-3.png'];
 const CAT_HREFS = ['/kategoria/grizha-za-litseto', '/kategoria/grizha-za-tialoto', '/kategoria/grizha-za-kosata'];
 const FEATURE_ICONS = ['/images/icon-plant.png', '/images/icon-quality.png', '/images/icon-leaf.png', '/images/icon-wheat.png'];
 const PARTNERS = [
