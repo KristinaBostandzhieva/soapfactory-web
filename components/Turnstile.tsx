@@ -79,5 +79,5 @@ export default function Turnstile({
   }, []);
 
   if (!SITE_KEY) return null;
-  return <div ref={ref} className="my-4 flex justify-center" />;
+  return <div ref={ref} className="turnstile-wrap my-4 flex justify-center" />;
 }

@@ -101,7 +101,7 @@ export default function HomeView({
   ];
 
   return (
-    <div>
+    <div className="home-page">
       {/* ═══ HERO ═══ */}
       <section style={{ maxWidth: '100%', margin: '0 auto', padding: '20px 15px 0', display: 'grid', gridTemplateColumns: '2.35fr 0.92fr', minHeight: 640, gap: 30, position: 'relative' }} className="hero-grid">
         <HeroCarousel />
@@ -199,7 +199,7 @@ export default function HomeView({
           <button type="button" className="cat-slider-arrow right" onClick={() => scrollCats(1)} aria-label="Следваща категория">›</button>
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: 36, fontFamily: fb, fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.04em' }}>{tr.home.catTrustLine}</p>
+        <p className="cat-trust-line" style={{ textAlign: 'center', marginTop: 36, fontFamily: fb, fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.04em' }}>{tr.home.catTrustLine}</p>
       </section>
 
       {/* merged into HomeMegaCarousel above */}
@@ -272,14 +272,18 @@ export default function HomeView({
       </section>
 
       {/* ═══ БИО САПУНИ ═══ */}
-      <ProductSection title={tr.home.sectionBioSoaps} viewAllHref="/kategoria/bio-sapuni" products={bioSoaps} />
+      <div className="home-mobile-hidden-product-section">
+        <ProductSection title={tr.home.sectionBioSoaps} viewAllHref="/kategoria/bio-sapuni" products={bioSoaps} />
+      </div>
 
       {/* ═══ ЕКСФОЛИАНТИ ═══ */}
-      <ProductSection title={tr.nav.scrubs} viewAllHref="/kategoria/zaharni-eksfolianti" products={scrubs.slice(0, 3)} columns={3} />
+      <div className="home-mobile-hidden-product-section">
+        <ProductSection title={tr.nav.scrubs} viewAllHref="/kategoria/zaharni-eksfolianti" products={scrubs.slice(0, 3)} columns={3} />
+      </div>
 
       {/* ═══ PARTNERS ═══ */}
-      <section className="section-pad">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="section-pad home-partners-section">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center home-partners-panel">
           <div>
             <p style={{ fontFamily: fb, fontWeight: 600, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: 8 }}>{tr.home.partnersSub}</p>
             <h2 style={{ fontFamily: fd, fontWeight: 500, fontSize: 'clamp(24px, 2vw, 30px)', color: 'var(--text-heading)', lineHeight: 1.15, marginBottom: 18 }}>{tr.home.partnersTitle}</h2>
@@ -307,19 +311,19 @@ export default function HomeView({
       </section>
 
       {/* ═══ BLOG ═══ */}
-      <section className="section-pad" style={{ paddingTop: 0 }}>
+      <section className="section-pad home-blog-section" style={{ paddingTop: 0 }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="title-row" style={{ justifyContent: 'flex-end', marginBottom: 14 }}>
+          <div className="title-row home-blog-top" style={{ justifyContent: 'flex-end', marginBottom: 14 }}>
             <Link href="/polezno" className="btn-primary">{tr.home.viewAll}</Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 home-blog-grid">
             {recentPosts.slice(0, 2).map((post) => (
-              <Link key={post.id} href={`/polezno/${post.slug}`} className="group">
-                <div className="bg-[var(--bg-light)] mb-3 overflow-hidden" style={{ aspectRatio: '4/3', borderRadius: 0 }}>
+              <Link key={post.id} href={`/polezno/${post.slug}`} className="group home-blog-card">
+                <div className="bg-[var(--bg-light)] mb-3 overflow-hidden home-blog-media" style={{ aspectRatio: '4/3', borderRadius: 0 }}>
                   {post.coverImage && <img src={post.coverImage} alt={post.title} className="product-img w-full h-full object-cover" style={{ borderRadius: 0 }} />}
                 </div>
-                <h4 style={{ fontFamily: fb, fontWeight: 600, fontSize: 14, color: '#111' }} className="group-hover:!text-[#9B72C7] transition-colors mb-2">{post.title}</h4>
-                <span style={{ fontFamily: fb, fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#111', textDecoration: 'underline', textUnderlineOffset: 3 }}>{tr.home.blogReadMore}</span>
+                <h4 style={{ fontFamily: fb, fontWeight: 600, fontSize: 14, color: '#111' }} className="group-hover:!text-[#9B72C7] transition-colors mb-2 home-blog-title">{post.title}</h4>
+                <span className="home-blog-read" style={{ fontFamily: fb, fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#111', textDecoration: 'underline', textUnderlineOffset: 3 }}>{tr.home.blogReadMore}</span>
               </Link>
             ))}
           </div>

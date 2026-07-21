@@ -22,7 +22,7 @@ export default function BlogPostView({
   const displayContent = en && contentEn ? contentEn : content;
 
   return (
-    <div>
+    <div className="blog-post-page">
       <PageHeader
         title={displayTitle}
         breadcrumbs={[
@@ -33,15 +33,15 @@ export default function BlogPostView({
         subtitle={new Date(publishedAt).toLocaleDateString(en ? 'en-GB' : 'bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}
       />
 
-      <article className="max-w-[820px] mx-auto px-[15px] py-10">
+      <article className="blog-post-article max-w-[820px] mx-auto px-[15px] py-10">
         {coverImage && (
-          <img src={coverImage} alt={displayTitle} className="w-full rounded-lg mb-8 object-cover" style={{ maxHeight: 460 }} />
+          <img src={coverImage} alt={displayTitle} className="blog-post-cover w-full rounded-lg mb-8 object-cover" style={{ maxHeight: 460 }} />
         )}
 
-        <div className="blog-content" dangerouslySetInnerHTML={{ __html: displayContent }} />
+        <div className="blog-post-content blog-content" dangerouslySetInnerHTML={{ __html: displayContent }} />
 
-        <div className="mt-10 pt-6 border-t border-[var(--border)]">
-          <Link href="/polezno" className="text-[14px] text-[var(--primary)] font-semibold hover:underline">
+        <div className="blog-post-footer mt-10 pt-6 border-t border-[var(--border)]">
+          <Link href="/polezno" className="blog-post-back text-[14px] text-[var(--primary)] font-semibold hover:underline">
             {en ? '← All posts' : '← Всички статии'}
           </Link>
         </div>

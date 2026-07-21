@@ -255,7 +255,7 @@ export default function ProductCard({
           ) : (
             <>
               <span className="btn-text-full">{tr.cart.add}</span>
-              <span className="btn-text-mobile"><span>ДОБАВИ</span><span>{eur(product.price)} лв.</span></span>
+              <span className="btn-text-mobile"><span>ДОБАВИ</span><span>{eur(product.price)} €</span></span>
             </>
           )}
         </button>

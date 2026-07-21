@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useT } from '@/hooks/useT';
+import { useLanguageStore } from '@/store/languageStore';
 
 const SLIDE_STATIC: { image: string; href: string; side?: 'left' | 'right'; bgPos: string }[] = [
   { image: '/images/hero-carousel-1st.png', href: '/kategoria/bio-sapuni', side: 'left', bgPos: 'center' },
@@ -13,8 +14,86 @@ const SLIDE_STATIC: { image: string; href: string; side?: 'left' | 'right'; bgPo
   { image: '/images/carouse;-4.png', href: '/kategoria/grizha-za-litseto', bgPos: 'center' },
 ];
 
+// Each container is set to the photo's own exact pixel aspect ratio, so
+// object-fit: cover fills it with ZERO crop and ZERO letterbox gaps — the
+// whole picture, edge-to-edge, no framing box.
+const MOBILE_SLIDES: {
+  image: string; href: string; bg: string; ratio: string;
+  title: { bg: string; en: string }; text: { bg: string; en: string };
+  showCta: boolean;
+  minimal?: boolean;
+  focalX?: string;
+  focalY?: string;
+  titleAsLink?: boolean;
+  subtitleOnly?: boolean;
+  zoom?: number;
+}[] = [
+  {
+    image: '/images/mobile-version/bakuchiol-cream-hero2.png',
+    href: '/kategoria/grizha-za-litseto',
+    bg: '#ede7ec',
+    ratio: '1024 / 1536',
+    title: { bg: 'Bakuchiol Крем', en: 'Bakuchiol Cream' },
+    text: { bg: 'Anti-age грижа с лифтинг ефект', en: 'Anti-ageing care with lifting power' },
+    showCta: false,
+    titleAsLink: true,
+  },
+  {
+    image: '/images/happy-face-promo.png',
+    href: '/kategoria/grizha-za-litseto',
+    bg: '#e9ede8',
+    ratio: '1024 / 1536',
+    title: { bg: 'Happy Face Пяна', en: 'Happy Face Foam' },
+    text: { bg: 'Почистваща пяна с AHA комплекс и алое вера', en: 'Cleansing foam with AHA complex & aloe vera' },
+    showCta: true,
+  },
+  {
+    image: '/images/mobile-version/happy-skin-cleanser-hero2.png',
+    href: '/kategoria/grizha-za-litseto',
+    bg: '#e9ede8',
+    ratio: '1024 / 1536',
+    title: { bg: 'Happy Face Пяна', en: 'Happy Face Foam' },
+    text: { bg: 'Почистваща пяна с AHA комплекс и алое вера', en: 'Cleansing foam with AHA complex & aloe vera' },
+    showCta: false,
+    subtitleOnly: true,
+    zoom: 1,
+  },
+  {
+    image: '/images/mobile-version/mobile-herp-happyskin-blue2.png',
+    href: '/kategoria/grizha-za-litseto',
+    bg: '#eef0f2',
+    ratio: '1024 / 1536',
+    title: { bg: 'Happy Face — Проблемна кожа', en: 'Happy Face — Problem Skin' },
+    text: { bg: 'Нежно почистване за сияйна кожа', en: 'Gentle cleansing for radiant skin' },
+    showCta: true,
+  },
+  {
+    image: '/images/mobile-version/bilkov-mobile-hero3.png',
+    href: '/kategoria/bio-sapuni',
+    bg: '#f2efe8',
+    ratio: '1024 / 1536',
+    title: { bg: 'Билкова Серия', en: 'Herbal Collection' },
+    text: { bg: '100% натурални съставки, ръчно изработени', en: '100% natural ingredients, handcrafted' },
+    showCta: true,
+    focalX: '30%',
+    minimal: true,
+  },
+  {
+    image: '/images/mobile-version/slunchev-mobile-hero2.png',
+    href: '/produkt/slanchev-sapun',
+    bg: '#f4efe5',
+    ratio: '1024 / 1536',
+    title: { bg: 'Слънчева Серия', en: 'Sunny Collection' },
+    text: { bg: 'Топлина и свежест с цитрусови масла', en: 'Warmth & freshness with citrus oils' },
+    showCta: true,
+    minimal: true,
+    focalY: '20%',
+  },
+];
+
 export default function HeroCarousel() {
   const tr = useT();
+  const lang = useLanguageStore((s) => s.lang);
   const slides = [
     { ...SLIDE_STATIC[0], title: tr.hero.title1, text: tr.hero.text1, cta: tr.hero.cta1 },
     { ...SLIDE_STATIC[1], title: tr.hero.title2, text: tr.hero.text2, cta: tr.hero.cta2 },
@@ -25,19 +104,26 @@ export default function HeroCarousel() {
   ];
 
   const [active, setActive] = useState(0);
+  const [mobileActive, setMobileActive] = useState(0);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const mobileTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startTimer = () => {
     timer.current = setInterval(() => setActive((i) => (i + 1) % slides.length), 6000);
+    mobileTimer.current = setInterval(() => setMobileActive((i) => (i + 1) % MOBILE_SLIDES.length), 5000);
   };
 
   useEffect(() => {
     startTimer();
-    return () => { if (timer.current) clearInterval(timer.current); };
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+      if (mobileTimer.current) clearInterval(mobileTimer.current);
+    };
   }, []);
 
   const restart = () => {
     if (timer.current) clearInterval(timer.current);
+    if (mobileTimer.current) clearInterval(mobileTimer.current);
     startTimer();
   };
 
@@ -55,137 +141,149 @@ export default function HeroCarousel() {
           to { transform: scaleX(1); }
         }
 
-        /* ── Mobile: BoJ split layout ── */
+        /* ── Mobile: BoJ clean product hero ── */
+        .hc-mobile-hero { display: none; }
         @media (max-width: 900px) {
           .hero-carousel-wrap {
-            display: flex !important;
-            flex-direction: column !important;
             height: auto !important;
             min-height: 0 !important;
-            overflow: hidden !important;
-            border-radius: 14px !important;
-            isolation: isolate;
-            background: #fff;
+            overflow: visible !important;
+            border-radius: 0 !important;
+            background: transparent !important;
           }
           .hero-carousel-wrap::before,
-          .hero-carousel-wrap::after {
-            content: '';
-            position: absolute;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(18px);
-            opacity: 0.72;
-          }
-          .hero-carousel-wrap::before {
-            left: -18%;
-            bottom: -16%;
-            width: 62%;
-            height: 42%;
-            background:
-              radial-gradient(ellipse at 20% 70%, rgba(198, 229, 190, 0.76) 0%, rgba(198, 229, 190, 0.42) 38%, transparent 72%),
-              radial-gradient(ellipse at 78% 26%, rgba(255, 211, 220, 0.55) 0%, transparent 64%);
-          }
-          .hero-carousel-wrap::after {
-            right: -20%;
-            bottom: -18%;
-            width: 68%;
-            height: 46%;
-            background:
-              radial-gradient(ellipse at 76% 76%, rgba(255, 205, 219, 0.78) 0%, rgba(255, 205, 219, 0.4) 36%, transparent 72%),
-              radial-gradient(ellipse at 28% 28%, rgba(234, 223, 166, 0.56) 0%, transparent 66%);
-          }
-          .hc-img-wrap {
-            position: relative !important;
-            inset: auto !important;
-            height: 54vw;
-            max-height: 260px;
-            flex-shrink: 0;
-            overflow: hidden;
-            border-radius: 14px 14px 0 0;
-            z-index: 1;
-          }
-          /* hide desktop text overlay on mobile */
+          .hero-carousel-wrap::after { display: none; }
+          .hc-img-wrap { display: none !important; }
           .hero-carousel-content { display: none !important; }
           .hero-carousel-dots { display: none !important; }
-          /* white vignette on mobile instead of dark brown */
-          .hc-img-overlay { background: linear-gradient(to bottom, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.55) 100%) !important; }
+          .hc-mobile-panel { display: none !important; }
 
-          /* mobile text panel */
-          .hc-mobile-panel {
+          .hc-mobile-hero {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            aspect-ratio: 1024 / 1700;
+          }
+
+          /* Every slide sits absolutely inside the fixed-height container
+             above, so height is identical across slides regardless of each
+             photo's own pixel dimensions — no more per-slide height jumps. */
+          .hcm-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+          }
+          .hcm-slide.is-active {
+            opacity: 1;
+            pointer-events: auto;
+          }
+
+          /* Fills the fixed-height container edge-to-edge, centered both
+             ways, with zero crop bias to one side. */
+          .hcm-photo {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.22);
+            filter: saturate(1.12) contrast(1.06) brightness(1.02);
+          }
+
+          /* Soft dissolve into the page background instead of a hard cut
+             at the card's bottom edge. */
+          .hcm-bottom-fade {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 70px;
+            background: linear-gradient(to bottom, rgba(251,248,243,0) 0%, #fbf8f3 88%);
+            pointer-events: none;
+            z-index: 1;
+          }
+
+          .hcm-text {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            background:
-              radial-gradient(ellipse at 10% 110%, rgba(255,130,165,0.55) 0%, transparent 58%),
-              radial-gradient(ellipse at 90% 110%, rgba(120,210,150,0.50) 0%, transparent 58%),
-              #fff;
-            padding: 14px 18px 16px;
-            border-radius: 0 0 14px 14px;
-            position: relative;
-            z-index: 1;
+            padding: 18px 28px 22px;
           }
-          .hc-slide-title {
+          .hcm-title {
             font-family: var(--font-display), Georgia, serif;
-            font-size: 17px;
-            font-weight: 600;
-            font-style: italic;
+            font-size: clamp(26px, 7.5vw, 34px);
+            font-weight: 400;
+            font-style: normal;
             color: #2a1a10;
-            margin: 0 0 5px;
-            line-height: 1.25;
+            margin: 0 0 8px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
           }
-          .hc-slide-text {
+          .hcm-subtitle {
+            font-family: var(--font-body);
+            font-size: 13.5px;
+            color: #7a6f69;
+            margin: 0 0 18px;
+            line-height: 1.5;
+            max-width: 260px;
+          }
+          .hcm-text-nocta .hcm-subtitle {
+            margin-bottom: 0;
+          }
+          .hcm-title-link {
+            text-decoration: none;
+            cursor: pointer;
+          }
+          .hcm-cta {
+            display: inline-block;
+            border: 1.5px solid #2a1a10;
+            border-radius: 0;
+            padding: 12px 32px;
             font-family: var(--font-body);
             font-size: 11px;
-            color: #888;
-            margin: 0 0 10px;
-            line-height: 1.5;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-          }
-          .hc-slide-btn {
-            display: inline-block;
-            border: 1px solid #2a1a10;
-            color: transparent;
-            padding: 7px 22px;
-            font-family: var(--font-body);
-            font-size: 0;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
             text-decoration: none;
-            margin-bottom: 12px;
-            transition: background 0.2s, color 0.2s;
-            position: relative;
-          }
-          .hc-slide-btn::after {
-            content: 'ПАЗАРУВАЙ';
-            font-size: 10px;
             color: #2a1a10;
-            font-family: var(--font-body);
-            font-weight: 700;
-            letter-spacing: 0.1em;
+            background: transparent;
+            transition: background 0.2s, color 0.2s;
           }
-          .hc-slide-btn:active { background: #2a1a10; }
-          .hc-slide-btn:active::after { color: #fff; }
-          .hc-dash-dots {
+          .hcm-cta:active {
+            background: #2a1a10;
+            color: #fff;
+          }
+
+          /* Indicator dashes — full-width like BoJ */
+          .hcm-dots {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            padding: 6px 32px 22px;
           }
-          .hc-dash-dot {
+          .hcm-dot {
             height: 2px;
-            width: 20px;
-            background: rgba(0,0,0,0.18);
+            flex: 1 1 0;
+            background: rgba(42,26,16,0.13);
             border: none;
             padding: 0;
             cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
-            flex-shrink: 0;
+            transition: background 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+            border-radius: 1px;
           }
-          .hc-dash-dot.on { width: 32px; background: #2a1a10; }
+          .hcm-dot.is-on {
+            background: #2a1a10;
+          }
         }
       `}</style>
 
@@ -194,6 +292,7 @@ export default function HeroCarousel() {
         {slides.map((s, i) => (
           <div
             key={i}
+            className={`hc-slide-image hc-slide-image-${i + 1}`}
             style={{
               backgroundImage: `url(${s.image})`,
               backgroundSize: 'cover',
@@ -254,18 +353,51 @@ export default function HeroCarousel() {
         ))}
       </div>
 
-      {/* Mobile BoJ-style panel */}
-      <div className="hc-mobile-panel">
-        {slides.map((s, i) => (
-          <div key={i} style={{ display: i === active ? 'contents' : 'none' }}>
-            <h2 className="hc-slide-title">{s.title}</h2>
-            <p className="hc-slide-text">{s.text}</p>
-            <Link href={s.href} className="hc-slide-btn">{s.cta}</Link>
+      {/* Mobile BoJ-style panel — hidden on desktop */}
+      <div className="hc-mobile-panel" />
+
+      {/* Mobile clean product hero */}
+      <div className="hc-mobile-hero">
+        {MOBILE_SLIDES.map((ms, i) => (
+          <div key={i} className={`hcm-slide${i === mobileActive ? ' is-active' : ''}`} style={{ background: ms.bg }}>
+            <img
+              src={ms.image}
+              alt={ms.title[lang]}
+              className="hcm-photo"
+              style={(ms.focalX || ms.focalY || ms.zoom !== undefined) ? {
+                objectPosition: `${ms.focalX || '50%'} ${ms.focalY || '50%'}`,
+                transformOrigin: `${ms.focalX || '50%'} ${ms.focalY || '50%'}`,
+                transform: `scale(${ms.zoom ?? 1.22})`,
+              } : undefined}
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+            {ms.minimal ? null : ms.subtitleOnly ? (
+              <div className="hcm-text hcm-text-nocta">
+                <p className="hcm-subtitle" style={{ margin: 0 }}>{ms.text[lang]}</p>
+              </div>
+            ) : (
+              <div className={`hcm-text${!ms.showCta ? ' hcm-text-nocta' : ''}`}>
+                {ms.titleAsLink ? (
+                  <Link href={ms.href} className="hcm-title hcm-title-link">
+                    {ms.title[lang]}
+                  </Link>
+                ) : (
+                  <h2 className="hcm-title">{ms.title[lang]}</h2>
+                )}
+                <p className="hcm-subtitle">{ms.text[lang]}</p>
+                {ms.showCta && (
+                  <Link href={ms.href} className="hcm-cta">
+                    {lang === 'en' ? 'SHOP NOW' : 'ПАЗАРУВАЙ'}
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
         ))}
-        <div className="hc-dash-dots">
-          {slides.map((_, i) => (
-            <button key={i} onClick={() => { setActive(i); restart(); }} className={`hc-dash-dot${i === active ? ' on' : ''}`} aria-label={tr.hero.slideLabel(i + 1)} />
+        <div className="hcm-bottom-fade" />
+        <div className="hcm-dots">
+          {MOBILE_SLIDES.map((_, i) => (
+            <button key={i} onClick={() => { setMobileActive(i); restart(); }} className={`hcm-dot${i === mobileActive ? ' is-on' : ''}`} aria-label={tr.hero.slideLabel(i + 1)} />
           ))}
         </div>
       </div>

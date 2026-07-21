@@ -176,7 +176,7 @@ export default function MobileScrollCarousel({
             min-width: 0;
             will-change: transform, opacity;
             transition: none;
-            background: #fff;
+            background: transparent;
           }
         }
 
@@ -187,7 +187,7 @@ export default function MobileScrollCarousel({
           position: absolute;
           top: 0; right: -24px; bottom: 0;
           width: 104px;
-          background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.28) 35%, rgba(255,255,255,0.62) 70%, rgba(255,255,255,0.88) 100%);
+          background: linear-gradient(to right, transparent 0%, rgba(251,248,243,0.28) 35%, rgba(251,248,243,0.62) 70%, rgba(251,248,243,0.88) 100%);
           z-index: 2;
         }
         @media (max-width: 639px) { .msc-fade { display: block !important; } }
@@ -202,9 +202,10 @@ export default function MobileScrollCarousel({
             background: transparent;
           }
           .msc-track .product-card-img-wrap {
-            border-radius: 8px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: none;
+            border: 1px solid rgba(63, 51, 45, 0.06);
+            box-shadow: 0 18px 38px -34px rgba(50, 36, 30, 0.55);
             margin-bottom: 10px;
             background: #fff !important;
           }
@@ -231,16 +232,21 @@ export default function MobileScrollCarousel({
             margin-bottom: 8px !important;
           }
           .msc-track .product-card .btn-primary {
-            border-radius: 0 !important;
-            padding: 9px 12px !important;
-            background: #C9A96E !important;
+            border-radius: 999px !important;
+            padding: 0 14px !important;
+            min-height: 40px;
+            background: #3f332d !important;
+            color: #fff !important;
             opacity: 1 !important;
             width: 100% !important;
             margin: 0 !important;
-            display: block !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
             text-align: left !important;
-            letter-spacing: 0.07em;
-            font-size: 11px !important;
+            letter-spacing: 0.08em;
+            font-size: 9.5px !important;
+            font-weight: 600 !important;
           }
         }
 

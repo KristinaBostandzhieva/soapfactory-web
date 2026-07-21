@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ZaNasPage() {
   return (
-    <main style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 20px' }}>
+    <main className="about-placeholder-page" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 20px' }}>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--text-muted)', textAlign: 'center' }}>
         Страницата се подготвя — очаквайте скоро!
       </p>

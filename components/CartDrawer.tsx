@@ -29,7 +29,6 @@ export default function CartDrawer() {
   const tr = useT();
   const lang = useLanguageStore((s) => s.lang);
   const checkoutLabel = lang === 'bg' ? 'Поръчай' : tr.cart.checkout;
-  const cartLabel = lang === 'bg' ? 'Количка' : tr.cart.viewCart;
   const count = items.reduce((s, i) => s + i.quantity, 0);
 
   // Confetti burst — fires when the drawer opens with free delivery already
@@ -76,7 +75,7 @@ export default function CartDrawer() {
     <>
       {isOpen && <div className="fixed inset-0 bg-black/30 z-40" onClick={closeCart} />}
 
-      <div className={`fixed top-0 right-0 h-full w-full max-w-[420px] z-50 flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      <div className={`cart-drawer-panel fixed top-0 right-0 h-full w-full max-w-[420px] z-50 flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
         style={{ background: '#FDFBF7' }}>
 
         {/* Confetti — celebrates free delivery */}
@@ -100,8 +99,8 @@ export default function CartDrawer() {
         )}
 
         {/* ── Header ── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 22px 16px', background: 'linear-gradient(120deg, #F9E8EC 0%, #FDFBF7 60%, #EDF5E8 100%)' }}>
-          <h2 style={{ fontFamily: fb, fontWeight: 600, fontSize: 13, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3F332D', display: 'flex', alignItems: 'center', gap: 10, margin: 0 }}>
+        <div className="cart-drawer-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 22px 16px', background: 'linear-gradient(120deg, #F9E8EC 0%, #FDFBF7 60%, #EDF5E8 100%)' }}>
+          <h2 className="cart-drawer-title" style={{ fontFamily: fb, fontWeight: 600, fontSize: 13, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3F332D', display: 'flex', alignItems: 'center', gap: 10, margin: 0 }}>
             Кошница
             {count > 0 && (
               <span style={{
@@ -111,19 +110,20 @@ export default function CartDrawer() {
               }}>{count}</span>
             )}
           </h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div className="cart-drawer-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {items.length > 0 && (
-              <button onClick={clearCart}
+              <button className="cart-drawer-clear" onClick={clearCart}
                 style={{ fontFamily: fb, fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8A6FA8', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
                 Изчисти
               </button>
             )}
-            <button onClick={closeCart} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#3F332D', display: 'flex', padding: 4 }}>
+            <button className="cart-drawer-close" onClick={closeCart} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#3F332D', display: 'flex', padding: 4 }}>
               <X size={18} strokeWidth={1.6} />
             </button>
           </div>
         </div>
 
+        <div className="cart-drawer-content-card">
         {/* ── Free-shipping milestone card ── */}
         <div className="cart-shipping-milestone" style={{ margin: '0 16px 14px', borderRadius: 14, padding: '14px 16px 16px', background: unlocked
           ? 'linear-gradient(120deg, #E9F3E3 0%, #F2F8EE 100%)'
@@ -160,7 +160,7 @@ export default function CartDrawer() {
         </div>
 
         {/* ── Items ── */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '0 16px' }}>
+        <div className="cart-drawer-items-scroll" style={{ flex: 1, overflowY: 'auto', padding: '0 16px' }}>
           {items.length === 0 ? (
             <div className="cart-drawer-empty">
               <div className="cart-drawer-empty-art">
@@ -229,7 +229,8 @@ export default function CartDrawer() {
               ))}
             </ul>
           )}
-          {items.length > 0 && <div style={{ height: 14 }} />}
+          {items.length > 0 && <div className="cart-drawer-items-spacer" style={{ height: 14 }} />}
+        </div>
         </div>
 
         {/* ── Footer ── */}
@@ -272,12 +273,7 @@ export default function CartDrawer() {
               }}>
               Поръчай
             </Link>
-            <Link href="/checkout" onClick={closeCart}
-              style={{ display: 'block', textAlign: 'center', fontFamily: fb, fontSize: 12, color: '#756B65', textDecoration: 'underline', textUnderlineOffset: 3 }}>
-              {cartLabel}
-            </Link>
-
-            <p style={{ fontFamily: fb, fontSize: 11, color: '#A89A90', textAlign: 'center', marginTop: 12, marginBottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+            <p className="cart-drawer-security" style={{ fontFamily: fb, fontSize: 11, color: '#A89A90', textAlign: 'center', marginTop: 12, marginBottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               <Lock size={11} strokeWidth={1.8} style={{ color: '#7FA871' }} />
               Сигурно плащане · Доставка и отстъпки се изчисляват при поръчка
             </p>

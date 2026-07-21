@@ -38,7 +38,7 @@ export default function Footer() {
   }
 
   return (
-    <footer style={{ background: dark, color: muted }}>
+    <footer className="site-footer" style={{ background: dark, color: muted }}>
 
       {/* Newsletter */}
       <div className="footer-newsletter" style={{ borderBottom: rule, padding: '34px 18px 30px', textAlign: 'left' }}>
@@ -54,7 +54,7 @@ export default function Footer() {
           </p>
         ) : (
           <>
-            <form style={{ display: 'flex', maxWidth: '100%', margin: '0 auto', borderBottom: '1px solid rgba(23,19,18,0.5)' }} onSubmit={subscribeNewsletter}>
+            <form className="footer-newsletter-form" style={{ display: 'flex', maxWidth: '100%', margin: '0 auto', borderBottom: '1px solid rgba(23,19,18,0.5)' }} onSubmit={subscribeNewsletter}>
               <input
                 type="email"
                 required
@@ -106,7 +106,7 @@ export default function Footer() {
           <p style={{ fontFamily: fb, fontSize: 13, color: 'rgba(23,19,18,0.72)', lineHeight: 1.75, marginBottom: 24 }}>
             {tr.footer.tagline}
           </p>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div className="footer-socials" style={{ display: 'flex', gap: 10 }}>
             <a href="https://www.facebook.com/soapfactory.bg" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
               style={{ width: 28, height: 28, border: '1px solid rgba(23,19,18,0.34)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#171312', fontSize: 13, fontWeight: 500, textDecoration: 'none' }}>
               f

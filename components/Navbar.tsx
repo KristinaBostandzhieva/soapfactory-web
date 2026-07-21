@@ -15,6 +15,7 @@ import { useT } from '@/hooks/useT';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileMenuSearchOpen, setMobileMenuSearchOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [promoOpen, setPromoOpen] = useState(false);
@@ -22,6 +23,43 @@ export default function Navbar() {
   const { lang, setLang } = useLanguageStore();
   const tr = useT();
   const pathname = usePathname();
+  const mobileMenuPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mobileOpen) setMobileMenuSearchOpen(false);
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const handleOrientation = (event: DeviceOrientationEvent) => {
+      const panel = mobileMenuPanelRef.current;
+      if (!panel) return;
+
+      const gamma = Math.max(-45, Math.min(45, event.gamma ?? 0));
+      const beta = Math.max(-35, Math.min(35, (event.beta ?? 45) - 45));
+      panel.style.setProperty('--menu-light-x', `${50 + gamma * 0.8}%`);
+      panel.style.setProperty('--menu-light-y', `${36 - beta * 0.45}%`);
+      panel.style.setProperty('--menu-reflection-x', `${50 + gamma * 0.72}%`);
+      panel.style.setProperty('--menu-reflection-angle', `${9 + gamma * 0.12}deg`);
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+    return () => window.removeEventListener('deviceorientation', handleOrientation);
+  }, [mobileOpen]);
+
+  const toggleMobileMenu = async () => {
+    const opening = !mobileOpen;
+    if (opening && typeof window !== 'undefined') {
+      const orientationEvent = window.DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+        requestPermission?: () => Promise<'granted' | 'denied'>;
+      };
+      if (typeof orientationEvent?.requestPermission === 'function') {
+        try { await orientationEvent.requestPermission(); } catch { /* static reflection fallback */ }
+      }
+    }
+    setMobileOpen(opening);
+  };
 
   useEffect(() => {
     if (pathname !== '/kategoria/bio-sapuni' || sessionStorage.getItem('soap-promo-seen')) return;
@@ -70,6 +108,14 @@ export default function Navbar() {
     { label: tr.nav.forHome, href: '/kategoria/za-doma' },
     { label: tr.nav.promotions, href: '/kategoria/promotsii' },
   ];
+  const mobileNavLabel = (href: string, fallback: string) => {
+    const shortLabels: Record<string, { bg: string; en: string }> = {
+      '/kategoria/grizha-za-tialoto': { bg: 'За тялото', en: 'Body' },
+      '/kategoria/grizha-za-litseto': { bg: 'За лицето', en: 'Face' },
+      '/kategoria/grizha-za-kosata': { bg: 'За косата', en: 'Hair' },
+    };
+    return shortLabels[href]?.[lang] ?? fallback;
+  };
   const { totalItems, openCart } = useCartStore();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeAnimTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -112,54 +158,6 @@ export default function Navbar() {
   useEffect(() => setMounted(true), []);
 
   const headerRef = useRef<HTMLElement>(null);
-  // Sun orbs: at rest they gather at their base positions (clustered behind the
-  // centered logo). While the cursor is over the header they glide out and take
-  // up a loose ring around it, then drift back into a sun when it leaves.
-  useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const orbs = Array.from(header.querySelectorAll<HTMLElement>('.header-orb'));
-    if (!orbs.length) return;
-    const ringSpot = [
-      { x: -95, y: -6 },
-      { x: 92, y: 10 },
-      { x: -30, y: -22 },
-      { x: 44, y: 26 },
-    ];
-    const ease = [0.05, 0.04, 0.06, 0.045];
-    const base = orbs.map((o) => ({ x: o.offsetLeft + o.offsetWidth / 2, y: o.offsetTop + o.offsetHeight / 2 }));
-    const cur = orbs.map(() => ({ x: 0, y: 0 }));
-    let mx = 0, my = 0, hover = false, raf = 0;
-    const onMove = (e: MouseEvent) => {
-      const r = header.getBoundingClientRect();
-      mx = e.clientX - r.left;
-      my = e.clientY - r.top;
-      hover = true;
-    };
-    const onLeave = () => { hover = false; };
-    const tick = () => {
-      orbs.forEach((o, i) => {
-        const spot = ringSpot[i % ringSpot.length];
-        const gx = hover ? mx + spot.x - base[i].x : 0;
-        const gy = hover ? my + spot.y - base[i].y : 0;
-        const k = ease[i % ease.length];
-        cur[i].x += (gx - cur[i].x) * k;
-        cur[i].y += (gy - cur[i].y) * k;
-        o.style.setProperty('--mx', `${cur[i].x.toFixed(1)}px`);
-        o.style.setProperty('--my', `${cur[i].y.toFixed(1)}px`);
-      });
-      raf = requestAnimationFrame(tick);
-    };
-    header.addEventListener('mousemove', onMove);
-    header.addEventListener('mouseleave', onLeave);
-    raf = requestAnimationFrame(tick);
-    return () => {
-      header.removeEventListener('mousemove', onMove);
-      header.removeEventListener('mouseleave', onLeave);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
   const count = mounted ? totalItems() : 0;
   const favItems = useFavoritesStore((s) => s.items);
   const favCount = mounted ? favItems.length : 0;
@@ -223,26 +221,38 @@ export default function Navbar() {
 
   return (
   <>
-    <header ref={headerRef} style={{
+    <header ref={headerRef} className="site-header" style={{
       position: 'sticky', top: 0, zIndex: 30,
-      background: 'rgba(253, 251, 247, 0.94)',
-      backdropFilter: 'blur(14px) saturate(1.3)',
-      WebkitBackdropFilter: 'blur(14px) saturate(1.3)',
-      borderBottom: `1px solid ${menuOpen ? 'rgba(63, 51, 45, 0)' : 'rgba(63, 51, 45, 0.10)'}`,
-      transition: 'border-color 0.4s ease',
+      background:
+        // Tinted rose glass: the body of the pane is deep enough that white
+        // highlights actually read against it (white-on-white shows nothing).
+        'linear-gradient(176deg, rgba(255,255,255,0.72) 0%, rgba(249,222,231,0.62) 26%, rgba(243,206,219,0.66) 55%, rgba(250,228,236,0.6) 82%, rgba(255,255,255,0.55) 100%), ' +
+        'radial-gradient(ellipse 65% 180% at 12% 130%, rgba(238, 150, 180, 0.4) 0%, transparent 68%), ' +
+        'radial-gradient(ellipse 60% 170% at 88% -30%, rgba(240, 170, 196, 0.34) 0%, transparent 68%), ' +
+        'rgba(250, 232, 238, 0.72)',
+      backdropFilter: 'blur(26px) saturate(1.9)',
+      WebkitBackdropFilter: 'blur(26px) saturate(1.9)',
+      borderBottom: `1px solid ${menuOpen ? 'rgba(63, 51, 45, 0)' : 'rgba(63, 51, 45, 0.08)'}`,
+      boxShadow: menuOpen
+        ? 'inset 0 1.5px 0 rgba(255, 255, 255, 0.95), inset 0 14px 22px -18px rgba(255, 255, 255, 0.9)'
+        : 'inset 0 1.5px 0 rgba(255, 255, 255, 0.95), inset 0 14px 22px -18px rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.55), 0 10px 34px -12px rgba(150, 80, 105, 0.3)',
+      transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
     }}>
+      {/* Glass gloss — a wide diagonal highlight raking across the surface,
+          plus a crisp lit top edge, so it reads as polished glass */}
+      <div className="header-gloss" aria-hidden="true" style={{
+        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
+        background:
+          'linear-gradient(102deg, transparent 6%, rgba(255,255,255,0.75) 22%, rgba(255,255,255,0.3) 38%, transparent 46%), ' +
+          'linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 14%, transparent 34%)',
+      }} />
+
       {/* Colour wash — fades in when a mega menu is open so header + panel
           merge into one continuous surface */}
       <div className="header-wash" aria-hidden="true" style={{ opacity: menuOpen ? 1 : 0 }} />
 
-      {/* Sun orbs — warm yellow spheres that rest behind the centered logo and
-          glide out to chase the cursor while it's over the header */}
-      <div className="header-orbs" aria-hidden="true" style={{ opacity: menuOpen ? 0 : 1 }}>
-        <span className="header-orb" style={{ width: 128, height: 128, left: '50%', top: '50%', marginLeft: -64, marginTop: -64, background: 'radial-gradient(circle, rgba(255, 205, 92, 0.55) 0%, rgba(255, 205, 92, 0) 68%)', animationDuration: '7s' }} />
-        <span className="header-orb" style={{ width: 96, height: 96, left: '50%', top: '50%', marginLeft: -74, marginTop: -54, background: 'radial-gradient(circle, rgba(255, 224, 138, 0.5) 0%, rgba(255, 224, 138, 0) 68%)', animationDuration: '8.5s', animationDirection: 'reverse' }} />
-        <span className="header-orb" style={{ width: 92, height: 92, left: '50%', top: '50%', marginLeft: 8, marginTop: -38, background: 'radial-gradient(circle, rgba(255, 190, 74, 0.45) 0%, rgba(255, 190, 74, 0) 68%)', animationDuration: '7.8s', animationDelay: '-2s' }} />
-        <span className="header-orb" style={{ width: 78, height: 78, left: '50%', top: '50%', marginLeft: -22, marginTop: 2, background: 'radial-gradient(circle, rgba(255, 236, 170, 0.5) 0%, rgba(255, 236, 170, 0) 68%)', animationDuration: '9.5s', animationDirection: 'reverse', animationDelay: '-4s' }} />
-      </div>
+      {/* Mirror sweep — a slow reflection glides across the glass now and then */}
+      <div className="header-mirror" aria-hidden="true" />
 
       <div className="nav-header-inner" style={{
         maxWidth: '100%', margin: '0 auto',
@@ -251,17 +261,14 @@ export default function Navbar() {
         position: 'relative', zIndex: 1,
         height: 92, gap: 28,
       }}>
-        {/* Mobile left: hamburger + search */}
+        {/* Mobile left: hamburger + language. Search lives inside the menu. */}
         <div className="nav-left-mobile" style={{ display: 'none', alignItems: 'center', gap: 14, flexShrink: 0 }}>
-          <button onClick={() => setMobileOpen(!mobileOpen)}
+          <button aria-label="Меню" onClick={toggleMobileMenu}
             style={{ padding: 4, background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          <button type="button" aria-label="Търсене" onClick={() => setSearchOpen(o => !o)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', padding: 4 }}>
-            <Search size={18} />
-          </button>
           <button
+            className="nav-mobile-language"
             type="button"
             onClick={() => setLang(lang === 'bg' ? 'en' : 'bg')}
             style={languageButtonStyle}
@@ -362,7 +369,7 @@ export default function Navbar() {
             {lang === 'bg' ? 'EN' : 'БГ'}
           </button>
 
-          <button className="nav-hamburger-right lg:hidden" onClick={() => setMobileOpen(!mobileOpen)}
+          <button className="nav-hamburger-right lg:hidden" onClick={toggleMobileMenu}
             style={{ padding: 8, background: 'none', border: 'none', cursor: 'pointer' }}>
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -436,9 +443,12 @@ export default function Navbar() {
               padding: '36px 42px 32px',
               display: 'flex', gap: 56, alignItems: 'flex-start',
               position: 'relative', zIndex: 1,
+              // Fixed (not min-) so every category's menu is exactly the same
+              // height, whatever its number of links or how they wrap.
+              height: 360,
             }}>
               {/* Link column */}
-              <div style={{ flex: '0 0 250px', paddingRight: 44, borderRight: '1px solid rgba(63, 51, 45, 0.08)' }}>
+              <div style={{ flex: '0 0 250px', paddingRight: 44, borderRight: '1px solid rgba(63, 51, 45, 0.08)', alignSelf: 'stretch' }}>
                 <div className="mega-item" style={{
                   fontSize: 11, fontWeight: 600, letterSpacing: '0.22em',
                   textTransform: 'uppercase', color: '#756B65',
@@ -586,72 +596,102 @@ export default function Navbar() {
               animation: mobileMenuPanelIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
             }
           `}</style>
-          <div className="mobile-menu-panel" onClick={e => e.stopPropagation()} style={{
+          <div ref={mobileMenuPanelRef} className="mobile-menu-panel" onClick={e => e.stopPropagation()} style={{
             width: 'min(86vw, 360px)',
             height: '100%',
-            background: '#F8E3EA',
-            boxShadow: '18px 0 44px rgba(48, 29, 37, 0.18)',
+            background: 'radial-gradient(circle at 92% 4%, rgba(236,150,181,0.5), transparent 42%), linear-gradient(155deg, rgba(255,241,246,0.88) 0%, rgba(246,202,218,0.8) 100%)',
+            backdropFilter: 'blur(28px) saturate(1.45)',
+            WebkitBackdropFilter: 'blur(28px) saturate(1.45)',
+            borderRight: '1px solid rgba(255,255,255,0.72)',
+            boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.48), inset 0 1px 0 rgba(255,255,255,0.82), 18px 0 44px rgba(88, 46, 62, 0.24)',
             padding: '18px 20px 24px',
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
           }}>
-            <button
-              type="button"
-              aria-label={tr.common.close}
-              onClick={() => setMobileOpen(false)}
-              style={{ width: 32, height: 32, margin: '0 0 22px -6px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: '#181210', cursor: 'pointer' }}
-            >
-              <X size={21} strokeWidth={1.7} />
-            </button>
+            {/* Header: close button + logo */}
+            <div className="mobile-menu-top">
+              <div className="mobile-menu-top-actions">
+                <button
+                  type="button"
+                  aria-label={tr.common.close}
+                  onClick={() => setMobileOpen(false)}
+                  className="mobile-menu-close-btn"
+                >
+                  <X size={18} strokeWidth={1.8} />
+                </button>
+                {!mobileMenuSearchOpen && (
+                  <button
+                    type="button"
+                    className="mobile-menu-search-trigger"
+                    aria-label={lang === 'bg' ? 'Отвори търсенето' : 'Open search'}
+                    onClick={() => setMobileMenuSearchOpen(true)}
+                  >
+                    <Search size={18} strokeWidth={1.6} />
+                  </button>
+                )}
+                <Link
+                  href="/lyubimi"
+                  className="mobile-menu-favorites-trigger"
+                  aria-label={lang === 'bg' ? 'Любими продукти' : 'Favorite products'}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <Heart size={18} strokeWidth={1.6} />
+                </Link>
+              </div>
+            </div>
 
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {navItems.map((item) => (
-                <div key={item.label}>
+            {mobileMenuSearchOpen && (
+              <form
+                action="/tarsene"
+                method="get"
+                className="mobile-menu-search"
+                onSubmit={() => setMobileOpen(false)}
+              >
+                <Search size={17} strokeWidth={1.6} aria-hidden="true" />
+                <input
+                  name="q"
+                  type="search"
+                  autoFocus
+                  aria-label={lang === 'bg' ? 'Търсене' : 'Search'}
+                  placeholder={lang === 'bg' ? 'Търси продукт…' : 'Search products…'}
+                />
+                <button type="submit" aria-label={lang === 'bg' ? 'Търси' : 'Search'}>
+                  <ArrowRight size={16} strokeWidth={1.7} />
+                </button>
+              </form>
+            )}
+
+            <nav className="mobile-menu-nav">
+              {navItems.filter((item) => item.href !== '/').map((item, idx) => (
+                <div key={item.label} className="mobile-menu-nav-item" style={{ animationDelay: `${0.06 + idx * 0.04}s` }}>
                   {item.children ? (
-                    /* Items with subcategories — tap to expand */
                     <button
                       type="button"
                       onClick={() => setExpandedMobile(expandedMobile === item.label ? null : item.label)}
-                      style={{
-                        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        padding: '13px 0', fontSize: 15, fontWeight: 500, fontFamily: 'var(--font-body)',
-                        color: '#171312', background: 'none', border: 'none', cursor: 'pointer',
-                        textTransform: 'uppercase', letterSpacing: '0.02em',
-                        borderBottom: '1px solid rgba(0,0,0,0.06)',
-                      }}>
-                      <span>{item.label}</span>
-                      <span style={{ transition: 'transform 0.25s', transform: expandedMobile === item.label ? 'rotate(90deg)' : 'none', display: 'flex' }}>
-                        <ArrowRight size={16} strokeWidth={1.6} />
-                      </span>
+                      className={`mobile-menu-nav-btn${expandedMobile === item.label ? ' is-open' : ''}${isActive(item) ? ' is-active' : ''}`}
+                    >
+                      <span>{mobileNavLabel(item.href, item.label)}</span>
+                      <ChevronDown size={16} strokeWidth={1.6} className="mobile-menu-chevron" />
                     </button>
                   ) : (
                     <Link href={item.href} onClick={() => setMobileOpen(false)}
-                      style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        padding: '13px 0', fontSize: 15, fontWeight: 500, fontFamily: 'var(--font-body)',
-                        color: '#171312', textDecoration: 'none', textTransform: 'uppercase',
-                        letterSpacing: '0.02em', borderBottom: '1px solid rgba(0,0,0,0.06)',
-                      }}>
-                      <span>{item.label}</span>
+                      className={`mobile-menu-nav-link${isActive(item) ? ' is-active' : ''}`}>
+                      <span>{mobileNavLabel(item.href, item.label)}</span>
                     </Link>
                   )}
 
-                  {/* Subcategories — always rendered, animate with max-height */}
                   {item.children && (
-                    <div style={{
-                      maxHeight: expandedMobile === item.label ? '400px' : '0',
-                      overflow: 'hidden',
-                      transition: 'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)',
-                    }}>
-                      <div style={{ paddingLeft: 14, paddingBottom: 8, paddingTop: 4 }}>
+                    <div className={`mobile-menu-sub${expandedMobile === item.label ? ' is-open' : ''}`}>
+                      <div className="mobile-menu-sub-inner">
                         <Link href={item.href} onClick={() => setMobileOpen(false)}
-                          style={{ display: 'block', padding: '8px 0', fontSize: 13, fontWeight: 600, color: '#9B72C7', textDecoration: 'none', fontFamily: 'var(--font-body)' }}>
-                          Всички
+                          className="mobile-menu-sub-all">
+                          {lang === 'bg' ? 'Виж всички' : 'View all'}
+                          <ArrowRight size={12} strokeWidth={1.8} />
                         </Link>
                         {item.children.map((child) => (
                           <Link key={child.href} href={child.href} onClick={() => setMobileOpen(false)}
-                            style={{ display: 'block', padding: '8px 0', fontSize: 13, color: '#555', textDecoration: 'none', fontFamily: 'var(--font-body)', borderTop: '1px solid rgba(0,0,0,0.04)' }}>
+                            className={`mobile-menu-sub-link${pathname === child.href ? ' is-current' : ''}`}>
                             {child.label}
                           </Link>
                         ))}
@@ -662,43 +702,28 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <Link
-              href="/kategoria/grizha-za-litseto"
-              onClick={() => setMobileOpen(false)}
-              style={{
-                position: 'relative',
-                display: 'block',
-                marginTop: 28,
-                minHeight: 380,
-                overflow: 'hidden',
-                textDecoration: 'none',
-                background: '#E9F0E4',
-              }}
-            >
-              <img
-                src="/images/hero2/grizha-litseto.png"
-                alt={tr.nav.facecare}
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(30,23,18,0.22) 0%, transparent 55%)' }} />
-              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 24, textAlign: 'center', color: '#fff', textShadow: '0 1px 10px rgba(35, 24, 20, 0.24)' }}>
-                <span style={{
-                  display: 'inline-block',
-                  border: '1px solid rgba(255,255,255,0.78)',
-                  borderRadius: 999,
-                  padding: '4px 18px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 14,
-                  marginBottom: 8,
-                  background: 'rgba(255,255,255,0.10)',
-                }}>
-                  New
-                </span>
-                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 700, fontSize: 24, lineHeight: 1.1 }}>
-                  Velvet care
+            {/* Promo card */}
+            <div className="mobile-menu-promo-wrap">
+              <Link
+                href="/kategoria/seria-velvet"
+                onClick={() => setMobileOpen(false)}
+                className="mobile-menu-promo"
+              >
+                <img
+                  src="/images/fscr-care/velvet-banner/model-velvet.png"
+                  alt="Velvet"
+                  className="mobile-menu-promo-img"
+                />
+                <div className="mobile-menu-promo-overlay" />
+                <div className="mobile-menu-promo-content">
+                  <span className="mobile-menu-promo-badge">New</span>
+                  <span className="mobile-menu-promo-title">Серия Velvet</span>
+                  <span className="mobile-menu-promo-cta">
+                    {lang === 'bg' ? 'Разгледай' : 'Explore'} <ArrowRight size={13} strokeWidth={1.8} />
+                  </span>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </div>
         </div>
       )}

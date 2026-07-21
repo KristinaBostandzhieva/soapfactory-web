@@ -20,14 +20,14 @@ export default async function BlogPage() {
   const posts = await getPublishedPosts();
 
   return (
-    <div>
+    <div className="blog-list-page">
       <PageHeader
         title="Полезно от нас"
         breadcrumbs={[{ label: 'Начало', href: '/' }, { label: 'Полезно' }]}
         subtitle="Съвети и рецепти за натурална грижа за кожата и косата."
       />
 
-      <div className="max-w-full mx-auto px-[15px] py-12">
+      <div className="blog-list-shell max-w-full mx-auto px-[15px] py-12">
         <BlogList posts={posts.map((p) => ({ ...p, publishedAt: p.publishedAt.toISOString() }))} />
       </div>
     </div>

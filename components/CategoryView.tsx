@@ -263,7 +263,7 @@ export default function CategoryView({
       <section className="boj-category-hero" style={{ position: 'relative' }}>
         {/* Per-category hero image (non-parent pages) */}
         {heroImage && !subcategories && (
-          <div aria-hidden="true" style={{
+          <div className="boj-category-hero-media" aria-hidden="true" style={{
             position: 'absolute', right: 0, top: 0, bottom: 0, width: isPromotionsHero ? '67%' : '45%',
             backgroundImage: isPromotionsHero ? undefined : `url(${heroImage})`,
             backgroundSize: 'cover',
@@ -1006,6 +1006,236 @@ export default function CategoryView({
           .boj-product-grid {
             grid-template-columns: 1fr;
             gap: 34px;
+          }
+        }
+
+        /* Phone-only editorial finish. Kept here so it wins over the component's
+           legacy responsive rules without changing any desktop styling. */
+        @media (max-width: 639px) {
+          .boj-category-page {
+            overflow-x: hidden;
+            background: #fbf8f3;
+          }
+
+          .boj-category-hero {
+            min-height: 0;
+            margin: 0;
+            overflow: hidden;
+            border: 0;
+            border-radius: 0;
+            background:
+              radial-gradient(circle at 92% 15%, rgba(255,255,255,0.9), transparent 34%),
+              linear-gradient(135deg, #edf5e8 0%, #f7f1e9 58%, #f4e8e5 100%);
+            box-shadow: none;
+          }
+
+          .boj-category-hero-media {
+            width: 72% !important;
+            opacity: 0.46;
+            mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.48) 28%, black 70%) !important;
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.48) 28%, black 70%) !important;
+          }
+
+          .boj-category-hero-inner {
+            min-height: 174px;
+            gap: 22px;
+            padding: 26px 20px 24px;
+          }
+
+          .boj-category-hero h1 {
+            max-width: 78%;
+            margin-bottom: 10px;
+            font-size: clamp(28px, 8.5vw, 34px);
+            line-height: 1.04;
+            color: #332a25;
+          }
+
+          .boj-category-hero p {
+            max-width: 72%;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #625650;
+          }
+
+          .boj-category-hero-inner:has(.boj-subcategory-strip) > div:first-child,
+          .boj-category-hero-inner:has(.boj-subcategory-strip) h1,
+          .boj-category-hero-inner:has(.boj-subcategory-strip) p {
+            width: 100%;
+            max-width: 100%;
+          }
+
+          .boj-subcategory-strip {
+            gap: 10px;
+            height: 124px;
+            margin: 0 -20px;
+            padding: 0 20px 5px;
+            scroll-padding-left: 20px;
+            scroll-snap-type: x proximity;
+          }
+
+          .boj-subcategory-card {
+            width: 100px;
+            flex-basis: 100px;
+            border: 1px solid rgba(255,255,255,0.86);
+            border-radius: 17px;
+            scroll-snap-align: start;
+            box-shadow: 0 18px 34px -28px rgba(51, 42, 37, 0.72);
+          }
+
+          .boj-subcategory-card span {
+            left: 7px;
+            right: 7px;
+            bottom: 9px;
+            font-size: 9px;
+            letter-spacing: 0.07em;
+          }
+
+          .boj-category-bar {
+            position: sticky;
+            top: 68px;
+            z-index: 25;
+            padding: 8px 12px;
+            border: 0;
+            background: rgba(251, 248, 243, 0.9);
+            backdrop-filter: blur(16px) saturate(1.08);
+            -webkit-backdrop-filter: blur(16px) saturate(1.08);
+          }
+
+          .boj-category-bar-inner,
+          .boj-category-bar-inner--no-filters {
+            min-height: 44px;
+            gap: 8px;
+            padding: 0;
+          }
+
+          .boj-filter-toggle,
+          .boj-sort-wrap {
+            min-width: 0;
+            height: 44px;
+            flex: 1 1 0;
+            justify-content: center;
+            gap: 7px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+          }
+
+          .boj-category-bar-inner--no-filters .boj-sort-wrap {
+            flex: 0 1 190px;
+            margin-left: auto;
+          }
+
+          .boj-select-shell {
+            min-width: 0;
+            max-width: 100%;
+          }
+
+          .boj-select-shell select {
+            min-width: 0;
+            max-width: 132px;
+            overflow: hidden;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-overflow: ellipsis;
+          }
+
+          .boj-category-main,
+          .boj-category-main--wide,
+          .boj-category-main--no-filters {
+            display: block;
+            padding: 16px 12px 58px;
+          }
+
+          .boj-filter-rail {
+            min-height: 0;
+            padding: 2px 16px 12px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(63, 51, 45, 0.08);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 20px 42px -38px rgba(50, 36, 30, 0.65);
+          }
+
+          .boj-filter-rail--hidden {
+            min-height: 0;
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-color: transparent;
+          }
+
+          .boj-filter-trigger {
+            min-height: 48px;
+          }
+
+          .boj-product-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 28px 12px;
+          }
+
+          .boj-product-grid .product-card--boj-category > a:first-of-type {
+            margin-bottom: 10px !important;
+          }
+
+          .boj-product-grid .product-card--boj-category .product-card-img-wrap {
+            overflow: hidden !important;
+            border: 1px solid rgba(63, 51, 45, 0.07) !important;
+            border-radius: 20px !important;
+            background: radial-gradient(circle at 18% 12%, #f8efe9 0%, #fff 43%) !important;
+            box-shadow: 0 20px 40px -36px rgba(50, 36, 30, 0.72) !important;
+          }
+
+          .boj-product-grid .product-card--boj-category > button[aria-pressed] {
+            top: 8px !important;
+            right: 8px !important;
+            width: 38px !important;
+            height: 38px !important;
+            border: 1px solid rgba(63, 51, 45, 0.07);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.78);
+            box-shadow: 0 8px 24px -18px rgba(44, 31, 26, 0.7);
+            backdrop-filter: blur(10px);
+          }
+
+          .boj-product-grid .product-card--boj-category .card-title {
+            min-height: 2.55em !important;
+            font-size: 13px !important;
+            line-height: 1.28 !important;
+            -webkit-line-clamp: 2 !important;
+            color: #332a25 !important;
+          }
+
+          .boj-product-grid .product-card--boj-category .card-desc-all {
+            display: none !important;
+          }
+
+          .boj-product-grid .product-card--boj-category .card-desc-mobile {
+            display: -webkit-box !important;
+            margin-bottom: 9px !important;
+            color: #8b7f78 !important;
+          }
+
+          .boj-product-grid .product-card--boj-category .boj-price-strip {
+            height: 40px !important;
+            border-radius: 999px !important;
+            background: linear-gradient(135deg, #f0e3e0, #f5ebe7) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.85) !important;
+          }
+
+          .boj-load-more {
+            margin-top: 38px;
+          }
+
+          .boj-load-more button {
+            min-height: 44px;
+            padding: 11px 28px;
+            border-color: rgba(51,42,37,0.7);
+            border-radius: 999px;
+            background: #fff;
           }
         }
       `}</style>
